@@ -1,0 +1,60 @@
+body{
+    background: linear-gradient(to right, #372FAA, #BBE8FB);
+    background-size: cover; 
+    background-position: center;
+    background-repeat: repeat;
+}
+
+.navbar-brand span {
+    color: #007bff; 
+    font-weight: bold;
+}
+.nav-link {
+    color: black;
+    font-weight: bold;
+}
+.nav-link:hover {
+    color: black;
+}
+.navbar .btn-signup {
+    border-left: 1px solid #ccc;
+    padding-left: 15px;
+    font-weight: bold;
+    color: black;
+}
+.navbar{
+    background-color: white;
+}
+
+/*Create Listing Page*/
+main{
+    margin-top: 80px;   
+}
+input[type="number"]::-webkit-outer-spin-button,
+        input[type="number"]::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+.inputDesign{
+    border:none;
+    border-bottom: 1px solid black;
+    background-color: #FFFFFF;
+    outline: none;
+    box-sizing: border-box;
+    border-radius: 0;
+    padding-left: 0;
+    padding-bottom: 7px;
+    width: 100%;
+}
+.ageInput{
+    width: 18px;
+    height: 18px;
+}
+.descInput{
+    width: 100%;
+    height: 150px;
+}
+.bgColor{
+    background-color: #FFFFFF;
+    border-radius: 15px;
+}

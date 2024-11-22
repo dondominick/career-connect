@@ -1,0 +1,80 @@
+*{
+    padding: 0px;
+    margin: 0px;
+}
+body{
+    background: linear-gradient(to right, #372FAA, #BBE8FB);
+    background-size: cover; 
+    background-position: center;
+    background-repeat: repeat;
+}
+.navbar-brand span {
+    color: #007bff; 
+    font-weight: bold;
+}
+.nav-link {
+    color: black;
+    font-weight: bold;
+}
+.nav-link:hover {
+    color: black;
+}
+.navbar .btn-signup {
+    border-left: 1px solid #ccc;
+    padding-left: 15px;
+    font-weight: bold;
+    color: black;
+}
+.navbar{
+    background-color: white;
+}
+main{
+    margin-top: 70px;
+}
+
+.companyLogo {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid white;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+.addEmployerbtn{
+    width: 200px;
+}
+
+.searchbar{
+    width: 100%;
+    border: none;
+    outline: none;
+}
+.table thead tr th{
+    background: none;
+    border-bottom: solid 2px grey;
+}
+.table .btn{
+    width: 60px;
+}
+.tRowHead{
+    display: table;
+    width: 100%;
+}
+.tRow{
+    display: table;
+    width: 100%;
+    border: solid 2px grey;
+    margin-bottom: 10px;
+    box-shadow: -5px 5px 10px rgba(0, 0, 0, 0.1); /* Shadow effect */
+}
+.viewList{
+    font-weight: bold;
+}
+.editTbox{
+    border: none;
+    padding: 0px;
+}
+.editTbox:focus{
+    outline: none;
+    box-shadow: none;
+}

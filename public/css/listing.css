@@ -1,0 +1,211 @@
+* {
+    padding: 0px;
+    margin: 0px;
+    box-sizing: border-box;
+}
+
+#listing {
+    padding: 0;
+}
+
+#listing li:nth-child(even) {
+    background-color: #d4f6ff;
+}
+
+#listing li:nth-child(odd) {
+    background-color: #fbfbfb;
+}
+
+.navbar-brand span {
+    color: #007bff;
+    font-weight: bold;
+}
+.nav-link {
+    color: black;
+    font-weight: bold;
+}
+.nav-link:hover {
+    color: black;
+}
+.navbar .btn-signup {
+    border-left: 1px solid #ccc;
+    padding-left: 15px;
+    font-weight: bold;
+    color: black;
+}
+.navbar {
+    background-color: white;
+}
+main {
+    margin-top: 70px;
+}
+
+.searchbar {
+    border: solid 2px lightskyblue;
+    margin-top: 10%;
+    width: 100%;
+    height: 50px;
+}
+.tbox {
+    border: none;
+    width: 90%;
+    height: 98%;
+    background-color: none;
+    padding-bottom: 4px;
+    padding-left: 5px;
+    outline: none;
+}
+
+.xbtn {
+    border: none;
+    color: black;
+    font-size: 20px;
+    background: transparent;
+    margin-left: 2%;
+}
+@media (min-width: 576px) {
+    .searchbar {
+        border: solid 2px lightskyblue;
+        margin-top: 10%;
+        background-color: white;
+        width: 100%;
+        height: 50px;
+    }
+    .tbox {
+        border: none;
+        width: 95%;
+        height: 98%;
+        background-color: none;
+        padding-bottom: 4px;
+        padding-left: 5px;
+        outline: none;
+    }
+    .xbtn {
+        border: none;
+        color: black;
+        font-size: 20px;
+        background: transparent;
+        margin-left: 2%;
+    }
+}
+.toggle-container {
+    position: relative;
+    display: inline-flex;
+    width: 300px;
+    background: linear-gradient(135deg, #b0c4de, #9cc0e7);
+    border-radius: 25px;
+    overflow: hidden;
+}
+
+/* Background slider */
+.slider {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 50%;
+    height: 100%;
+    background-color: #ffdab9;
+    border-radius: 25px;
+    transition: all 0.3s ease;
+    z-index: 1;
+}
+
+/* Button styles */
+.toggle-button {
+    flex: 1;
+    text-align: center;
+    padding: 5px 0;
+    font-size: 16px;
+    font-weight: bold;
+    color: #555;
+    z-index: 2;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+/* Active state for button text */
+.toggle-button.active {
+    color: #333;
+}
+
+/* CSS to move the slider to the second position */
+#toggle-option-1:checked ~ .slider {
+    left: 50%;
+}
+
+/* Style for the active text in each option */
+#toggle-option-0:checked ~ .btn-group .toggle-button:first-of-type,
+#toggle-option-1:checked ~ .btn-group .toggle-button:last-of-type {
+    color: #333;
+}
+
+/* Hide radio buttons */
+.toggle-radio {
+    display: none;
+}
+
+.jobsl {
+    background-color: #c1edfd;
+    border-right: solid black 2px;
+    border-top: solid black 2px;
+}
+.jobsr {
+    background-color: #c1edfd;
+    border-top: solid black 2px;
+}
+.jobs2l {
+    background-color: white;
+    border-right: solid black 2px;
+    border-top: solid black 2px;
+}
+.jobs2r {
+    background-color: white;
+    border-top: solid black 2px;
+}
+.jobbtn {
+    background-color: #3931af;
+    border: none;
+    border-radius: 10px;
+    width: 25%;
+    margin-top: 20px;
+    padding: 5px;
+}
+
+/* Additional styles to hide/show job listings */
+.job-listing {
+    display: none;
+}
+.job-listing.active {
+    display: flex;
+}
+
+@media (max-width: 576px) {
+    .jobbtn {
+        width: 30%;
+    }
+
+    .jobsl {
+        border: none;
+        border-bottom: solid black 2px;
+        border-top-left-radius: 30px;
+        border-top-right-radius: 30px;
+    }
+    .jobs2l {
+        border: none;
+        border-bottom: solid black 2px;
+    }
+    .curve {
+        background-color: #c1edfd;
+        border-top-left-radius: 30px;
+        border-top-right-radius: 30px;
+    }
+}
+
+.searchbar {
+    border: none;
+    border: 1px white solid;
+}
+.searchbar:hover {
+    box-shadow: 0 0 10px 1px white;
+    transition: all 0.2s ease;
+}

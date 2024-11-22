@@ -1,0 +1,407 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+/* THIS SECTION IS FOR THE HERO PAGE, THE FIRST SECTION OF THE HOME PAGE */
+.hero {
+    height: 100vh;
+    background-size: cover;
+    background-position: center 90%;
+}
+
+.container {
+    align-items: center;
+    gap: 20px;
+    max-width: 1200px;
+    margin: auto;
+    font-family: "Inter";
+}
+
+.text-section {
+    max-width: 600px;
+}
+
+.text-section h1 {
+    font-size: 60px;
+    margin: 0;
+    font-weight: bolder;
+}
+
+.text-section p {
+    font-size: 15px;
+    margin: 10px 0 20px;
+    font-weight: normal;
+}
+
+.search-container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    width: 100%;
+    max-width: 600px;
+    font-weight: bold;
+}
+
+.input-wrapper {
+    display: flex;
+    width: 100%;
+}
+
+.input-group {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+.input-group label {
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.input-field {
+    border: 1px solid gray;
+    padding: 8px;
+    font-size: 14px;
+    flex: 1;
+}
+
+.search-button {
+    background-color: #3931af;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+.search-button:hover {
+    background-color: #4a47cf;
+}
+
+.popular-searches {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+}
+
+.popular-searches h6 {
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.search-buttons {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.search-buttons button {
+    background-color: #f2f2f2;
+    border: 1px solid gray;
+    border-radius: 15px;
+    padding: 5px 15px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.search-buttons button:hover {
+    background-color: #e0e0e0;
+}
+
+/* ------------------------END OF HERO PAGE/START OF LISTINGS SECTION---------------------------------------------- */
+
+.joblist {
+    background: linear-gradient(
+        to right,
+        rgb(102, 109, 199) 0%,
+        rgb(193, 237, 252) 100%
+    );
+}
+
+.joblist-section h2 {
+    font-size: 40px;
+    margin: 0;
+    font-weight: bolder;
+    color: white;
+}
+
+.joblist-section p {
+    font-size: 15px;
+    margin: 10px 0 20px;
+    font-weight: normal;
+    color: white;
+}
+
+.btn-outline-custom {
+    border-color: #3931af;
+    font-weight: bold;
+    color: white;
+    border-radius: 30px;
+    padding: 10px 20px;
+    background-color: #3931af;
+}
+
+.btn-outline-custom.active,
+.btn-outline-custom:hover {
+    background-color: white;
+    color: #3931af;
+}
+
+/* --FORDA CARDS------------------------- */
+.card-header {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    background-color: transparent;
+}
+
+.company-name {
+    font-size: 14px;
+    font-weight: bold;
+    color: #333;
+    margin-right: 30%;
+}
+
+.job-date {
+    font-size: 12px;
+    color: #777;
+    white-space: nowrap;
+    margin-right: 10px;
+}
+
+.btn-bookmark {
+    top: 10px;
+    right: 10px;
+    background-color: #3931af;
+    color: white;
+    border-radius: 50%;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.card-body {
+    text-align: center;
+    color: black;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.card-title {
+    font-weight: bold;
+}
+
+.card-body p {
+    color: black;
+    font-size: 15px;
+}
+
+.btn-view-details {
+    background-color: black;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    padding: 10px 20px;
+    font-size: 14px;
+    width: 60%;
+    margin-top: 10px;
+    text-align: center;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.carousel-item .col-md-4 .card {
+    /*diri nga part para fixed ang height sa cards*/
+    height: 350px;
+    display: flex;
+    flex-direction: column;
+}
+
+#topJobsCarousel,
+#latestJobsCarousel {
+    margin: 60px;
+    position: relative;
+}
+
+.carousel-control-prev,
+.carousel-control-next {
+    background-color: rgb(0, 0, 0);
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0;
+    position: absolute;
+    top: 50%;
+}
+
+.carousel-control-prev {
+    left: -50px;
+}
+
+.carousel-control-next {
+    right: -50px;
+}
+
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+    background-color: transparent;
+    height: 30px;
+    width: 30px;
+}
+
+/* ------------------------END OF LISTINGS PAGE/START OF ACTIVITY FEED SECTION---------------------------------------------- */
+
+.activityfeed-section h2 {
+    font-size: 40px;
+    margin: 0;
+    font-weight: bolder;
+    color: #4a47cf;
+}
+
+.activityfeed-section p {
+    font-size: 15px;
+    margin: 10px 0 20px;
+    font-weight: normal;
+}
+
+.activityfeed-section h2 {
+    font-size: 40px;
+    font-weight: bold;
+    color: #4a47cf;
+}
+
+.activityfeed-section p {
+    font-size: 15px;
+    margin: 10px 0 20px;
+}
+
+.activityfeed-section .card {
+    position: relative;
+    border-radius: 10px;
+    padding: 15px;
+}
+
+.activityfeed-section .card-body p {
+    font-weight: bold;
+    font-size: 18px;
+    margin: 0;
+}
+
+.activityfeed-section .card-body .btn {
+    font-weight: bold;
+}
+
+.activityfeed-section .card-icon {
+    position: absolute;
+    top: -15px;
+    left: -15px;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-size: 1rem;
+}
+
+.card-icon.bg-success {
+    background-color: #28a745;
+    width: 40px;
+    height: 40px;
+    padding: 10px;
+    font-size: 24px;
+    border-radius: 50%;
+}
+
+.card-icon.bg-warning {
+    background-color: #ffc107;
+    width: 40px;
+    height: 40px;
+    padding: 10px;
+    font-size: 24px;
+    border-radius: 50%;
+}
+
+.card-icon.bg-dark {
+    background-color: #343a40;
+    width: 40px;
+    height: 40px;
+    padding: 10px;
+    font-size: 24px;
+    border-radius: 50%;
+}
+
+.card-icon.bg-primary {
+    background-color: #3931af !important;
+    width: 40px;
+    height: 40px;
+    padding: 10px;
+    font-size: 24px;
+    border-radius: 50%;
+}
+
+.card-body small {
+    display: block;
+    margin-top: 5px;
+}
+
+/* ------------------------END OF ACTIVITY FEED SECTION/ @FOR RESPONSIVE BELOW---------------------------------------------- */
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .text-section h1 {
+        font-size: 40px;
+    }
+
+    .text-section p {
+        font-size: 16px;
+    }
+
+    .input-wrapper {
+        flex-direction: column; /* Vertical ang search bars instead nga combined as 1 searchbar */
+        align-items: stretch;
+    }
+
+    .input-group {
+        margin-bottom: 10px;
+    }
+
+    .search-button {
+        align-self: stretch;
+    }
+}
+
+/* -----------responsive 4da joblist------------------------------------------ */
+
+@media (max-width: 768px) {
+    .joblist-section h2 {
+        font-size: 40px;
+    }
+
+    .joblist-section p {
+        font-size: 16px;
+    }
+
+    .carousel-item .row {
+        display: flex;
+        flex-wrap: nowrap; /* Prevent stacking */
+    }
+
+    .carousel-item .col-md-4 {
+        flex: 0 0 100%; /* Each card takes up the full width */
+        max-width: 100%; /* Adjusts card width */
+    }
+}
