@@ -87,7 +87,7 @@
                         @error('position')
                             <small class="text-danger">{{ $message }}</small>
                         @enderror
-                        <input type="text" class="inputDesign" name="position" placeholder="Position"
+                        <input type="text" class="inputDesign" name="job_title" placeholder="Position"
                             value="{{ old('position') }}">
                     </div>
                     <!--Salary-->

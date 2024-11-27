@@ -26,20 +26,27 @@ class InternshipController extends Controller
     {
         $fields = $request->validate([
             'company' => ['required'],
-            'salary' => ['required'],
+            'salary_min' => ['required', 'min:0'],
+            'salary_max' => ['required', 'min:0', 'gt:salary_min'],
+            'arrangement' => ['required'],
+            'age_min' => ['required', 'min:0'],
+            'age_max' => ['required', 'gt:age_min'],
             'location' => ['required'],
             'employer_id' => ['required'],
             'email' => ['required'],
             'companyID' => ['required'],
-            'education' => ['required']
+            'duration' => ['required'],
         ]);
+
+
+
+
+        $fields['salary'] = $fields['salary_min'] . '-' . $fields['salary_max'];
+        $fields['age'] = $fields['age_min'] . '-' . $fields['age_max'];
+        $fields['skills'] = "";
         $fields['employer_id'] = session('employer')->id;
-        if ($request['desc'] == null) {
-            $fields['description'] = 'null';
-        }
-        if ($request['details'] == null) {
-            $fields['requirements'] = 'null';
-        }
+        $fields['description'] = json_decode($request['description']);
+        $fields['requirements'] = json_decode($request['requirements']);
         $fields['education'] = $request['education'];
         Internship::create($fields);
         $this->getNotif()->notifyCompany(
@@ -95,7 +102,34 @@ class InternshipController extends Controller
 
     public function searchListingbyKey(Request $request)
     {
+        // FROM HOME PAGE
+        if ($request['job'] != "" && $request['location'] != "") {
+            dd('condition 1');
+            return view('ppages.internships', ['listings' => Internship::where('position', 'like', $request['job'] . '%')->where('location', 'like', $request['location'] . "%")->get()]);
+        } elseif ($request['job']) {
+            return view('pages.internships', ['listings' => Internship::where('position', 'like', $request['job'] . '%')->get()]);
+        } elseif ($request['location']) {
+            return view('pages.internships', ['listings' => Internship::where("location", 'like', $request['location'] . '%')->get()]);
+        }
 
-        return view('pages.listing', ['listings' => Internship::whereAny(['location', 'company', 'education'], 'like', '%' . $request['search'] . '%')->get()]);
+        // FROM LISTING PAGE
+
+        // SORT LISTING BY DATE & MOST PICKED JOBS
+        if ($request['key'] == "latest") {
+            return view("pages.internships", ["listings" => Internship::orderBy('created_at', 'desc')->get()])->with(["red" => "1"]);
+        }
+        if ($request['key'] == "most") {
+            return view('pages.internships', ["listings" => Internship::withCount('applications')->orderBy('applications_count', 'desc')->get()])->with(['blue' => "1"]);
+        }
+
+        // GENERAL SORTING AND FILTERING
+        if ($request['key']) {
+            $data = Internship::where($request['key'], $request['value'])->get();
+            return view('pages.internships', ['listings' => $data]);
+        }
+
+
+        // IF ALL CONDITIONS ARE FAILED TO BE MET, PROCEED TO HERE -> FOR GENERAL SEARCHING
+        return view('pages.internships', ['listings' => Internship::whereAny(['position', 'location', 'company'], 'like', $request['search'] . '%')->get()]);
     }
 }

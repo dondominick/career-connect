@@ -43,19 +43,28 @@
         <input type="text" hidden name="key" id="key-input">
         <input type="text" hidden name="value" id="value-input">
     </form>
-    <div class="col-md-8 mx-auto d-flex gap-5">
-        <select id="sortFilter" class="form-select" onchange="sortFilter()">
-            <option value="none" selected>Choose...</option>
-            <option value="relevance">Relevance</option>
-            {{-- <option value="salary">Salary</option> --}}
+    <div class="col-md-3 mx-auto d-flex justify-content-center gap-2">
+        <select id="sortFilter" class="form-select rounded"
+            style="width: 200px; border: 2px solid #007bff; transition: all 0.3s ease-in-out;" onchange="sortFilter()"
+            onmouseover="this.style.borderColor='#0056b3'; this.style.boxShadow='0 0 5px rgba(0, 123, 255, 0.5)';"
+            onmouseout="this.style.borderColor='#007bff'; this.style.boxShadow='none';"
+            onfocus="this.style.borderColor='#80bdff'; this.style.boxShadow='0 0 5px rgba(0, 123, 255, 0.8)';"
+            onblur="this.style.borderColor='#007bff'; this.style.boxShadow='none';">
+            <option value="none" selected disabled>Choose an Option</option>
+            <!-- Uncomment options when needed -->
+            <!-- <option value="relevance">Relevance</option> -->
+            <!-- <option value="salary">Salary</option> -->
             <option value="education">Education</option>
             <option value="arrangement">Work Arrangement</option>
-            {{-- <option value="age">Age</option> --}}
+            <!-- <option value="age">Age</option> -->
             <option value="type">Job Type</option>
         </select>
 
+
         <select id="jobType" class="form-select" style="display: none" onchange="sortByType()">
-            <option selected="full-time">Full Time</option>
+            <option selected="none" selected>Choose...</option>
+
+            <option value="full-time">Full Time</option>
             <option value="part-time">Part-Time</option>
             <option value="freelance">Freelance</option>
             <option value="temporary">Temporary</option>
@@ -77,17 +86,18 @@
 
         </div> --}}
 
-
+        {{-- 
         <select id="relevance" class="form-select" style="display: none" onchange="sortByRelevance()">
             <option value="" selected>Choose...</option>
             <option value="location">By Location</option>
             <option value="skills">By Skills</option>
             <option value="work">By Previous Work Experience</option>
             <option value="education">By Educational Attainment</option>
-        </select>
+        </select> --}}
 
         <select id="education" class="form-select" style="display: none" onchange="sortByEducation()">
-            <option selected="none">None</option>
+            <option selected>Choose...</option>
+            <option value="none">None</option>
             <option value="highschool">High School Diploma</option>
             <option value="undergraduate">College Undergraduate</option>
             <option value="bachelor">Bachelor's Degree</option>
@@ -96,7 +106,8 @@
         </select>
 
         <select id="experience" class="form-select" name="" style="display: none" onchange="sortByExperience()">
-            <option selected="entry">Entry Level</option>
+            <option selected>Choose...</option>
+            <option value="entry">Entry Level</option>
             <option value="mid">Mid Level</option>
             <option value="senior">Senior Level</option>
             <option value="director">Director Level</option>
@@ -105,15 +116,11 @@
 
         <select name="arrangement" id="arrangement" class="mt-1 form-select" style="display: none"
             onchange="sortByArrangement()">
-            <option selected="onsite">Onsite</option>
+            <option selected>Choose...</option>
+            <option value="onsite">Onsite</option>
             <option value="wfh">Work from Home</option>
             <option value="hybrid">Hybird</option>
         </select>
-
-
-
-
-
 
     </div>
 
@@ -156,7 +163,7 @@
                     <div
                         class="px-3 col-sm-3 col-4 align-items-center justify-content-center d-flex flex-column text-center ">
                         <h3 class="h2 ">{{ $listing->position }}</h3>
-                        <h4 class="">${{ $listing->salary }}/mo</h4>
+                        <h4 class="">${{ $listing->min_salary }}-${{ $listing->max_salary }}/mo</h4>
                     </div>
 
                     <div class="col-lg-6 d-flex gap-4">

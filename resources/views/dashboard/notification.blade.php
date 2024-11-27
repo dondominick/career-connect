@@ -33,7 +33,6 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            margin-bottom: 1rem;
         }
 
         .notification .alert {
@@ -55,23 +54,27 @@
                 font-size: 0.9rem;
             }
         }
+
+        .min-100vh {
+            min-height: 100vh;
+        }
     </style>
 @endsection
 @section('content')
-    <div class="container-fluid mt-5">
+    <div class="container-fluid my-5 min-100vh">
         <div class="row justify-content-center">
             <div class="col-12 col-md-10 col-lg-8">
                 <div class="card">
                     <div class="card-header border-0 text-center">
                         <h2>Notifications</h2>
                     </div>
-                    <div class="card-body">
+                    <div class="card-body h-100 px-4">
 
                         @if (isset($notifications))
                             @foreach ($notifications as $notification)
-                                <div class="row mb-3">
+                                <div class="row mb-3 border-top border-bottom border-white">
                                     <div class="notification">
-                                        @if ($notification->status == 'accepted' || $notification->status == 'success')
+                                        @if ($notification->status == 'accepted' || $notification->status == 'successful')
                                             <div class="icon-circle check">
                                                 <i class="fa fa-check fs-3" aria-hidden="true"></i>
                                             </div>
@@ -81,12 +84,12 @@
                                                 <i class="fa fa-check fs-3" aria-hidden="true"></i>
                                             </div>
                                         @endif
-                                        @if ($notification->status == 'warning-good')
-                                            <div class="icon-circle check">
-                                                <i class="fa-solid fa-exclamation"></i>
+                                        @if ($notification->status == 'new-application')
+                                            <div class="icon-circle bg-primary">
+                                                <i class="fa fa-briefcase"></i>
                                             </div>
                                         @endif
-                                        @if ($notification->status == 'warning')
+                                        @if ($notification->status == 'warning' || $notification->status == 'delete-listing')
                                             <div class="icon-circle bg-warning">
                                                 <i class="fa-solid fa-exclamation"></i>
                                             </div>
@@ -95,10 +98,13 @@
                                             <strong>{{ $notification->title }}</strong>
                                             <br>
 
-                                            {{ $notification->body }}
+                                            {{ $notification->summary }}
                                             <br>
                                             <small class="text-secondary">{{ $notification->created_at }}</small>
                                         </div>
+                                    </div>
+                                    <div class="h-100">
+                                        <button class="btn fw-bold" onclick="">View Details</button>
                                     </div>
                                 </div>
                             @endforeach

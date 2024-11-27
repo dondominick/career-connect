@@ -88,116 +88,58 @@
     </main>
 
 
-    <div class="bg-success">
-        <h3>Developer's Console</h3>
-        <div class="">
-            @if (session('employer'))
-                Employer
-                {{ session('employer')->id }}
-            @endif
-            @if (session('applicant'))
-                Applicant
-                {{ session('applicant')->id }}
-            @endif
-            @if (session('company'))
-                Company
-                {{ session('company')->id }}
-            @endif
-            @auth
-                <p>
-                    User:
-                    {{ auth()->user() }}</p>
-            @endauth
-            @guest
-                <h2>Currently on guest view.</h2>
-            @endguest
-        </div>
-    </div>
-
 
     <div class="bg-secondary">
-        <footer class="py-5 bg-secondary">
-            <div class="">
-                <div class="col-2">
-                    <h5>Members</h5>
-                    <ul class="nav flex-column">
-                        <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">Don Dominick
-                                Enargan</a></li>
-                        <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">Rhose An P.
-                                Raganit</a></li>
-                        <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">Joren Naungayan</a>
-                        </li>
-                        <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">Lowrence Alburo</a>
-                        </li>
-                        <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">Aaron Lanos</a></li>
-                    </ul>
-                </div>
-
-
-
-                <div class="col-3">
-                    <h5>Section</h5>
-                    <ul class="nav flex-column">
-                        <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">Home</a></li>
-                        <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">Listings</a></li>
-                        <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">Internships</a>
-                        </li>
-                        <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">FAQs</a></li>
-                        <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">About</a></li>
-                    </ul>
-                </div>
-
-                <div class="col-4 offset-1">
-                    <form>
-                        <h5>Subscribe to our newsletter!</h5>
-                        <p>Monthly digest of whats new and exciting from us.</p>
-                        <div class="d-flex w-100 gap-2">
-                            <label for="newsletter1" class="visually-hidden">Email address</label>
-                            <input id="newsletter1" type="text" class="form-control" placeholder="Email address">
-                            <button class="btn btn-primary" type="button">Subscribe</button>
-                        </div>
-                    </form>
-                </div>
+        <footer class="py-5" style="background-color: rgb(34, 34, 34); padding:20px;">
+            <div class="members">
+                <h5 class="text-light"> MEMBERS </h5>
+                <ul class="nav flex-column">
+                    <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-light">Don Dominick
+                            Enargan | Rhose An P. Raganit | Joren Naungayan | Lowrence Joy Alburo | Aaron Jason Lanos |
+                            Sherwin Adam Montealto </a></li>
+                </ul>
             </div>
 
-            <div class="d-flex justify-content-between py-4 my-4 border-top">
+            <div class="d-flex justify-content-between py-4 my-4 border-top text-light mb-0">
                 <p>© CareerConnect 2024, Inc. All rights reserved.</p>
                 <ul class="list-unstyled d-flex">
                     <!-- X (Twitter) Icon -->
                     <li class="ms-3">
                         <a class="link-dark" href="#" target="_blank">
-                            <i class="bi bi-twitter" style="font-size: 24px;"></i>
+                            <i class="bi bi-twitter" style="font-size: 24px;color:white"></i>
                         </a>
                     </li>
 
                     <!-- Instagram Icon -->
                     <li class="ms-3">
                         <a class="link-dark" href="#" target="_blank">
-                            <i class="bi bi-instagram" style="font-size: 24px;"></i>
+                            <i class="bi bi-instagram" style="font-size: 24px; color:white"></i>
                         </a>
                     </li>
 
                     <!-- Facebook Icon -->
                     <li class="ms-3">
                         <a class="link-dark" href="#" target="_blank">
-                            <i class="bi bi-facebook" style="font-size: 24px;"></i>
+                            <i class="bi bi-facebook" style="font-size: 24px; color:white"></i>
                         </a>
                     </li>
                 </ul>
             </div>
+
         </footer>
-    </div>
 
 
-    @yield('scripts')
 
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
-        integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous">
-    </script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"
-        integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous">
-    </script>
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+
+        @yield('scripts')
+
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+            integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous">
+        </script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"
+            integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous">
+        </script>
+        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 
 </body>
 

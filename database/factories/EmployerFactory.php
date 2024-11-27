@@ -26,7 +26,7 @@ class EmployerFactory extends Factory
             'birthdate' => fake()->date(),
             'contactNum' => "09916216576",
             'gender' => "Male",
-            'position' => "Software Engineer",
+            'job_title' => "Software Engineer",
         ];
     }
 

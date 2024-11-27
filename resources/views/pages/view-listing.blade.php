@@ -73,11 +73,16 @@
             <div class="cnt-1 bg-white container box-shadow-1 mt-3">
                 <h3>Description</h3>
                 <ul>
-                    @foreach ($description as $i)
-                        <li>
-                            {{ $i }}
-                        </li>
-                    @endforeach
+                    @isset($description)
+                        @foreach ($description as $i)
+                            @if ($i)
+                                <li>
+                                    {{ $i }}
+                                </li>
+                            @endif
+                        @endforeach
+                    @endisset
+
 
                 </ul>
             </div>
@@ -86,11 +91,16 @@
         <div class="cnt-1 bg-white w-25">
             <h3>Requirements</h3>
             <ul>
-                @foreach ($requirements as $i)
-                    <li>
-                        {{ $i }}
-                    </li>
-                @endforeach
+                @isset($requirements)
+                    @foreach ($requirements as $i)
+                        @if ($i)
+                            <li>
+                                {{ $i }}
+                            </li>
+                        @endif
+                    @endforeach
+                @endisset
+
             </ul>
         </div>
 

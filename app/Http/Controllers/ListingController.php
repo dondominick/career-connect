@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Employer;
 use App\Models\Listing;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -27,25 +28,32 @@ class ListingController extends Controller
     }
     public function getListingById($id)
     {
-        return Listing::where('id', $id)->first();
+        return Listing::where('id', $id)->get()->first();
     }
 
     public function getListing($id)
     {
-        $listing = Listing::where('id', $id)->first();
+        $listing = Listing::where('id', $id)->get()->first();
         return view('pages.view-listing', ['listing' => $listing]);
     }
 
 
     public function delete(Request $request)
     {
-        Listing::where('id', $request['id'])->delete();
-        $this->getNotif()->notifyCompany(
-            session('employer')->companyID,
-            "A job listing has been deleted by your company. Employer " . session('employer')->id . " from your company has deleted the job listing " . $request['id'],
-            "Deleted Job Listing",
-            "warning"
+
+        $listing = Listing::where('id', $request['id']);
+        $data = Employer::where('employers.id', $listing->get()->first()->employer_id)->join('companies', 'employers.companyID', '=', 'companies.id')->get()->first();
+        if (!$listing->get()->first()) {
+            return redirect()->route('profile')->withErrors('id', "Listing ID not found in the database");
+        }
+
+        $data['position'] = $listing->get()->first()->position;
+
+        $this->getNotif()->deleteListing(
+            $data->user_id,
+            $data,
         );
+        $listing->delete();
         return redirect()->route('employer-dashboard')->with(['successful' => "Listing deleted sucessfully"]);
     }
 
@@ -83,17 +91,18 @@ class ListingController extends Controller
         $fields = $request->validate([
             'position' => ['required'],
             'company' => ['required'],
-            'salary_min' => ['required', 'min:0'],
-            'salary_max' => ['required', 'min:0', 'gt:salary_min'],
+            'min_salary' => ['required', 'min:0'],
+            'max_salary' => ['required', 'min:0', 'gt:min_salary'],
             'arrangement' => ['required'],
-            'age_min' => ['required', 'min:0'],
-            'age_max' => ['required', 'gt:age_min'],
+            'min_age' => ['required', 'min:0'],
+            'max_age' => ['required', 'gt:min_age'],
             'location' => ['required'],
             'employer_id' => ['required'],
             'email' => ['required'],
             'companyID' => ['required'],
             'type' => ['required'],
-            'experience' => ['required']
+            'experience' => ['required'],
+
         ]);
 
         if ($request['type'] == 'temporary' || $request['type'] == 'contract') {
@@ -109,22 +118,16 @@ class ListingController extends Controller
             ]);
             $fields['hours'] = $request['hours'];
         }
-        $fields['salary'] = $fields['salary_min'] . '-' . $fields['salary_max'];
-        $fields['age'] = $fields['age_min'] . '-' . $fields['age_max'];
-
         $fields['employer_id'] = session('employer')->id;
         $fields['description'] = json_decode($request['description']);
         $fields['requirements'] = json_decode($request['requirements']);
-
-
+        $fields['skills'] = json_encode($request['request']);
         $fields['education'] = $request['education'];
-        Listing::create($fields);
-
-        $this->getNotif()->notifyCompany(
-            $request['companyID'],
-            "A new job listing has been created by your company. Employer " . $request['employer_id'] . " from your company has created the job listing",
-            "Deleted Job Listing",
-            "warning-good"
+        $listing = Listing::create($fields);
+        $fields['listing_id'] = $listing->id;
+        $this->getNotif()->newListing(
+            $fields['employer_id'],
+            json_encode($fields)
         );
 
         // add data to the database
@@ -138,9 +141,19 @@ class ListingController extends Controller
     // 
     public function searchListingbyKey(Request $request)
     {
-        if ($request['key'] == "relevance") {
+        // FROM HOME PAGE
+        if ($request['job'] != "" && $request['location'] != "") {
+            dd('condition 1');
+            return view('pages.listing', ['listings' => Listing::where('position', 'like', $request['job'] . '%')->where('location', 'like', $request['location'] . "%")->get()]);
+        } elseif ($request['job']) {
+            return view('pages.listing', ['listings' => Listing::where('position', 'like', $request['job'] . '%')->get()]);
+        } elseif ($request['location']) {
+            return view('pages.listing', ['listings' => Listing::where("location", 'like', $request['location'] . '%')->get()]);
         }
 
+        // FROM LISTING PAGE
+
+        // SORT LISTING BY DATE & MOST PICKED JOBS
         if ($request['key'] == "latest") {
             return view("pages.listing", ["listings" => Listing::orderBy('created_at', 'desc')->get()])->with(["red" => "1"]);
         }
@@ -148,12 +161,14 @@ class ListingController extends Controller
             return view('pages.listing', ["listings" => Listing::withCount('applications')->orderBy('applications_count', 'desc')->get()])->with(['blue' => "1"]);
         }
 
-
+        // GENERAL SORTING AND FILTERING
         if ($request['key']) {
             $data = Listing::where($request['key'], $request['value'])->get();
             return view('pages.listing', ['listings' => $data]);
         }
 
+
+        // IF ALL CONDITIONS ARE FAILED TO BE MET, PROCEED TO HERE -> FOR GENERAL SEARCHING
         return view('pages.listing', ['listings' => Listing::whereAny(['position', 'location', 'company'], 'like', $request['search'] . '%')->get()]);
     }
 
@@ -170,13 +185,14 @@ class ListingController extends Controller
         if (isset(session('applicant')->resume)) {
             $recommendation = Listing::select('*')->where('location', json_decode(session('applicant')->resume)->address)->take(3)->get();
             $listings = Listing::select('*')->join('companies', 'listings.companyID', '=', 'companies.id')->orderBy('listings.created_at')->take(3)->get();
-            return view('pages.home', ['listings' => $listings, 'recommends' => $recommendation]);
+            $notifications = NotificationController::class::retrieveNotifications();
+            return view('pages.home', ['listings' => $listings, 'recommends' => $recommendation, "notifications" => $notifications]);
         }
         $recommends =  Listing::withCount('applications')->orderBy('applications_count', 'desc')->take(3)->get();
         $listings = Listing::select('*')->join('companies', 'listings.companyID', '=', 'companies.id')->orderBy('listings.created_at')->take(3)->get();
-        return view('pages.home', ['listings' => $listings, 'recommends' => $recommends]);
+        $notifications = NotificationController::class::retrieveNotifications();
+        return view('pages.home', ['listings' => $listings, 'recommends' => $recommends, "notifications" => $notifications]);
     }
-
 
     // 
     // RECOMMENDATION SYSTEM

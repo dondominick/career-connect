@@ -89,8 +89,71 @@
         </div>
     </div>
 
+    <form action="{{ route('searchInternships', 'value') }}" method="get" hidden id="search-form">
+        @csrf
+        <input type="text" hidden name="key" id="key-input">
+        <input type="text" hidden name="value" id="value-input">
+    </form>
+
+    <div class="col-md-2 mx-auto d-flex flex-wrap gap-3">
+        <!-- Main Filter Dropdown -->
+        <select id="sortFilter" class="form-select" style="width: 100%;" onchange="sortFilter()">
+            <option value="none" selected>Choose...</option>
+            <!-- <option value="relevance">Relevance</option> -->
+            <!-- <option value="salary">Salary</option> -->
+            <option value="education">Education</option>
+            <option value="arrangement">Work Arrangement</option>
+            <!-- <option value="age">Age</option> -->
+            <option value="type">Job Type</option>
+        </select>
+
+        <!-- Job Type Filter -->
+        <select id="jobType" class="form-select" style="width: 100%; display: none;" onchange="sortByType()">
+            <option selected="none" selected>Choose...</option>
+            <option value="full-time">Full Time</option>
+            <option value="part-time">Part-Time</option>
+            <option value="freelance">Freelance</option>
+            <option value="temporary">Temporary</option>
+            <option value="contract">Contract</option>
+        </select>
+
+        <!-- Education Filter -->
+        <select id="education" class="form-select" style="width: 100%; display: none;" onchange="sortByEducation()">
+            <option selected>Choose...</option>
+            <option value="none">None</option>
+            <option value="highschool">High School Diploma</option>
+            <option value="undergraduate">College Undergraduate</option>
+            <option value="bachelor">Bachelor's Degree</option>
+            <option value="masters">Master's Degree</option>
+            <option value="phd">Ph.D.</option>
+        </select>
+
+        <!-- Experience Filter -->
+        <select id="experience" class="form-select" style="width: 100%; display: none;" onchange="sortByExperience()">
+            <option selected="none" selected>Choose...</option>
+            <option value="entry">Entry Level</option>
+            <option value="mid">Mid Level</option>
+            <option value="senior">Senior Level</option>
+            <option value="director">Director Level</option>
+            <option value="executive">Executive</option>
+        </select>
+
+        <!-- Work Arrangement Filter -->
+        <select name="arrangement" id="arrangement" class="form-select" style="width: 100%; display: none;"
+            onchange="sortByArrangement()">
+            <option selected="none">Choose...</option>
+            <option value="onsite">Onsite</option>
+            <option value="wfh">Work from Home</option>
+            <option value="hybrid">Hybrid</option>
+        </select>
 
 
+
+
+
+
+
+    </div>
 
 
     <div class="mx-auto w-25 text-center">
@@ -110,8 +173,9 @@
         </div>
     </div>
 
+
     <!-- Job Listings - Latest Job Offers -->
-    <div class="w-100 border">
+    <div class="w-100">
         <ul class="" id="listing">
 
             @foreach ($listings as $listing)
@@ -119,7 +183,7 @@
                     <div
                         class="px-3 col-sm-3 col-4 align-items-center justify-content-center d-flex flex-column text-center ">
                         <h3 class="h2 ">Intern</h3>
-                        <h4 class="">${{ $listing->salary }}/mo</h4>
+                        <h4 class="">${{ $listing->min_salary }}-${{ $listing->max_salary }}/mo</h4>
                     </div>
 
                     <div class="col-lg-6">
@@ -168,5 +232,193 @@
                 searchInput.focus();
             }
         });
+    </script>
+@endsection
+
+@section('scripts')
+    <script>
+        function sortButton(keys) {
+            const form = $('#search-form');
+            const key = $('#key-input');
+            const value = $('#value-input');
+
+            key.val(keys);
+
+            form.submit();
+        }
+
+        function sortByEducation() {
+            const form = $('#search-form');
+            const key = $('#key-input');
+            const value = $('#value-input');
+
+            const education = $('#education');
+            key.val('education');
+            value.val(education.val());
+
+            form.submit();
+        }
+
+        function sortByType() {
+            const form = $('#search-form');
+            const key = $('#key-input');
+            const value = $('#value-input');
+
+            const type = $('#jobType');
+
+            key.val('type');
+            value.val(type.val());
+
+
+            form.submit();
+
+        }
+
+        function sortByArrangement() {
+            const form = $('#search-form');
+            const key = $('#key-input');
+            const value = $('#value-input');
+
+            const arrangement = $('#arrangement');
+
+            key.val('arrangement');
+            value.val(arrangement.val());
+
+            form.submit();
+
+        }
+
+        // function sortBySalary() {
+        //     const form = $('#search-form');
+        //     const key = $('#key-input');
+        //     const value = $('#value-input');
+
+
+        //     form.submit();
+
+        // }
+
+        function sortByAge() {
+            const form = $('#search-form');
+            const key = $('#key-input');
+            const value = $('#value-input');
+
+
+            form.submit();
+
+        }
+
+        function sortByExperience() {
+            const form = $('#search-form');
+            const key = $('#key-input');
+            const value = $('#value-input');
+
+            const experience = $('#experience');
+            key.val('experience');
+            value.val(experience.val());
+
+            form.submit();
+
+        }
+
+        function sortByRelevance() {
+            const form = $('#search-form');
+            const key = $('#key-input');
+            const value = $('#value-input');
+
+            const relevance = $('#relevance');
+
+            key.val('relevance');
+            value.val(relevance.val());
+
+            form.submit();
+
+        }
+
+        function sortFilter() {
+            const sort = $('#sortFilter').val();
+            const education = $('#education');
+            const type = $('#jobType');
+            const arrangement = $('#arrangement');
+            const salary = $('#salary');
+            const age = $('#age');
+            const experience = $('#experience');
+            const relevance = $('#relevance');
+
+            switch (sort) {
+                case "education":
+                    education.show();
+                    type.hide();
+                    arrangement.hide();
+                    salary.hide();
+                    age.hide();
+                    experience.hide();
+                    relevance.hide();
+                    break;
+                case "type":
+                    education.hide();
+                    type.show();
+                    arrangement.hide();
+                    salary.hide();
+                    age.hide();
+                    experience.hide();
+                    relevance.hide();
+                    break;
+                case "arrangement":
+                    education.hide();
+                    type.hide();
+                    arrangement.show();
+                    salary.hide();
+                    age.hide();
+                    experience.hide();
+                    relevance.hide();
+                    break;
+                case "experience":
+                    education.hide();
+                    type.hide();
+                    arrangement.hide();
+                    salary.hide();
+                    age.hide();
+                    experience.show();
+                    relevance.hide();
+                    break;
+                case "relevance":
+                    education.hide();
+                    type.hide();
+                    arrangement.hide();
+                    salary.hide();
+                    age.hide();
+                    experience.hide();
+                    relevance.show();
+                    break;
+                case "age":
+                    education.show();
+                    type.hide();
+                    arrangement.hide();
+                    salary.hide();
+                    age.show();
+                    experience.hide();
+                    relevance.hide();
+                    break;
+                case "salary":
+                    education.hide();
+                    type.hide();
+                    arrangement.hide();
+                    salary.show();
+                    age.hide();
+                    experience.hide();
+                    relevance.hide();
+                    break;
+                default:
+                    education.hide();
+                    type.hide();
+                    arrangement.hide();
+                    salary.hide();
+                    age.hide();
+                    experience.hide();
+                    relevance.hide();
+                    break;
+            }
+        }
     </script>
 @endsection

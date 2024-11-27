@@ -8,7 +8,8 @@ use App\Models\Notification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\NotificationController;
-
+use App\Models\Internship;
+use App\Models\Listing;
 
 class ApplicationController extends Controller
 {
@@ -29,7 +30,6 @@ class ApplicationController extends Controller
         $applicant =  Applicant::where('id', $request['applicant_id'])->get()->first();
 
         if (Auth::user()->position != "applicant") {
-            dd('working');
             return back()->withErrors(['position' => "Only applicants are allowed to apply in job listings and internships"]);
         }
 
@@ -47,20 +47,28 @@ class ApplicationController extends Controller
                 "listing_id" => $request['listing_id'],
                 "type" => $request['type']
             ];
-            Application::create($fields);
-            $id = $this->getNotif()->Employer_findUser($request['employer_id']);
-            $body = "Applicant #" . $request['applicant_id'] . " has applied to your job " . $request['type'] . " " . $request['listing_id'];
-            $title = "New Application!";
-            $status = "warning";
 
+            $application = Application::create($fields);
+            $data = Listing::where('listings.id', $request['listing_id'])->join('employers', 'listings.employer_id', '=', 'employers.id')->get()->first();
 
-            $this->getNotif()->createNotification($id, $body, $title, $status);
-            $this->getNotif()->createNotification(
-                $this->getNotif()->Applicant_findUser($request['applicant_id']),
-                "You have successfully applied for " . $request['type'] . " " . $request['listing_id'] . " . Your application is currently on process.",
-                "Application Succesful!",
-                "success"
+            $this->getNotif()->newApplication(
+                ["applicant" => $application->applicant_id, "employer" => $application->employer_id],
+                [
+                    "applicant_name" => $applicant->fname . " " . $applicant->lname,
+                    'applicant_email' => $applicant->email,
+                    'applicant_contact' => "09916216576",
+                    'position' => $data->position,
+                    'company_name' => $data->company,
+                    'company_head' => $data->company,
+                    'arrangement' => $data->arrangement,
+                    'location' => $data->location,
+                    'job_type' => $data->type,
+                    'salary' => $data->salary,
+                    'submission_date' => $application->created_at,
+                    'listing_id' => $application->listing_id
+                ]
             );
+
 
             return back()->with(['success' => "Successfully applied to the listing"]);
         }
@@ -72,41 +80,33 @@ class ApplicationController extends Controller
 
     public function resume() {}
 
-
     public function updateApplication(Request $request)
-    {
-        if ($request['status'] == "accepted") {
-            $this->separateType($request);
-        }
-        if ($request['status'] == "rejected") {
-            $this->separateType($request);
-        }
-
-        return back()->withErrors(['error' => "Something went wrong!"]);
-    }
-
-    private function separateType(Request $request)
     {
         $type = $request['type'];
         if ($type == "listings") {
-            $application =  Application::where('applicant_id', $request['applicant_id'])->where('type', $request['type'])->get()->first();
-            $application->status = $request['status'];
 
-            $body = "Your application for listing #" . $request['listing_id'] . " has been " . $request['status'];
+            $application =  Application::where('applicant_id', $request['applicant_id'])->where('type', $request['type'])->where('status', '=', 'processing')->join('applicants', 'applications.applicant_id', '=', 'applicants.id')->get()->first();
+            $application->status = $request['status'];
+            $listing = Listing::where('id', $application->listing_id)->get()->first();
 
 
             $application->save();
+            $application['position'] = $listing->position;
         } else {
-            $application = Application::where('applicant_id', $request['applicant_id'])->where('type', $request['type'])->get()->first();
+            $application = Application::where('applicant_id', $request['applicant_id'])->where('type', $request['type'])->join('applicants', 'applications.applicant_id', '=', 'applicants.id')->get()->first();
             $application->status = $request['status'];
-
-            $body = "Your application for internship #" . $request['listing_id'] . " has been " . $request['status'];
-
             $application->save();
+            $application['position'] = "Intern";
         }
-        $title = "Application Update";
-        $id = $this->getNotif()->Applicant_findUser($request['applicant_id']);
-        $this->getNotif()->createNotification($id, $body, $title, $request['status']);
+
+
+
+        $this->getNotif()->ApplicationUpdate(
+            $application->user_id,
+            $application,
+            $request['status']
+        );
+
 
         return back()->with(['success' => "Applicant " . $request['id'] . " has been " . $request['status']]);
     }

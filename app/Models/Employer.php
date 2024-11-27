@@ -17,7 +17,7 @@ class Employer extends Model
         'company',
         'companyID',
         'user_id',
-        'position',
+        'job_title',
         'birthdate'
     ];
 

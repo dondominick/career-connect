@@ -28,6 +28,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/home', [ListingController::class, 'recommendUsers'])->name('home');
     Route::view("/profile", 'dashboard.profile')->name('profile');
     Route::patch('/profile', [AuthController::class, 'updateProfile']);
+    Route::get('/profile/notification', [NotificationController::class, 'displayNotifications'])->name('notification');
+
     // 
     // 
     // APPLICANT RELATED ROUTES
@@ -57,8 +59,9 @@ Route::middleware(['auth'])->group(function () {
     // POSTS
     Route::post("/profile/employer-dashboard/create-listing", [ListingController::class, 'create']);
     Route::post('/profile/employer-dashboard/create-internship', [InternshipController::class, 'create']);
-    Route::post('/profile/employer-dashboard/internship-details/{id}', [ApplicationController::class, 'updateApplication']);
-    Route::post('/profile/employer-dashboard/listing-details/{id}', [ApplicationController::class, 'updateApplication']);
+    Route::post('/profile/employer-dashboard/status', [EmployerController::class, 'statusCheck'])->name('statusCheck');
+    Route::patch('/profile/employer-dashboard/internship-details/{id}', [ApplicationController::class, 'updateApplication']);
+    Route::patch('/profile/employer-dashboard/listing-details/{id}', [ApplicationController::class, 'updateApplication']);
 
     // UPDATES
     Route::patch("/profile/employer-dashboard/update-listing/{id}", [ListingController::class, 'updateListing']);
@@ -80,7 +83,6 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/company/view-applications', [CompanyController::class, 'viewApplications'])->name('company-applications');
 
         // GET / RETRIEVE DATA FROM THE DATABASE
-        Route::get('/profile/notification', [NotificationController::class, 'displayNotifications'])->name('notification');
         Route::get('/company/info', [CompanyController::class, 'getCompanyInfo'])->name('company-info');
         Route::get('company/view-employers', [CompanyController::class, 'viewEmployers'])->name('view-employers');
 
@@ -97,6 +99,13 @@ Route::get('/listings', [ListingController::class, 'getListingsAll'])->name('lis
 Route::get('/internships', [InternshipController::class, 'displayAllInternships'])->name('internships');
 
 
+// GET ROUTES
+
+Route::get('/listings{search?}', [ListingController::class, 'searchListingbyKey'])->name('search');
+Route::get('/internships{search?}', [ListingController::class, 'searchListingbyKey'])->name('searchInternships');
+Route::get('/listing+location={location?}', [ListingController::class, 'searchListingbyLocation'])->name('searchLocation');
+Route::get('listings+keys={key?}', [ListingController::class, 'searchListingByKeys'])->name('key');
+
 Route::get('/internships/{id}', [InternshipController::class, 'getInternship'])->name('view-internship');
 Route::get('/listings/{id}', [ListingController::class, 'getListing'])->name('view-listing');
 Route::view('/index', 'pages.index')->name('index');
@@ -104,7 +113,7 @@ Route::view('/dashboard', 'pages.dahsboard')->name('dashboard');
 Route::view('/landing-page', 'pages.landing-page')->name('landing-page');
 Route::view('/index', 'pages.index')->name('index');
 
-// Login / Sign-UP
+// Login / Sign-UP ROUTES
 Route::view('/login-employee', 'auth.employee-login')->name('employee-login');
 Route::view('/register-company', 'auth.employee-sign-up')->name('employee-sign-up');
 Route::view('/login', 'auth.login')->name('login');
@@ -117,9 +126,8 @@ Route::post('/register-company', [AuthController::class, 'registerCompany']);
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/register', [AuthController::class, 'registerApplicant']);
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
-//  GET Routes
 
-Route::get('/listings{search?}', [ListingController::class, 'searchListingbyKey'])->name('search');
-Route::get('/internships{search?}', [ListingController::class, 'searchListingbyKey'])->name('searchInternships');
-Route::get('/listing+location={location?}', [ListingController::class, 'searchListingbyLocation'])->name('searchLocation');
-Route::get('listings+keys={key?}', [ListingController::class, 'searchListingByKeys'])->name('key');
+// Forgot Password
+Route::view('/login/forgot-password', 'pages.forgotPassword')->name('forgotPassword');
+Route::post('/login/forgot-password', [AuthController::class, 'forgotPassword']);
+// Reset Password

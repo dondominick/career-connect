@@ -17,12 +17,6 @@
     </div>
     <a class="btn bg-white" href="{{ route('employer-dashboard') }}">Go Back</a>
 
-    <form action="{{ route('statusCheck') }}" hidden id="view-status" method="post">
-        @csrf
-        <input type="text" name="listing_id" hidden id="listing_id" value="{{ $listing->id }}">
-        <input type="text" name="status" hidden id="status" value="">
-        <input type="text" name="type" hidden id="type" value="listing">
-    </form>
     <div class="col">
         <div class="row bg-white rounded p-2 my-2 mx-auto mw-75">
             <h3>Listing Details</h3>
@@ -51,10 +45,10 @@
                 <p>{{ $applications->count() }}</p>
             </div>
             <div class="col align-items-center d-flex justify-content-end gap-2">
-                <button class="btn bg-primary" onclick="checkStatus('accepted')">
+                <button class="btn bg-primary">
                     View Accepted Applications
                 </button>
-                <button class="btn bg-danger" onclick="checkStatus('rejected')">
+                <button class="btn bg-secondary">
                     View Rejected Applications
                 </button>
 
@@ -120,7 +114,6 @@
 
     <form action="{{ route('view-details', $listing->id) }}" method="post" hidden id="application-form">
         @csrf
-        @method('patch')
         <input type="text" hidden name="type" value="listings">
         <input type="text" hidden name="{{ $listing->id }}" name="listing_id">
 
@@ -131,8 +124,7 @@
 
 
     {{-- Modal --}}
-    <div class="modal modal-dialog-scrollable" id="dynamicModal" tabindex="-1" aria-labelledby="dynamicModalLabel"
-        aria-hidden="true">
+    <div class="modal fade" id="dynamicModal" tabindex="-1" aria-labelledby="dynamicModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -202,14 +194,5 @@
                 confirmButton.style.display = 'none';
             }
         });
-
-        function checkStatus(val) {
-            const viewStatus = $('#view-status');
-            const status = $('#status');
-
-            status.val(val);
-
-            viewStatus.submit()
-        }
     </script>
 @endsection

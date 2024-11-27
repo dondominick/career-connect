@@ -77,7 +77,8 @@ class InternshipFactory extends Factory
 
         return [
             "location" => Arr::random($this->location),
-            "salary" => $salary . "-" . $salary + 1000,
+            "min_salary" => $salary,
+            "max_salary" => $salary + 10000,
             "education" => Arr::random($this->education_level),
             "requirements" => json_encode($requirements),
             "description" => json_encode($description),
@@ -87,8 +88,9 @@ class InternshipFactory extends Factory
             "email" => fake()->unique()->safeEmail(),
             "employer_id" => "",
             "companyID" => "",
-            "age" => "18-25",
-            'skills' => Arr::random($this->location),
+            "min_age" => 18,
+            "max_age" => 25,
+            "skills" => json_encode(Arr::random($this->skills)),
         ];
     }
 }

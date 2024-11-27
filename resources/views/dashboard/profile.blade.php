@@ -1,5 +1,8 @@
 @extends('components.components.layout')
 @section('head')
+    <style>
+
+    </style>
 @endsection
 @section('content')
     <div class="d-flex flex-column align-items-end justify-content-end z-50 bottom-0 start-0 position-fixed w-100">
@@ -102,7 +105,7 @@
 
         </div>
     </div>
-    <div class="container bg-white p-3 rounded-4">
+    <div class="container bg-white p-3 rounded-4 mb-5">
         <fieldset class="mb-4">
             <legend class="">User Information</legend>
             <hr>
@@ -126,6 +129,10 @@
                         <tr class="">
                             <td scope="row" class="w-25">Email</td>
                             <td>{{ auth()->user()->email }}</td>
+                        </tr>
+                        <tr class="">
+                            <td scope="row" class="w-25">User ID</td>
+                            <td>{{ auth()->user()->id }}</td>
                         </tr>
                     </tbody>
                 </table>
@@ -162,7 +169,7 @@
                             </tr>
                             <tr class="">
                                 <td scope="row">Position / Job Title</td>
-                                <td>{{ session('employer')->position }}</td>
+                                <td>{{ session('employer')->job_title }}</td>
                             </tr>
                             <tr class="">
                                 <td scope="row">Employer Contact Number</td>
@@ -224,12 +231,38 @@
 
 
         </fieldset>
+        <button type="button" class="my-2 p-2 bg-white border button text-base bold text-black" data-bs-toggle="modal"
+            data-bs-target="#updateInfoModal">
+            Edit Profie Information
+        </button>
     </div>
     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="exampleModalLabel">Upload Profile Picture</h1>
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Change Profile Picture</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form class="modal-body" method="POST" action="{{ route('profile') }}" id="form-profile"
+                    enctype="multipart/form-data">
+                    @csrf
+                    @method('patch')
+                    <input type="file" class="form-control" name="profile" id="profile">
+                </form>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary"
+                        onclick="document.getElementById('form-profile').submit()">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="fade modal" id="updateInfoModal" tabindex="-1" aria-labelledby="updateInfoModal" aria-hidden="true">
+        <div class="modal-dialog w-100 bg-white">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Edit Profile Info</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <form class="modal-body" method="POST" action="{{ route('profile') }}" id="form-profile"

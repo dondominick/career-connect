@@ -57,7 +57,7 @@
                 <table class="table table-hover">
                     <thead>
                         <tr class="tRowHead mb-3">
-                            <th class="col-2" scope="col">Employer ID</th>
+                            <th class="col-1" scope="col">Employer ID</th>
                             <th class="col-3 col-sm-3" scope="col">Name</th>
                             <th class="col-2" scope="col">Salary</th>
                             <th class="col-2" scope="col">Position</th>
@@ -68,13 +68,13 @@
                     </thead>
                     <tbody>
                         @foreach ($employers as $employer)
-                            <tr class="tRow">
-                                <th class="col-2" scope="row">{{ $employer->id }}</th>
-                                <td class="col-3 col-sm-3">{{ $employer->fname }} {{ $employer->lname }}</td>
-                                <td class="col-2">$12</td>
-                                <td class="col-2">{{ $employer->position }}</td>
-                                <td class="col-2">{{ date_format($employer->created_at, 'd/m/Y') }}</td>
-                                <td class="col-2">
+                            <tr class="tRow border">
+                                <td class="col-1 border" scope="row">{{ $employer->id }}</td>
+                                <td class="col-3 col-sm-3 border">{{ $employer->fname }} {{ $employer->lname }}</td>
+                                <td class="col-2 border">$12</td>
+                                <td class="col-2 border">{{ $employer->position }}</td>
+                                <td class="col-2 border">{{ date_format($employer->created_at, 'd/m/Y') }}</td>
+                                <td class="col-2 border">
                                     <button type="button" class="btn btn-success mb-1 mb-sm-0" data-bs-toggle="modal"
                                         data-bs-target="#viewModal">
                                         View

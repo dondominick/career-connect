@@ -7,6 +7,150 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 @endsection
 @section('content')
+    <div class="d-flex flex-column align-items-end justify-content-end z-50 bottom-0 start-0 position-fixed w-100">
+
+        @error('position')
+            <div class="alert alert-warning alert-dismissible fade show position-relative bg-danger mx-2 col-sm-4 text-bg-danger"
+                role="alert">
+                <i class="fa fa-exclamation-triangle me-1" aria-hidden="true"></i><strong>Error!</strong>
+                {{ $message }}
+
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        @enderror
+
+        @error('location')
+            <div class="alert alert-warning alert-dismissible fade show position-relative bg-danger mx-2 col-sm-4 text-bg-danger"
+                role="alert">
+                <i class="fa fa-exclamation-triangle me-1" aria-hidden="true"></i><strong>Error!</strong>
+                {{ $message }}
+
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        @enderror
+        @error('min_salary')
+            <div class="alert alert-warning alert-dismissible fade show position-relative bg-danger mx-2 col-sm-4 text-bg-danger"
+                role="alert">
+                <i class="fa fa-exclamation-triangle me-1" aria-hidden="true"></i><strong>Error!</strong>
+                {{ $message }}
+
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        @enderror
+
+        @error('max_salary')
+            <div class="alert alert-warning alert-dismissible fade show position-relative bg-danger mx-2 col-sm-4 text-bg-danger"
+                role="alert">
+                <i class="fa fa-exclamation-triangle me-1" aria-hidden="true"></i><strong>Error!</strong>
+                {{ $message }}
+
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        @enderror
+        @error('min_age')
+            <div class="alert alert-warning alert-dismissible fade show position-relative bg-danger mx-2 col-sm-4 text-bg-danger"
+                role="alert">
+                <i class="fa fa-exclamation-triangle me-1" aria-hidden="true"></i><strong>Error!</strong>
+                {{ $message }}
+
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        @enderror
+
+        @error('max_age')
+            <div class="alert alert-warning alert-dismissible fade show position-relative bg-danger mx-2 col-sm-4 text-bg-danger"
+                role="alert">
+                <i class="fa fa-exclamation-triangle me-1" aria-hidden="true"></i><strong>Error!</strong>
+                {{ $message }}
+
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        @enderror
+
+        @error('arrangement')
+            <div class="alert alert-warning alert-dismissible fade show position-relative bg-danger mx-2 col-sm-4 text-bg-danger"
+                role="alert">
+                <i class="fa fa-exclamation-triangle me-1" aria-hidden="true"></i><strong>Error!</strong>
+                {{ $message }}
+
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        @enderror
+        @error('location')
+            <div class="alert alert-warning alert-dismissible fade show position-relative bg-danger mx-2 col-sm-4 text-bg-danger"
+                role="alert">
+                <i class="fa fa-exclamation-triangle me-1" aria-hidden="true"></i><strong>Error!</strong>
+                {{ $message }}
+
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        @enderror
+        @error('employer_id')
+            <div class="alert alert-warning alert-dismissible fade show position-relative bg-danger mx-2 col-sm-4 text-bg-danger"
+                role="alert">
+                <i class="fa fa-exclamation-triangle me-1" aria-hidden="true"></i><strong>Error!</strong>
+                {{ $message }}
+
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        @enderror
+        @error('email')
+            <div class="alert alert-warning alert-dismissible fade show position-relative bg-danger mx-2 col-sm-4 text-bg-danger"
+                role="alert">
+                <i class="fa fa-exclamation-triangle me-1" aria-hidden="true"></i><strong>Error!</strong>
+                {{ $message }}
+
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        @enderror
+        @error('employer_id')
+            <div class="alert alert-warning alert-dismissible fade show position-relative bg-danger mx-2 col-sm-4 text-bg-danger"
+                role="alert">
+                <i class="fa fa-exclamation-triangle me-1" aria-hidden="true"></i><strong>Error!</strong>
+                {{ $message }}
+
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        @enderror
+        @error('companyID')
+            <div class="alert alert-warning alert-dismissible fade show position-relative bg-danger mx-2 col-sm-4 text-bg-danger"
+                role="alert">
+                <i class="fa fa-exclamation-triangle me-1" aria-hidden="true"></i><strong>Error!</strong>
+                {{ $message }}
+
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        @enderror
+        @error('experience')
+            <div class="alert alert-warning alert-dismissible fade show position-relative bg-danger mx-2 col-sm-4 text-bg-danger"
+                role="alert">
+                <i class="fa fa-exclamation-triangle me-1" aria-hidden="true"></i><strong>Error!</strong>
+                {{ $message }}
+
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        @enderror
+        @error('type')
+            <div class="alert alert-warning alert-dismissible fade show position-relative bg-danger mx-2 col-sm-4 text-bg-danger"
+                role="alert">
+                <i class="fa fa-exclamation-triangle me-1" aria-hidden="true"></i><strong>Error!</strong>
+                {{ $message }}
+
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        @enderror
+        @error('company')
+            <div class="alert alert-warning alert-dismissible fade show position-relative bg-danger mx-2 col-sm-4 text-bg-danger"
+                role="alert">
+                <i class="fa fa-exclamation-triangle me-1" aria-hidden="true"></i><strong>Error!</strong>
+                {{ $message }}
+
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        @enderror
+
+    </div>
+
     <div class="container-fluid mt-5">
         <div class="row mb-2">
             <div class="col">
@@ -18,7 +162,7 @@
             <div class="p-5 col-6 mx-auto bgColor">
                 <h1 class="fw-bold h2 text-center mb-5">Create Listing</h1>
                 <!--FORM-->
-                <form action="{{ route('create-listing') }}" method="post" id="create-form">
+                <form action="{{ route('create-listing') }}" method="post" id="create-form" onsubmit="formSubmit()">
                     @csrf
                     {{-- hiddden fields --}}
                     <input type="text" name="employer_id" hidden value="{{ session('employer')->id }}">
@@ -38,11 +182,11 @@
                     <div class="mb-3">
                         <label class="fw-bold">Salary Range:</label>
                         <div class="d-flex justify-content-between gap-3">
-                            <input class="col inputDesign px-2 py-1" type="number" name="salary_min"
-                                placeholder="Min Salary" min="0" step="1000" value="{{ old('salary_min') }}">
+                            <input class="col inputDesign px-2 py-1" type="number" name="min_salary"
+                                placeholder="Min Salary" value="{{ old('min_salary') }}">
                             -
-                            <input class="col inputDesign px-2 py-1" type="number" name="salary_max"
-                                placeholder="Max Salary" min="0" step="1000" value="{{ old('salary_max') }}">
+                            <input class="col inputDesign px-2 py-1" type="number" name="max_salary"
+                                placeholder="Max Salary" value="{{ old('max_salary') }}">
                         </div>
 
                     </div>
@@ -75,11 +219,11 @@
                     <div class="col mb-3">
                         <label class="fw-bold">Preferred Age Range:</label>
                         <div class="d-flex justify-content-between gap-3">
-                            <input type="number" name="age_min" class="inputDesign" placeholder="Min Age" min="18"
-                                max="65" required>
+                            <input type="number" name="min_age" class="inputDesign" placeholder="Min Age"
+                                value="{{ old('min_age') }}">
                             -
-                            <input type="number" class="inputDesign" name="age_max" placeholder="Max Age" min="18"
-                                max="65" required>
+                            <input type="number" class="inputDesign" name="max_age" placeholder="Max Age"
+                                value="{{ old('max_age') }}">
                         </div>
                     </div>
 
@@ -132,6 +276,20 @@
                             <option value="executive">Executive</option>
                         </select>
                     </div>
+                    {{-- Skills Fields --}}
+                    <div class="mb-3">
+                        <label for="education" class="form-label">Skills</label>
+
+                        <div class="skill-tags-container" id="skillTagsContainer">
+                            <input hidden name="skills" value="Hello" id="skills">
+                            <select id="skillInput" class="form-control skill-input">
+                                <option selected>None</option>
+                                <option value="communication">Communication</option>
+                                <option value="programming">Programming</option>
+                                <option value="accounting">Accounting</option>
+                            </select>
+                        </div>
+                    </div>
                     <!--Min Requirements-->
 
                     <div class="">
@@ -171,12 +329,77 @@
                     </div>
                 </form>
 
-                <button class="btn" onclick="test()">Get All Task</button>
+                <button class="btn" onclick="retrieveAllSkills()">Get All Task</button>
             </div>
         </div>
     </div>
 @endsection
 @section('scripts')
+    <script>
+        const skillInput = document.getElementById('skillInput');
+        const skillTagsContainer = document.getElementById('skillTagsContainer');
+
+        // Array to store skills
+        const skills = [];
+
+        // Add a skill when user presses Enter or Comma
+        skillInput.addEventListener('keydown', function(event) {
+            if (event.key === 'Enter' || event.key === ',') {
+                event.preventDefault();
+                const skill = skillInput.value.trim();
+                if (skill && !skills.includes(skill)) {
+                    addSkill(skill);
+                }
+                skillInput.value = '';
+            }
+        });
+
+        // Function to add a skill
+        function addSkill(skill) {
+            skills.push(skill);
+
+            // Create a skill tag element
+            const skillTag = document.createElement('div');
+            skillTag.classList.add('skill-tag');
+            skillTag.innerHTML = `
+    ${skill}
+    <i class="bi bi-x-circle" onclick="removeSkill('${skill}')"></i>
+  `;
+
+            // Append skill tag to container
+            skillTagsContainer.insertBefore(skillTag, skillInput);
+        }
+
+        // Function to remove a skill
+        function removeSkill(skill) {
+            const index = skills.indexOf(skill);
+            if (index > -1) {
+                skills.splice(index, 1);
+            }
+
+            // Remove the skill tag from the DOM
+            const skillTags = document.querySelectorAll('.skill-tag');
+            skillTags.forEach(tag => {
+                if (tag.textContent.trim() === skill) {
+                    tag.remove();
+                }
+            });
+        }
+
+        function retrieveAllSkills() {
+            const skill_input = $('#skills');
+            console.log(skill_input.val());
+
+            skill_input.val(skills);
+            console.log(skill_input.val());
+
+        }
+
+        function formSubmit() {
+            const skill_input = $('#skills');
+            skill_input.val(skills);
+        }
+    </script>
     <script>
         const taskInput = document.getElementById('taskInput');
         const taskList = document.getElementById('taskList');

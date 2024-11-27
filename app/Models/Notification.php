@@ -13,6 +13,7 @@ class Notification extends Model
         'title',
         'body',
         'user_id',
-        'status'
+        'status',
+        'summary',
     ];
 }

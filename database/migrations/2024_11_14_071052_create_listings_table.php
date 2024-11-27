@@ -15,8 +15,10 @@ return new class extends Migration
             $table->id();
             $table->string('position');
             $table->string('location');
-            $table->string('salary');
-            $table->string("age");
+            $table->integer('min_salary');
+            $table->integer('max_salary');
+            $table->integer("min_age");
+            $table->integer("max_age");
             $table->string('education');
             $table->json('requirements')->nullable();
             $table->json('description')->nullable();
@@ -24,7 +26,7 @@ return new class extends Migration
             $table->string('email');
             $table->string('type');
             $table->string('experience');
-            $table->string('skills');
+            $table->json('skills');
             $table->string('arrangement');
             $table->string('hours')->nullable();
             $table->string('duration')->nullable();

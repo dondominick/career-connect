@@ -21,7 +21,6 @@
             align-items: center;
             background-color: white;
             border-radius: 120px 0 0 120px;
-            border: 2px solid black;
             padding-top: 20px;
             padding-bottom: 15px;
             padding-left: 5px;
@@ -130,7 +129,7 @@
         </div>
 
         <div class="right-side">
-            <div class="signup-form border border-black">
+            <div class="signup-form">
                 <div class="combined-oval">
                     <a href="{{ route('sign-up') }}" class="applicant-text text-unstyle">Applicant</a>
                     <a href="#" class="employee text-unstyle">Company</a>
@@ -143,11 +142,11 @@
 
                         <div class="d-flex">
                             <div>
-                                <div class="form-group w-full border">
+                                <div class="form-group w-full">
                                     <h4 class="h5">Basic Company Information</h4>
 
                                 </div>
-                                <div class="form-group w-100 border">
+                                <div class="form-group w-100">
                                     <label for="companyName">Company Name</label>
                                     <input type="text" name="companyName" class="form-control" id="companyName"
                                         placeholder="Company Name*" value="{{ old('companyName') }}" />
@@ -253,7 +252,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="border justify-content-end d-flex">
+                        <div class="justify-content-end d-flex">
                             <button class=" oval-button" type="button" onclick="displayPage2()">
                                 Next
                             </button>
@@ -331,6 +330,7 @@
                                             {{ $message }}
                                         </small>
                                     @enderror
+
                                 </div>
                                 <div class="form-group">
                                     <label for="password">Birthdate</label>

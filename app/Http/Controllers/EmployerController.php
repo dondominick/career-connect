@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\ListingController;
 use App\Models\Application;
 use Illuminate\Support\Facades\Auth;
+use PharIo\Manifest\ApplicationName;
 
 class EmployerController extends Controller
 {
@@ -34,5 +35,16 @@ class EmployerController extends Controller
     public function updateListing($id)
     {
         return view('dashboard.update-internship', ['internship' => Internship::where('id', $id)->get()->first()]);
+    }
+
+    public function viewRejectedApplicants($id)
+    {
+        return view('dashboard.rejected-applicants');
+    }
+
+    public function statusCheck(Request $request)
+    {
+        $applications = Application::where('status', 'accepted')->where('listing_id', $request['listing_id'])->where('type', $request['type'])->get();
+        return view('dashboard.accepted-applicants', ['applications' => $applications]);
     }
 }

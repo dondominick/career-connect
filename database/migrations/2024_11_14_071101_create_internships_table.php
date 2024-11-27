@@ -14,13 +14,15 @@ return new class extends Migration
         Schema::create('internships', function (Blueprint $table) {
             $table->id();
             $table->string('location');
-            $table->string('salary');
-            $table->string("age");
+            $table->integer('min_salary');
+            $table->integer('max_salary');
+            $table->integer("min_age");
+            $table->integer("max_age");
             $table->string('education');
             $table->json('requirements')->nullable();
             $table->json('description')->nullable();
             $table->string('company');
-            $table->string('skills');
+            $table->json('skills');
             $table->string('email');
             $table->string('arrangement');
             $table->string('duration');

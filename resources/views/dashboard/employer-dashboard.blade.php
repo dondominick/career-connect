@@ -1,5 +1,10 @@
 @extends('components.components.layout')
 @section('head')
+    <style>
+        #dashboard {
+            min-height: 100vh
+        }
+    </style>
 @endsection
 @section('content')
     @isset($sucessful)
@@ -11,7 +16,7 @@
             </div>
         </div>
     @enderror
-    <div class="d-flex  justify-content-between rounded mt-5">
+    <div class="d-flex  justify-content-between rounded my-5">
         <div class="mw-25 w-25 bg-white  rounded-end-5 px-4 py-3 mh-50">
 
             <a class="button hover:bg-slate-100 d-block" href="{{ route('profile') }}"><i
@@ -24,7 +29,7 @@
                 Internship</a>
 
         </div>
-        <div class="container mw-70 ms-5 px-4 py-3 bg-white rounded-start-4 border">
+        <div class="container mw-70 ms-5 px-4 py-3 bg-white rounded-start-4 border" id="dashboard">
 
             @isset($listings)
                 @foreach ($listings as $listing)
@@ -47,7 +52,7 @@
                                         <tr class="">
                                             <td scope="row">Salary</td>
                                             <td>
-                                                {{ $listing->salary }}
+                                                {{ $listing->min_salary }} - {{ $listing->max_salary }} /mo
                                             </td>
                                         </tr>
                                         <tr class="">
@@ -73,11 +78,11 @@
                                 <input type="text" hidden value="{{ $listing->id }}" name="id">
                             </form>
                             <a href="{{ route('update-listing', $listing->id) }}" class="btn bg-primary"><i
-                                    class="fa-sharp-duotone fa-solid fa-pen-to-square"></i></a>
+                                    class="fa-sharp-duotone fa-solid fa-pen-to-square"></i>Update</a>
                             <button type="button" onclick="document.getElementById('listing-{{ $listing->id }}').submit()"
                                 class="btn bg-danger"><i class="fa-sharp-duotone fa-solid fa-trash-can"></i></button>
                             <a href="{{ route('view-details', $listing->id) }}" class="btn bg-warning">
-                                <i class="fa-solid fa-info"></i></a>
+                                <i class="fa-solid fa-info"></i>bugger aids</a>
                         </div>
                     </div>
                 @endforeach

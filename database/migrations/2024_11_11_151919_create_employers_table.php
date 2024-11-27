@@ -21,7 +21,7 @@ return new class extends Migration
             $table->string('email');
             $table->string('birthdate');
             $table->string('gender');
-            $table->string('position');
+            $table->string('job_title');
             $table->string('contactNum');
 
 

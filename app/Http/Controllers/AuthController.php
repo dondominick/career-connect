@@ -23,7 +23,9 @@ class AuthController extends Controller
             'email' => ['required'],
             "password" => ['required']
         ]);
-        if (Auth::attempt($fields, $request->remember)) {
+
+        $remember = $request->has('remember');
+        if (Auth::attempt($fields, $remember)) {
             $request->session()->regenerate();
             session(["user" => Auth::user()]);
             if (Auth::user()->position == "applicant") {
@@ -56,7 +58,7 @@ class AuthController extends Controller
             }
 
 
-            return redirect()->route('profile');
+            return redirect()->intended('profile');
         } else {
             return back()->withErrors([
                 'failed' => 'The provided credentials does not match our record.'
@@ -96,7 +98,7 @@ class AuthController extends Controller
             'companyIndustry' => ['required'],
             "companyNum" => ['required'],
             "contactPerson" => ['required'],
-            "companyEmail" => ['required', 'unique:companies', 'email']
+            "companyEmail" => ['required', 'unique:companies', 'email', 'unique:users']
 
         ]);
         $user = $request->validate([
@@ -118,7 +120,7 @@ class AuthController extends Controller
         $comp = Company::create($company); // insert company info into the company table
         $users = User::create($user); // insert user info to the user table
         $employer_info = Employer::create([
-            "position" => $employer['position'],
+            "job_title" => $employer['position'],
             "fname" => $user['fname'],
             "lname" => $user['lname'],
             "email" => $company['companyEmail'],
@@ -148,6 +150,16 @@ class AuthController extends Controller
         return redirect('/');
     }
 
+    public function update(Request $request)
+    {
+        if ($request->has('profile')) {
+            dd('hi');
+            $this->updateProfile($request);
+        } elseif ($request->has('update-info')) {
+            dd('hello');
+        }
+    }
+
     public function updateProfile(Request $request)
     {
         $fields = $request->validate([
@@ -172,5 +184,5 @@ class AuthController extends Controller
         return redirect()->back()->withErrors(['failed' => 'Failed to upload profile picture']);
     }
 
-    public function update(Request $request) {}
+    public function forgotPassword(Request $request) {}
 }

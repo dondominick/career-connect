@@ -1,11 +1,23 @@
 @extends('components.components.layout')
 @section('head')
-    <link rel="stylesheet" href="{{ asset('css/home.css') }}">
 @endsection
-@section('content')
-    <a class="btn bg-white" href="{{ route('employer-dashboard') }}">Go Back</a>
 
-    <div class="col">
+@section('content')
+    <div class="d-flex flex-column align-items-end justify-content-end z-50 bottom-0 start-0 position-fixed w-100">
+
+        @if (session('success'))
+            <div class="alert alert-success alert-dismissible fade show position-relative mx-2 col-sm-4" role="alert">
+                <i class="fa fa-check-circle" aria-hidden="true"></i>
+                <strong>Success!</strong>
+                {{ session('success') }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        @endif
+
+    </div>
+    <a class="my-4 btn bg-white" href="{{ route('employer-dashboard') }}">Go Back</a>
+
+    <div class="col mx-4">
         <div class="row bg-white rounded p-2 my-2 mx-auto mw-75">
             <h3>Listing Details</h3>
             <table class="table">
@@ -30,7 +42,7 @@
         <div class="row bg-white rounded p-2 my-2 mx-auto mw-75 d-flex">
             <div class="col">
                 <h4>Amount of Application:</h4>
-                <p>10</p>
+                <p>{{ $applications->count() }}</p>
             </div>
             <div class="col align-items-center d-flex justify-content-end gap-2">
                 <button class="btn bg-warning ">
@@ -57,32 +69,31 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @isset($applicants)
-                            @foreach ($applicants as $applicant)
-                                <tr>
-                                    <td>{{ $applicant->id }}</td>
-                                    <td>{{ $applicant->fname }}</td>
-                                    <td>{{ $applicant->lname }}</td>
-                                    <td>{{ $applicant->email }}</td>
-                                    <td>
-                                        <button class="btn">
+                        @foreach ($applications as $applicant)
+                            <tr>
+                                <td>{{ $applicant->id }}</td>
+                                <td>{{ $applicant->fname }}</td>
+                                <td>{{ $applicant->lname }}</td>
+                                <td>{{ $applicant->email }}</td>
+                                <td>
+                                    <button class="btn">
 
-                                        </button>
-                                    </td>
-                                    <td>
-                                        <button class="btn"></button>
-                                    </td>
-                                    <td>
-                                        <button class="btn"></button>
-                                    </td>
-                                </tr>
-                            @endforeach
+                                    </button>
+                                </td>
+                                <td>
+                                    <button class="btn"></button>
+                                </td>
+                                <td>
+                                    <button class="btn"></button>
+                                </td>
                             </tr>
-                            <!-- Add more rows as needed -->
-                        </tbody>
-                    </table>
-                </div>
-            @endisset
+                        @endforeach
+                        </tr>
+                        <!-- Add more rows as needed -->
+                    </tbody>
+                </table>
+            </div>
+
 
             @empty($applicants)
                 <h4>No applicants have applied to your listing</h4>
@@ -90,6 +101,8 @@
         </div>
     </div>
 @endsection
+
+
 
 @section('scripts')
     <script>

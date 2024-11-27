@@ -24,7 +24,7 @@ class CompanyController extends Controller
             'gender' => ['required'],
             'email' => ['required', 'unique:users'],
             'contactNum' => ['required'],
-            'position' => ['required'],
+            'job_title' => ['required'],
             'salary' => ['required'],
             'password' => ['required', 'confirmed', 'min:3'],
             'company' => ['required'],

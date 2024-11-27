@@ -20,24 +20,23 @@
 
                 <br>
                 <div class="search-container">
-                    <div class="input-wrapper">
-                        <form action="{{ route('search', 'search') }}" class="input-group" method="get" id="job-form">
+                    <form class="input-wrapper" action="{{ route('search', 'search') }}" class="input-group" method="get"
+                        id="job-form">
+                        <div class="input-group">
                             @csrf
 
                             <!-- PARA MUGANA ANG SEARCH BARS BAI BUTNGAN ATA NI SYA UG FORM PARA MAKASEARCH I THINK?? -->
                             <label for="job">What?</label>
-                            <input type="text" id="job" placeholder="Enter Job Title or Keywords" name="search"
+                            <input type="text" id="job" placeholder="Enter Job Title or Keywords" name="job"
                                 class="input-field">
-                        </form>
+                        </div>
 
-                        <form action="{{ route('searchLocation', 'location') }}" class="input-group" method="get"
-                            id="location-form">
-                            @csrf
+                        <div class="input-group">
                             <label for="location">Where?</label>
                             <input type="text" id="location" placeholder="Enter city, or region" class="input-field"
                                 name="location">
-                        </form>
-                    </div>
+                        </div>
+                    </form>
 
                     <button
                         onclick="document.getElementById('job-form').submit().onsubmit(function () {
@@ -60,7 +59,7 @@
         </div>
     </section>
 
-    <section class="joblist bg-white align-items-center d-flex">
+    <section class="joblist bg-white align-items-center d-flex p-5">
         <div class="container">
             <div class="joblist-section">
                 <h2>Recommended Job Listings</h2>
@@ -96,7 +95,9 @@
                                                     <p class="card-text">{{ $listing->location }} City {{ $listing->salary }}
                                                         per
                                                         month </p>
-                                                    <button class="btn btn-view-details">View Details</button>
+                                                    <button
+                                                        onclick="window.location.href = '{{ route('view-listing', $listing->id) }}'"
+                                                        class="btn btn-view-details">View Details</button>
                                                 </div>
                                             </div>
                                         </div>
@@ -123,7 +124,9 @@
                                                 <h4 class="card-title">{{ $listing->position }}</h4>
                                                 <p class="card-text">{{ $listing->companyName }}</p>
                                                 <p class="card-text">{{ json_decode($listing->description)[0] }}</p>
-                                                <button class="btn btn-view-details">View Details</button>
+                                                <button
+                                                    onclick="window.location.href = '{{ route('view-listing', $listing->id) }}'"
+                                                    class="btn btn-view-details">View Details</button>
                                             </div>
                                         </div>
                                     </div>
@@ -276,22 +279,37 @@
     <section class="activityfeed align-items-center d-flex">
         <div class="container" id="activityfeed">
             <div class="activityfeed-section">
-                <h2>Activity Feed</h2>
-                <p>Stay updated with your latest job applications and notifications, all in one place!</p>
+                <h2 style="color: white; padding: 20px; margin-left: -2%;">Activity Feed</h2>
+                <p style="color: white">Stay updated with your latest job applications and notifications, all in one place!
+                </p>
 
                 <div class="row">
                     <!-- Accepted Application -->
-                    @isset($notification)
+                    @isset($notifications)
                         @foreach ($notifications as $notif)
                             <div class="col-md-4 mb-4">
                                 <div class="card">
-                                    <div class="card-icon bg-success">
-                                        <i class="fa fa-check"></i>
-                                    </div>
+                                    @if ($notif->status == 'delete-listing')
+                                        <div class="card-icon bg-dark">
+                                            <i class="fa fa-ban"></i>
+                                        </div>
+                                    @endif
+                                    @if ($notif->status == 'new-application')
+                                        <div class="card-icon bg-primary">
+                                            <i class="fa fa-briefcase"></i>
+                                        </div>
+                                    @endif
+                                    @if ($notif->status == 'successful')
+                                        <div class="card-icon bg-success">
+                                            <i class="fa fa-check"></i>
+                                        </div>
+                                    @endif
                                     <div class="card-body">
-                                        <p>Your application for [Job Title] at [Company Name] has been accepted.</p>
-                                        <small class="text-muted">2 hours ago</small>
-                                        <button class="btn btn-outline-primary btn-sm mt-2">View Details</button>
+                                        <p>{{ $notif->title }}</p>
+                                        <small class="text-muted">3 hours ago</small>
+                                        <button class="btn btn-outline-primary btn-sm mt-2"
+                                            onclick="window.location.href = '{{ route('notification') }}'">View
+                                            Details</button>
                                     </div>
                                 </div>
                             </div>
@@ -386,4 +404,8 @@
             </div>
 
         </div>
+    @endsection
+
+    @section('scripts')
+        <script src="{{ asset('js/home.js') }}"></script>
     @endsection
