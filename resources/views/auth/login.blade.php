@@ -89,14 +89,11 @@
             </blockquote>
         </div>
 
-        <form class="p-4 d-block bg-white" action="{{ route('login') }}" method="post" id="right-side">
+        <form class="p-5 d-block bg-white" action="{{ route('login') }}" method="post" id="right-side">
             @csrf
-            <div class="combined-oval">
-                <a class="applicant-text" href="#">Applicant</a>
-                <a class="employee" href="{{ route('employee-login') }}">Employee</a>
-            </div>
+
             <div class="container">
-                <h2 class="text-center mb-4">Login as an Applicant</h2>
+                <h2 class="text-center mb-4">Login to Career Connect</h2>
                 <div class="form-group">
                     <label for="username">Username</label>
                     <input type="text" class="form-control" id="email" name="email"

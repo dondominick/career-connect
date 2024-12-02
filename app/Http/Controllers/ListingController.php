@@ -72,10 +72,10 @@ class ListingController extends Controller
             'email' => ['required'],
             'education' => ['required']
         ]);
-
         $listing = Listing::where('id', $request['id'])->first();
         $listing->position = $fields['position'];
         $listing->salary = $fields['salary'];
+        $listing->status = $request['status'];
         $listing->location = $fields['location'];
         $listing->email = $fields['email'];
         $listing->education = $fields['education'];
@@ -143,7 +143,6 @@ class ListingController extends Controller
     {
         // FROM HOME PAGE
         if ($request['job'] != "" && $request['location'] != "") {
-            dd('condition 1');
             return view('pages.listing', ['listings' => Listing::where('position', 'like', $request['job'] . '%')->where('location', 'like', $request['location'] . "%")->get()]);
         } elseif ($request['job']) {
             return view('pages.listing', ['listings' => Listing::where('position', 'like', $request['job'] . '%')->get()]);

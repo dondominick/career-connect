@@ -1,6 +1,11 @@
 @extends('components.components.layout')
 @section('head')
     <link rel="stylesheet" href="{{ asset('css/home.css') }}">
+    <style>
+        .modal-dialog {
+            max-width: 900px !important;
+        }
+    </style>
 @endsection
 @section('content')
     <div class="d-flex flex-column align-items-end justify-content-end z-50 bottom-0 start-0 position-fixed w-100">
@@ -21,7 +26,7 @@
         @csrf
         <input type="text" name="listing_id" hidden id="listing_id" value="{{ $listing->id }}">
         <input type="text" name="status" hidden id="status" value="">
-        <input type="text" name="type" hidden id="type" value="listing">
+        <input type="text" name="type" hidden id="type" value="listings">
     </form>
     <div class="col">
         <div class="row bg-white rounded p-2 my-2 mx-auto mw-75">
@@ -37,7 +42,7 @@
                 </tr>
                 <tr>
                     <td>Salary</td>
-                    <td>{{ $listing->salary }}</td>
+                    <td>${{ $listing->min_salary }}/mo - ${{ $listing->max_salary }} /mo</td>
                 </tr>
                 <tr>
                     <td>Location</td>
@@ -125,21 +130,107 @@
         <input type="text" hidden name="{{ $listing->id }}" name="listing_id">
 
         <input type="text" hidden name="applicant_id" id="applicant-id">
-        <input type="text" hidden name="status" id="status">
+        <input type="text" hidden name="status" id="status_ap">
 
     </form>
 
 
     {{-- Modal --}}
-    <div class="modal modal-dialog-scrollable" id="dynamicModal" tabindex="-1" aria-labelledby="dynamicModalLabel"
-        aria-hidden="true">
+    <div class="modal fade" id="dynamicModal" tabindex="-1" aria-labelledby="dynamicModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="dynamicModalLabel"></h5>
+                    <h5 class="modal-title" id="dynamicModalLabel">Applicant Resume</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <div class="modal-body mw-100 container overflow-scroll" id="modalBodyContent"></div>
+                <div class="modal-body mw-100 container" id="modalBodyContent">
+                    <p class="h4">Personal Info</p>
+                    <p id="name" class="fw-bold fs-2 m-0">Don Dominick Enargan</p>
+                    <small id="email">smaple@email.com</small> | <small id="number">09916216576</small>
+                    <p id="address">P-6, Bantacan, New Bataan</p>
+
+                    <hr>
+                    <p class="h4">Summary</p>
+                    <p class="" id="summary">
+                        Detail-oriented Software Developer with 3+ years of experience in designing and developing scalable
+                        web
+                        applications. Proficient in JavaScript, React, Node.js, and SQL. Successfully led a team to build a
+                        customer portal that increased user engagement by 30%. Passionate about creating efficient and
+                        user-friendly software solutions. Seeking to leverage full-stack development expertise at [Company
+                        Name].
+                    </p>
+
+                    <hr>
+                    <p class="h4">Work Experience</p>
+                    <ul id="work-experience">
+                        <li>
+                            <span class="fw-bold fs-3"> Software Developer</span> <br>
+                            <span class="fst-italic"> XYZ Tech Solutions – San Francisco, CA</span>
+                            <br>
+                            <span class="fst-italic">
+                                Jan 2021 – Present
+                            </span> <br>
+                            <p>
+                                Developed and maintained 5+ full-stack web applications using React, Node.js, and MongoDB,
+                                resulting in
+                                a 25% increase in client engagement.
+                                Led a team of 3 developers to redesign a legacy system, reducing page load times by 40%.
+                                Implemented an automated testing framework, improving code quality and reducing bug reports
+                                by
+                                15%.
+                            </p>
+
+                        </li>
+                    </ul>
+
+                    <hr>
+                    <p class="h4">Education</p>
+                    <ul>
+                        <li>
+                            <span class="fw-bold fs-4"> Bachelor of Science - Computer Science</span> <br>
+                            <span class="fst-italic"> XYZ Tech Solutions – San Francisco, CA</span>
+                            <br>
+                            <span class="fst-italic">
+                                May 2023
+                            </span> <br>
+
+
+                        </li>
+                    </ul>
+                    <hr>
+                    <p class="h4">Key Skills</p>
+                    <ul>
+                        <li>Programming</li>
+                    </ul>
+                    <hr>
+                    <p class="h4">Reference</p>
+                    <ul class="list-unstyled d-flex gap-3">
+                        <li class="list-inline-item">
+                            John Doe <br>
+                            Senior Software Engineer <br>
+                            XYZ Tech Solutions <br>
+                            Phone: (555) 123-4567 <br>
+                            Email: johndoe@example.com <br>
+                            Former Manager at XYZ Tech Solutions <br>
+                        </li>
+                        <li class="list-inline-item">
+                            John Doe <br>
+                            Senior Software Engineer <br>
+                            XYZ Tech Solutions <br>
+                            Phone: (555) 123-4567 <br>
+                            Email: johndoe@example.com <br>
+                            Former Manager at XYZ Tech Solutions <br>
+                        </li>
+                        <li class="list-inline-item">
+                            John Doe <br>
+                            Senior Software Engineer <br>
+                            XYZ Tech Solutions <br>
+                            Phone: (555) 123-4567 <br>
+                            Email: johndoe@example.com <br>
+                            Former Manager at XYZ Tech Solutions <br>
+                        </li>
+                    </ul>
+                </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                 </div>
@@ -155,12 +246,18 @@
         const input_id = document.querySelector('#applicant-id');
 
         function updateApplication(id, status) {
-            console.log('working')
+            const form = document.getElementById('application-form');
+            const input_status = document.querySelector('#status_ap');
+            const input_id = document.querySelector('#applicant-id');
+
 
             input_status.value = status;
             input_id.value = id;
 
+            console.log(input_status.value)
+
             form.submit();
+
         }
     </script>
 
@@ -180,16 +277,6 @@
             const modalTitle = dynamicModal.querySelector('.modal-title');
             const modalBody = dynamicModal.querySelector('.modal-body');
 
-            // const new_content = "" +
-            //     "" +
-            //     "" +
-            //     "" +
-            //     "" +
-            //     "" +
-
-            // ;
-            modalTitle.textContent = title;
-            modalBody.innerHTML = content;
 
             // Optional: Update confirm button action based on content
             const confirmButton = document.getElementById('confirmButton');
@@ -204,6 +291,10 @@
         });
 
         function checkStatus(val) {
+            const form = document.getElementById('application-form');
+            const input_status = document.querySelector('#status');
+            const input_id = document.querySelector('#applicant-id');
+
             const viewStatus = $('#view-status');
             const status = $('#status');
 

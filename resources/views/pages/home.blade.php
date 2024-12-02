@@ -294,6 +294,11 @@
                                             <i class="fa fa-ban"></i>
                                         </div>
                                     @endif
+                                    @if ($notif->status == 'rejected')
+                                        <div class="card-icon bg-dark">
+                                            <i class="fa fa-ban"></i>
+                                        </div>
+                                    @endif
                                     @if ($notif->status == 'new-application')
                                         <div class="card-icon bg-primary">
                                             <i class="fa fa-briefcase"></i>

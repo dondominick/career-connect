@@ -1,15 +1,15 @@
-*{
+* {
     padding: 0px;
     margin: 0px;
 }
-body{
-    background: linear-gradient(to right, #372FAA, #BBE8FB);
-    background-size: cover; 
+body {
+    background: linear-gradient(to right, #372faa, #bbe8fb);
+    background-size: cover;
     background-position: center;
     background-repeat: repeat;
 }
 .navbar-brand span {
-    color: #007bff; 
+    color: #007bff;
     font-weight: bold;
 }
 .nav-link {
@@ -20,16 +20,12 @@ body{
     color: black;
 }
 .navbar .btn-signup {
-    border-left: 1px solid #ccc;
     padding-left: 15px;
     font-weight: bold;
     color: black;
 }
-.navbar{
+.navbar {
     background-color: white;
-}
-main{
-    margin-top: 70px;
 }
 
 .companyLogo {
@@ -40,41 +36,41 @@ main{
     border: 3px solid white;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
-.addEmployerbtn{
+.addEmployerbtn {
     width: 200px;
 }
 
-.searchbar{
+.searchbar {
     width: 100%;
     border: none;
     outline: none;
 }
-.table thead tr th{
+.table thead tr th {
     background: none;
     border-bottom: solid 2px grey;
 }
-.table .btn{
+.table .btn {
     width: 60px;
 }
-.tRowHead{
+.tRowHead {
     display: table;
     width: 100%;
 }
-.tRow{
+.tRow {
     display: table;
     width: 100%;
-    border: solid 2px grey;
     margin-bottom: 10px;
     box-shadow: -5px 5px 10px rgba(0, 0, 0, 0.1); /* Shadow effect */
+    border-radius: 12px;
 }
-.viewList{
+.viewList {
     font-weight: bold;
 }
-.editTbox{
+.editTbox {
     border: none;
     padding: 0px;
 }
-.editTbox:focus{
+.editTbox:focus {
     outline: none;
     box-shadow: none;
 }

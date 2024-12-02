@@ -1,5 +1,10 @@
 @extends('components.components.layout')
 @section('head')
+    <style>
+        .modal-dialog {
+            max-width: 700px !important;
+        }
+    </style>
 @endsection
 
 @section('content')
@@ -100,6 +105,26 @@
             @endempty
         </div>
     </div>
+
+    {{-- FOR CHECKING WHICH APPLICANT IS ACCEPTED OR REJECTED --}}
+    <form action="{{ route('statusCheck') }}" hidden id="view-status" method="post">
+        @csrf
+        <input type="text" name="listing_id" hidden id="listing_id" value="{{ $listing->id }}">
+        <input type="text" name="status" hidden id="status" value="">
+        <input type="text" name="type" hidden id="type" value="listings">
+    </form>
+
+    {{-- ACCEPTING APPLICANTS / REFUSING APPLICANTS --}}
+    <form action="{{ route('view-details', $listing->id) }}" method="post" hidden id="application-form">
+        @csrf
+        @method('patch')
+        <input type="text" hidden name="type" value="listings">
+        <input type="text" hidden name="{{ $listing->id }}" name="listing_id">
+
+        <input type="text" hidden name="applicant_id" id="applicant-id">
+        <input type="text" hidden name="status" id="status_ap">
+
+    </form>
 @endsection
 
 

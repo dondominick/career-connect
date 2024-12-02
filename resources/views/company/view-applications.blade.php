@@ -1,4 +1,15 @@
 @extends('components.components.layout')
+
+@section('head')
+    <style>
+        main {
+            margin: 35px 0;
+            min-height: 100vh;
+        }
+
+        #content {}
+    </style>
+@endsection
 @section('content')
     <div class="w-50 m-2 rounded-4 px-5 py-2 rounded- bg-white align-items-center d-flex">
         <button class="btn button rounded-5" onclick="window.location.href='{{ route('company-dashboard') }}'">
@@ -12,8 +23,8 @@
         </div>
 
     </div>
-    <div class="p-3 row">
-        <div class="container">
+    <div class="p-3 col" id="content">
+        <div class="container bg-white rounded-4">
             <table class="table">
                 <thead>
                     <tr>
@@ -29,11 +40,15 @@
                 <tbody>
                     @foreach ($applications as $application)
                         <tr>
-                            <th scope="row">1</th>
-                            <td>Mark</td>
-                            <td>Otto</td>
-                            <td>@mdo</td>
-                            <td class="w-25"></td>
+                            <th scope="row">{{ $application->id }}</th>
+                            <td>{{ $application->listing_id }}</td>
+                            <td>{{ $application->applicant_id }}</td>
+                            <td>{{ json_decode($application->resume)->name }}</td>
+                            <td class="w-25">
+                                <button class="bg-primary btn">
+                                    View Resume
+                                </button>
+                            </td>
                         </tr>
                     @endforeach
 
@@ -42,7 +57,7 @@
                 </tbody>
             </table>
             @empty($applications->id)
-                <div class="fluid-container bg-white py-3 text-center fs-2">
+                <div class="fluid-container bg-white py-3 text-center fs-2 text-secondary">
                     No Applications Found
                 </div>
             @endempty

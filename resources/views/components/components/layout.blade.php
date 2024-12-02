@@ -16,7 +16,12 @@
         integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
-
+    <style>
+        main {
+            min-height: 100vh;
+            width: 100%;
+        }
+    </style>
     @yield('head')
     @vite(['resources/css/app.scss', 'resources/js/app.js'])
 </head>
@@ -83,7 +88,7 @@
     </nav>
 
 
-    <main class="mw-100">
+    <main class="">
         @yield('content')
     </main>
 

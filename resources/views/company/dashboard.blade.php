@@ -4,10 +4,10 @@
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 @endsection
 @section('content')
-    <div class="container-fluid mt-4">
+    <div class="container-fluid my-4">
         <div class="row">
             <!-- Left Column -->
-            <div class="col-2 border border-primary pt-2 bg-white gap-2 d-flex flex-column">
+            <div class="col-2 border border-primary pt-2 bg-white gap-2 d-flex flex-column rounded-end-3">
 
                 <div class="ps-4 pb-3 d-flex flex-column align-items-end">
 
@@ -66,7 +66,7 @@
 
             <!-- Right Column (Dashboard) -->
             <div class="col-10">
-                <div class="border border-primary p-2 d-flex justify-content-between align-items-center bg-white">
+                <div class=" p-2 d-flex justify-content-between align-items-center bg-white rounded-3">
                     <h4 class="ps-3">Company Dashboard</h4>
 
                     <form class="d-flex me-2">
@@ -75,7 +75,7 @@
                     </form>
                 </div>
                 <!-- Right Column (Cards) -->
-                <div class="border border-primary mt-2 bg-white">
+                <div class="p-2 mt-2 bg-white rounded-3">
                     <div class="row mt-2 ">
                         <div class="d-flex justify-content-between align-items-center ps-4">
                             <div>
@@ -184,5 +184,10 @@
                 </div>
             </div>
         </div>
+    </div>
+    <div class="d-flex flex-col">
+        @if (session('employers'))
+            {{ $message }}
+        @endif
     </div>
 @endsection

@@ -20,7 +20,7 @@
         @endif
 
     </div>
-    <a class="btn bg-white" href="{{ route('employer-dashboard') }}">Go Back</a>
+    <a class="btn bg-white" href="{{ url()->previous() }}">Go Back</a>
 
     <div class="bg-white rounded p-3 my-2 mx-5 mw-75" id="displayBox">
         <h1>Accepted Applicants</h1>

@@ -1,7 +1,14 @@
 @extends('components.components.layout')
 @section('head')
     <style>
+        :root {
+            --bs-modal-width: 1000px;
 
+        }
+
+        .modal-dialog {
+            max-width: 700px !important;
+        }
     </style>
 @endsection
 @section('content')
@@ -232,10 +239,16 @@
 
         </fieldset>
         <button type="button" class="my-2 p-2 bg-white border button text-base bold text-black" data-bs-toggle="modal"
-            data-bs-target="#updateInfoModal">
+            data-bs-target="#updateInfoModal" onclick="updateInfo({{ auth()->user() }})">
             Edit Profie Information
         </button>
+        <button type="button" class="my-2 p-2 bg-white border button text-base bold text-black" data-bs-toggle="modal"
+            data-bs-target="#updatePassword" onclick="updateInfo({{ auth()->user() }})">
+            Change Password
+        </button>
     </div>
+
+    {{-- UPDATE PROFILE MODAL  --}}
     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -247,7 +260,10 @@
                     enctype="multipart/form-data">
                     @csrf
                     @method('patch')
-                    <input type="file" class="form-control" name="profile" id="profile">
+                    <input type="text" class="form-control" name="profile" id="profile" value="update-profile"
+                        hidden>
+
+                    <input type="file" class="form-control" name="profile">
                 </form>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -258,25 +274,122 @@
         </div>
     </div>
 
+
+    {{-- UPDATE INFO MODAL --}}
     <div class="fade modal" id="updateInfoModal" tabindex="-1" aria-labelledby="updateInfoModal" aria-hidden="true">
-        <div class="modal-dialog w-100 bg-white">
-            <div class="modal-content">
+        <div class="modal-dialog bg-white">
+            <div class="modal-content w-100">
                 <div class="modal-header">
                     <h1 class="modal-title fs-5" id="exampleModalLabel">Edit Profile Info</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <form class="modal-body" method="POST" action="{{ route('profile') }}" id="form-profile"
+                <form class="modal-body" method="POST" action="{{ route('profile') }}" id="form-info"
                     enctype="multipart/form-data">
                     @csrf
                     @method('patch')
-                    <input type="file" class="form-control" name="profile" id="profile">
+                    <input type="text" hidden name="update-info" value="profile-info">
+                    <div class="mb-3">
+                        <label for="" class="form-label">First Name</label>
+                        <input type="text" class="form-control" name="fname" id="fname"
+                            aria-describedby="helpId" placeholder="" />
+                        @error('fname')
+                            <small id="helpId" class="form-text text-muted">{{ $message }}</small>
+                        @enderror
+                    </div>
+                    <div class="mb-3">
+                        <label for="" class="form-label">Last Name</label>
+                        <input type="text" class="form-control" name="lname" id="lname"
+                            aria-describedby="helpId" placeholder="" />
+                        @error('lname')
+                            <small id="helpId" class="form-text text-muted">{{ $message }}</small>
+                        @enderror
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="" class="form-label">Birthdate</label>
+                        <input type="date" class="form-control" name="birthdate" id="birthdate"
+                            aria-describedby="helpId" placeholder="" />
+                        @error('birthdate')
+                            <small id="helpId" class="form-text text-muted">{{ $message }}</small>
+                        @enderror
+                    </div>
+
                 </form>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                     <button type="button" class="btn btn-primary"
-                        onclick="document.getElementById('form-profile').submit()">Save changes</button>
+                        onclick="document.getElementById('form-info').submit()">Save changes</button>
                 </div>
             </div>
         </div>
     </div>
+
+
+    <!-- Update Password Modal -->
+    <div class="modal fade" id="updatePassword" tabindex="-1" role="dialog" aria-labelledby="modelTitleId"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Update</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+
+                </div>
+                <form class="modal-body" action="{{ route('profile') }}" method="post" id="passwordForm">
+                    @csrf
+                    @method('patch')
+                    <input type="text" hidden name="update-password" value="true">
+                    <div class="mb-3">
+                        <label for="" class="form-label">Current Password</label>
+                        <input type="text" class="form-control" name="current" id=""
+                            aria-describedby="helpId" placeholder="" value="{{ old('current') }}" />
+                        @error('current')
+                            <small id="helpId" class="form-text text-danger text-muted">Help text</small>
+                        @enderror
+                    </div>
+                    <div class="mb-3">
+                        <label for="" class="form-label">New Password</label>
+                        <input type="text" class="form-control" name="password" id=""
+                            aria-describedby="helpId" placeholder="" />
+                        @error('password')
+                            <small id="helpId" class="form-text text-danger text-muted">Help text</small>
+                        @enderror
+                    </div>
+                    <div class="mb-3">
+                        <label for="" class="form-label">Confirm New Password</label>
+                        <input type="text" class="form-control" name="password_confirmation" id=""
+                            aria-describedby="helpId" placeholder="" />
+                        @error('password_confirmation')
+                            <small id="helpId" class="form-text text-danger text-muted">Help text</small>
+                        @enderror
+                    </div>
+
+                </form>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary"
+                        onclick="document.getElementById('passwordForm').submit()">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+@endsection
+
+
+@section('scripts')
+    <script>
+        function updateInfo(obj) {
+            const fname = $('#fname');
+            const lname = $('#lname');
+            const email = $('#email');
+            const bday = $('#birthdate');
+
+            console.log(obj);
+            fname.val(obj.fname);
+            lname.val(obj.lname);
+            email.val(obj.email);
+            bday.val(obj.birthdate);
+
+        }
+    </script>
 @endsection

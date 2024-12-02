@@ -102,17 +102,6 @@ class InternshipController extends Controller
 
     public function searchListingbyKey(Request $request)
     {
-        // FROM HOME PAGE
-        if ($request['job'] != "" && $request['location'] != "") {
-            dd('condition 1');
-            return view('ppages.internships', ['listings' => Internship::where('position', 'like', $request['job'] . '%')->where('location', 'like', $request['location'] . "%")->get()]);
-        } elseif ($request['job']) {
-            return view('pages.internships', ['listings' => Internship::where('position', 'like', $request['job'] . '%')->get()]);
-        } elseif ($request['location']) {
-            return view('pages.internships', ['listings' => Internship::where("location", 'like', $request['location'] . '%')->get()]);
-        }
-
-        // FROM LISTING PAGE
 
         // SORT LISTING BY DATE & MOST PICKED JOBS
         if ($request['key'] == "latest") {

@@ -30,7 +30,6 @@
 
         </div>
         <div class="container mw-70 ms-5 px-4 py-3 bg-white rounded-start-4 border" id="dashboard">
-
             @isset($listings)
                 @foreach ($listings as $listing)
                     <div class="p-2 border-bottom border-3">
@@ -82,7 +81,7 @@
                             <button type="button" onclick="document.getElementById('listing-{{ $listing->id }}').submit()"
                                 class="btn bg-danger"><i class="fa-sharp-duotone fa-solid fa-trash-can"></i></button>
                             <a href="{{ route('view-details', $listing->id) }}" class="btn bg-warning">
-                                <i class="fa-solid fa-info"></i>bugger aids</a>
+                                <i class="fa-solid fa-info"></i></a>
                         </div>
                     </div>
                 @endforeach

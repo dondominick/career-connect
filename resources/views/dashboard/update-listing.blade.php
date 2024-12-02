@@ -139,6 +139,7 @@
                              <label for="education" class="form-label">Skills</label>
 
                              <div class="skill-tags-container" id="skillTagsContainer">
+
                                  <input hidden name="skills" value="Hello" id="skills">
                                  <select id="skillInput" class="form-control skill-input">
                                      <option selected>None</option>
@@ -210,12 +211,18 @@
 
                  </div>
              </div>
+             <script></script>
          </div>
      </div>
  @endsection
 
  @section('scripts')
      <script>
+         function test() {
+             console.log('Hello World');
+         }
+         test();
+
          const skillInput = document.getElementById('skillInput');
          const skillTagsContainer = document.getElementById('skillTagsContainer');
 

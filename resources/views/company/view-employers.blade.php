@@ -1,17 +1,26 @@
 @extends('components.components.layout')
 @section('head')
     <link rel="stylesheet" href="{{ asset('css/compEmployers.css') }}">
+    <style>
+        #content {
+            min-height: 100vh;
+        }
+
+        main {
+            margin-top: 0;
+
+        }
+    </style>
 @endsection
 
 
 @section('content')
-    <a class="button hover:bg-slate-100 text-black w-50 mx-auto" href="{{ route('company-dashboard') }}"><i
-            class="fa-solid fa-arrow-left mx-auto"></i>
-        Go
-        Back</a>
-
-    <div class="container pt-5">
-        <div class="row">
+    <div class=" pt-5 bg-white px-3" id="content">
+        <a class="button hover:bg-slate-100 text-black w-50 mx-auto" href="{{ route('company-dashboard') }}"><i
+                class="fa-solid fa-arrow-left mx-auto"></i>
+            Go
+            Back</a>
+        <div class="">
             <div class="col g-0">
                 <div class="d-flex flex-row justify-content-center justify-content-sm-start w-100">
                     <div class="d-flex">
@@ -29,7 +38,7 @@
             </div>
         </div>
 
-        <div class="row mt-5">
+        <div class="my-5">
             <div class="w-100 border-bottom border-2 border-secondary py-2 mb-4 g-0 text-center">
                 <strong>List of Employers</strong>
             </div>
@@ -56,7 +65,7 @@
             <div class="mt-5 g-0 table-responsive">
                 <table class="table table-hover">
                     <thead>
-                        <tr class="tRowHead mb-3">
+                        <tr class="tRowHead mb-3 rounded-3">
                             <th class="col-1" scope="col">Employer ID</th>
                             <th class="col-3 col-sm-3" scope="col">Name</th>
                             <th class="col-2" scope="col">Salary</th>
@@ -68,13 +77,13 @@
                     </thead>
                     <tbody>
                         @foreach ($employers as $employer)
-                            <tr class="tRow border">
-                                <td class="col-1 border" scope="row">{{ $employer->id }}</td>
-                                <td class="col-3 col-sm-3 border">{{ $employer->fname }} {{ $employer->lname }}</td>
-                                <td class="col-2 border">$12</td>
-                                <td class="col-2 border">{{ $employer->position }}</td>
-                                <td class="col-2 border">{{ date_format($employer->created_at, 'd/m/Y') }}</td>
-                                <td class="col-2 border">
+                            <tr class="tRow rounded-4 border-bottom-1">
+                                <td class="col-1" scope="row">{{ $employer->id }}</td>
+                                <td class="col-3">{{ $employer->fname }} {{ $employer->lname }}</td>
+                                <td class="col-2">$12</td>
+                                <td class="col-2">{{ $employer->position }}</td>
+                                <td class="col-2">{{ date_format($employer->created_at, 'd/m/Y') }}</td>
+                                <td class="col-2">
                                     <button type="button" class="btn btn-success mb-1 mb-sm-0" data-bs-toggle="modal"
                                         data-bs-target="#viewModal">
                                         View
@@ -229,4 +238,15 @@
     </div>
 
     <!-- Modal End -->
+@endsection
+
+
+@section('scripts')
+    <script>
+        function updateModal(obj) {
+
+        }
+
+        function viewModal(obj) {}
+    </script>
 @endsection

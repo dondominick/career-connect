@@ -44,7 +44,12 @@ class EmployerController extends Controller
 
     public function statusCheck(Request $request)
     {
-        $applications = Application::where('status', 'accepted')->where('listing_id', $request['listing_id'])->where('type', $request['type'])->get();
-        return view('dashboard.accepted-applicants', ['applications' => $applications]);
+        $applications = Application::where('status', $request->status)->where('listing_id', $request['listing_id'])->where('type', $request['type'])->get();
+        if ($request->status == "accepted") {
+            return view('dashboard.accepted-applicants', ['applications' => $applications]);
+        } elseif ($request->status == "rejected") {
+            return view('dashboard.rejected-applicants', ['applications' => $applications]);
+        }
+        return back()->withErrors(['errors' => "Something went wrong!"]);
     }
 }

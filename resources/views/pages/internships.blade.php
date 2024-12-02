@@ -1,34 +1,5 @@
 @extends('components.components.layout')
 @section('head')
-    <link rel="stylesheet" href="{{ asset('css/listing.css') }}">
-@endsection
-@section('content')
-    {{-- <div class="flex justify-content-center">
-        <div class="mb-3 container-sm border-2 rounded-sm">
-            <input type="text" class="form-control" name="" id="" aria-describedby="helpId" placeholder="" />
-        </div>
-
-    </div>
-
-    <div class="container">
-        @foreach ($internships as $internship)
-            <div class="card" style="width: 18rem;">
-                <div class="card-body">
-                    <h5 class="card-title">Intern</h5>
-                    <h6 class="card-subtitle mb-2 text-body-secondary">$10000</h6>
-                    <p class="card-text">
-                        Looking for interns
-                    </p>
-                    <a href="{{ route('view-internship', $internship->id) }}" class="card-link">View Additional Details</a>
-                </div>
-            </div>
-        @endforeach
-
-    </div> --}}
-    <!-- Add Font Awesome CDN -->
-
-
-    <!-- Add your styles here -->
     <style>
         .searchbar {
             position: relative;
@@ -74,8 +45,9 @@
         }
     </style>
 
-
-
+    <link rel="stylesheet" href="{{ asset('css/listing.css') }}">
+@endsection
+@section('content')
     <div class="my-5">
         <div class=" mx-auto col-10 col-md-8 col-sm-10">
             <form class="searchbar mx-auto rounded-pill px-3 pt-1 d-flex" action="{{ route('searchInternships', 'search') }}"
@@ -95,30 +67,18 @@
         <input type="text" hidden name="value" id="value-input">
     </form>
 
-    <div class="col-md-2 mx-auto d-flex flex-wrap gap-3">
+    <div class="col-md-4 mx-auto d-flex gap-3">
         <!-- Main Filter Dropdown -->
         <select id="sortFilter" class="form-select" style="width: 100%;" onchange="sortFilter()">
             <option value="none" selected>Choose...</option>
-            <!-- <option value="relevance">Relevance</option> -->
-            <!-- <option value="salary">Salary</option> -->
-            <option value="education">Education</option>
+            <option value="">By Salary</option>
             <option value="arrangement">Work Arrangement</option>
-            <!-- <option value="age">Age</option> -->
-            <option value="type">Job Type</option>
         </select>
 
-        <!-- Job Type Filter -->
-        <select id="jobType" class="form-select" style="width: 100%; display: none;" onchange="sortByType()">
-            <option selected="none" selected>Choose...</option>
-            <option value="full-time">Full Time</option>
-            <option value="part-time">Part-Time</option>
-            <option value="freelance">Freelance</option>
-            <option value="temporary">Temporary</option>
-            <option value="contract">Contract</option>
-        </select>
 
         <!-- Education Filter -->
-        <select id="education" class="form-select" style="width: 100%; display: none;" onchange="sortByEducation()">
+        <select id="education" name="education" class="form-select" style="width: 100%; display: none;"
+            onchange="sortByEducation()">
             <option selected>Choose...</option>
             <option value="none">None</option>
             <option value="highschool">High School Diploma</option>
@@ -128,14 +88,13 @@
             <option value="phd">Ph.D.</option>
         </select>
 
-        <!-- Experience Filter -->
-        <select id="experience" class="form-select" style="width: 100%; display: none;" onchange="sortByExperience()">
-            <option selected="none" selected>Choose...</option>
-            <option value="entry">Entry Level</option>
-            <option value="mid">Mid Level</option>
-            <option value="senior">Senior Level</option>
-            <option value="director">Director Level</option>
-            <option value="executive">Executive</option>
+        <!-- Salary Filter -->
+
+        <select id="salary" class="form-select" name="salary" style="width: 100%; display: none;"
+            onchange="sortByEducation()">
+            <option selected="">Choose...</option>
+            <option value="paid">Paid Internships</option>
+            <option value="unpaid">Unpaid Internships</option>
         </select>
 
         <!-- Work Arrangement Filter -->
@@ -147,17 +106,23 @@
             <option value="hybrid">Hybrid</option>
         </select>
 
+        {{-- By Internship Duration --}}
 
-
-
+        <select name="duration" id="duration" class="form-select" style="width: 100%; display: none;"
+            onchange="sortByArrangement()">
+            <option selected="">Choose...</option>
+            <option value="1>">Less than 1 month</option>
+            <option value="1-2">1 - 2 Months</option>
+            <option value="2<">More than 2 Months</option>
+        </select>
 
 
 
     </div>
 
 
-    <div class="mx-auto w-25 text-center">
-        <div class="toggle-container my-5 mx-auto">
+    <div class="mx-auto col-sm-4 text-center">
+        <div class="toggle-container my-5 mx-auto w-100">
             <!-- Radio buttons for controlling the slider position -->
             <input type="radio" name="toggle" id="toggle-option-0" class="toggle-radio" checked>
             <input type="radio" name="toggle" id="toggle-option-1" class="toggle-radio">
@@ -167,8 +132,8 @@
 
             <!-- Labels as buttons -->
             <div class="btn-group w-100">
-                <label for="toggle-option-0" class="toggle-button">Latest Job Offers</label>
-                <label for="toggle-option-1" class="toggle-button">Top Picked Jobs</label>
+                <label for="toggle-option-0" class="toggle-button">Latest Internships Offers</label>
+                <label for="toggle-option-1" class="toggle-button">Top Picked Internships</label>
             </div>
         </div>
     </div>

@@ -8,11 +8,13 @@ use App\Http\Controllers\EmployerController;
 use App\Http\Controllers\InternshipController;
 use App\Http\Controllers\ListingController;
 use App\Http\Controllers\NotificationController;
+use App\Http\Controllers\UserController;
 use App\Http\Middleware\FirstAuth;
 use App\Models\Applicant;
 use App\Models\Application;
 use App\Models\Employer;
 use App\Models\Internship;
+use App\Models\Listing;
 use App\Models\Notification;
 use App\Models\User;
 use Faker\Guesser\Name;
@@ -27,7 +29,7 @@ Route::middleware(['auth'])->group(function () {
     // GENERAL AUTHENTICATED USERS ROUTES
     Route::get('/home', [ListingController::class, 'recommendUsers'])->name('home');
     Route::view("/profile", 'dashboard.profile')->name('profile');
-    Route::patch('/profile', [AuthController::class, 'updateProfile']);
+    Route::patch('/profile', [UserController::class, 'update']);
     Route::get('/profile/notification', [NotificationController::class, 'displayNotifications'])->name('notification');
 
     // 
@@ -55,6 +57,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get("/profile/employer-dashboard/update-internship/{id}", [EmployerController::class, 'updateListing'])->name("update-internship");
     Route::get("/profile/employer-dashboard/internship-details/{id}", [EmployerController::class, 'displayInternship'])->name("internship-details");
     Route::get('/profile/employer-dashboard', [EmployerController::class, 'displayListings'])->name('employer-dashboard');
+    Route::get('/profile/employer-dashboard/listing-details/{id}/listings', [ListingController::class, 'statusListing'])->name('status-listing');
+    Route::get('/profile/employer-dashboard/internship-details/{id}/internships', [InternshipController::class, 'statusInternship'])->name('status-intern');
 
     // POSTS
     Route::post("/profile/employer-dashboard/create-listing", [ListingController::class, 'create']);
@@ -101,8 +105,8 @@ Route::get('/internships', [InternshipController::class, 'displayAllInternships'
 
 // GET ROUTES
 
-Route::get('/listings{search?}', [ListingController::class, 'searchListingbyKey'])->name('search');
-Route::get('/internships{search?}', [ListingController::class, 'searchListingbyKey'])->name('searchInternships');
+Route::get('/listings{search?}', [ListingController::class, 'searchListingbyKey'])->name('search'); // FOR SEARCH FUNCTION - LISTINGS
+Route::get('/internships{search?}', [InternshipController::class, 'searchListingbyKey'])->name('searchInternships');  // # FOR SEARCH FUNCTION - INTERNSHIPS
 Route::get('/listing+location={location?}', [ListingController::class, 'searchListingbyLocation'])->name('searchLocation');
 Route::get('listings+keys={key?}', [ListingController::class, 'searchListingByKeys'])->name('key');
 
@@ -111,7 +115,6 @@ Route::get('/listings/{id}', [ListingController::class, 'getListing'])->name('vi
 Route::view('/index', 'pages.index')->name('index');
 Route::view('/dashboard', 'pages.dahsboard')->name('dashboard');
 Route::view('/landing-page', 'pages.landing-page')->name('landing-page');
-Route::view('/index', 'pages.index')->name('index');
 
 // Login / Sign-UP ROUTES
 Route::view('/login-employee', 'auth.employee-login')->name('employee-login');

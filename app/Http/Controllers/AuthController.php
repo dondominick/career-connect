@@ -150,39 +150,6 @@ class AuthController extends Controller
         return redirect('/');
     }
 
-    public function update(Request $request)
-    {
-        if ($request->has('profile')) {
-            dd('hi');
-            $this->updateProfile($request);
-        } elseif ($request->has('update-info')) {
-            dd('hello');
-        }
-    }
-
-    public function updateProfile(Request $request)
-    {
-        $fields = $request->validate([
-            "profile" => ['required', 'max:11000']
-        ]);
-
-
-        // Check if the file was uploaded
-        if ($request->hasFile('profile')) {
-            $file = $request->file('profile');
-            $fileName = time() . '_profile';
-
-            // Store the file in the 'resumes' directory under the 'public' disk
-
-            $filePath = $file->storeAs('profiles', $fileName . '.' . $file->getClientOriginalExtension(), 'public');
-            $user =  User::where('id', Auth::id())->get()->first();
-            $user->profile = $filePath;
-            Auth::user()->profile = $filePath;
-            $user->save();
-            return redirect()->back()->with(['success' => 'Profile uploaded successfully!']);
-        }
-        return redirect()->back()->withErrors(['failed' => 'Failed to upload profile picture']);
-    }
 
     public function forgotPassword(Request $request) {}
 }

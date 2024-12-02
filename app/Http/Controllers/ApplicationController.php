@@ -84,22 +84,18 @@ class ApplicationController extends Controller
     {
         $type = $request['type'];
         if ($type == "listings") {
-
-            $application =  Application::where('applicant_id', $request['applicant_id'])->where('type', $request['type'])->where('status', '=', 'processing')->join('applicants', 'applications.applicant_id', '=', 'applicants.id')->get()->first();
-            $application->status = $request['status'];
-            $listing = Listing::where('id', $application->listing_id)->get()->first();
-
-
-            $application->save();
-            $application['position'] = $listing->position;
+            $application =  Application::where('applicant_id', $request['applicant_id'])->where('type', $request['type'])->where('status', '=', 'processing')->join('applicants', 'applications.applicant_id', '=', 'applicants.id');
+            $application->update([
+                "status" => $request['status']
+            ]);
         } else {
-            $application = Application::where('applicant_id', $request['applicant_id'])->where('type', $request['type'])->join('applicants', 'applications.applicant_id', '=', 'applicants.id')->get()->first();
-            $application->status = $request['status'];
-            $application->save();
-            $application['position'] = "Intern";
+            dd('condition 3');
+            $application = Application::where('applicant_id', $request['applicant_id'])->where('type', $request['type'])->join('applicants', 'applications.applicant_id', '=', 'applicants.id');
+            $application->update([
+                "status" => $request['status']
+            ]);
         }
-
-
+        $application =  $application->get()->first();
 
         $this->getNotif()->ApplicationUpdate(
             $application->user_id,

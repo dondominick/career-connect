@@ -1,6 +1,14 @@
 @extends('components.components.layout')
+@section('head')
+    <style>
+        .skill-tag {
+            text-transform: capitalize;
+        }
+    </style>
+@endsection
+
 @section('content')
-    <div class="row px-4 w-100">
+    <div class="row px-4 w-100 my-5">
         <div class="col">
             <a class="btn bg-white rounded" href="{{ route('profile') }}">Go Back</a>
         </div>
@@ -63,10 +71,56 @@
 
                     <!-- Educational Attainment Field -->
                     <div class="mb-3">
-                        <label for="education" class="form-label">Educational Attainment</label>
-                        <input type="text" class="form-control" id="education" name="education"
-                            placeholder="Bachelor's Degree in Computer Science" value="{{ $resume->education }}">
+                        <label for="education" class="form-label">Highest Educational Attainment</label>
+                        <select name="education" id="" class="form-control">
+                            <option selected>{{ $resume->education }}</option>
+                            <option value="elementary">Elementary Graduate</option>
+                            <option value="highschool">Highschool Graduate</option>
+                            <option value="undergraduate">Undergraduate</option>
+                            <option value="bachelor">College Graduate</option>
+                            <option value="masters">Masters</option>
+                            <option value="phd">PH.D</option>
+
+                        </select>
                     </div>
+
+                    {{-- Additional Info for Undergraduate Studies --}}
+
+                    <div class="mb-3">
+                        <label for="" class="form-label">Undergraduate Bachelor Degree</label>
+                        <select class="form-select form-select-lg" name="degree" id="">
+                            <option selected></option>
+                            <option value="">Bachelor of Arts in English</option>
+                            <option value="">Bachelor of Arts in Political Science</option>
+                            <option value="">Bachelor of Arts in Graphic Design</option>
+                            <option value="">Bachelor of Arts in Interior Arts</option>
+                            <option value="">Bachelor of Arts in Sociology</option>
+                            <option value="">Bachelor of Science in Computer Science</option>
+                            <option value="">Bachelor of Science in Information Technology</option>
+                            <option value="">Bachelor of Science in Physics</option>
+                            <option value="">Bachelor of Science in Information Systems</option>
+                            <option value="">Bachelor of Science in Chemistry</option>
+                            <option value="">Bachelor of Science in Data Science</option>
+                            <option value="">Bachelor of Science in Mechanical Engineering</option>
+                            <option value="">Bachelor of Science in Civil Engineering</option>
+                            <option value="">Bachelor of Science in Robotics</option>
+                            <option value="">Bachelor of Science in Chemical Engineering</option>
+                            <option value="">Bachelor of Science in Computer Engineering</option>
+                            <option value="">Bachelor of Science in Electrical Engineering</option>
+                            <option value="">Bachelor of Science in Business Administration</option>
+                            <option value="">Bachelor of Science in Tourism Management</option>
+                            <option value="">Bachelor of Science in Entreprenuership</option>
+                            <option value="">Bachelor of Science in Secondary Education</option>
+                            <option value="">Bachelor of Science in Accountancy</option>
+
+
+
+
+
+
+                        </select>
+                    </div>
+
                     {{-- Skills Fields --}}
                     <div class="mb-3">
                         <label for="education" class="form-label">Skills</label>
@@ -81,6 +135,22 @@
                                 <option value="communication">Communication</option>
                                 <option value="programming">Programming</option>
                                 <option value="accounting">Accounting</option>
+                                <option value="">Project Management</option>
+                                <option value="">Verbal Communication</option>
+                                <option value="">Written Communication</option>
+                                <option value="">Public Speaking</option>
+                                <option value="">Team Management</option>
+                                <option value="">Conflict Resolution</option>
+                                <option value="">Decision Making</option>
+                                <option value="">Mentoring and COaching</option>
+                                <option value="">Critical Thinking</option>
+                                <option value="">Creativity</option>
+                                <option value="">Multitasking</option>
+                                <option value="">Emotional Intelligence</option>
+                                <option value="">Customer Support</option>
+                                <option value="">Negotiation Skills</option>
+                                <option value="">Service Orientation</option>
+
                             </select>
                         </div>
                     </div>
@@ -99,12 +169,7 @@
                             placeholder="John Smith - jsmith@example.com - (123) 456-7890"></textarea>
                     </div>
 
-                    <!-- Upload Resume -->
-                    {{-- <div class="mb-4">
-                        <label for="resume" class="form-label">Upload Resume (PDF, DOCX)</label>
-                        <input type="file" class="form-control" id="resume" name="resume" accept=".pdf,.doc,.docx"
-                            required>
-                    </div> --}}
+
 
                     <!-- Submit Button -->
                     <div class="d-grid">
@@ -115,6 +180,11 @@
             </div>
         </div>
     </div>
+
+    {{-- Work /  Experience Modal --}}
+
+
+    {{-- Reference Modal --}}
 @endsection
 
 @section('scripts')
@@ -144,6 +214,7 @@
             // Create a skill tag element
             const skillTag = document.createElement('div');
             skillTag.classList.add('skill-tag');
+            skillTag.classList = "my-1 fs-5"
             skillTag.innerHTML = `
         ${skill}
         <i class="bi bi-x-circle" onclick="removeSkill('${skill}')"></i>
