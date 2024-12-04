@@ -13,6 +13,18 @@ return new class extends Migration
     {
         Schema::create('resumes', function (Blueprint $table) {
             $table->id();
+            $table->string('name');
+            $table->string('gender');
+            $table->integer('age');
+            $table->string('email');
+            $table->string('contact_no');
+            $table->string('address');
+            $table->json('education');
+            $table->string('undergrad');
+            $table->json('skills');
+            $table->json('work');
+            $table->json('educational_background');
+            $table->json('reference');
             $table->timestamps();
         });
     }

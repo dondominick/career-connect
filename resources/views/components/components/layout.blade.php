@@ -53,9 +53,18 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav mx-auto fw-bold">
-                    <li class="nav-item mx-5">
-                        <a class="nav-link" href="{{ route('home') . '/' }}">Home</a>
-                    </li>
+                    @auth
+                        <li class="nav-item mx-5">
+                            <a class="nav-link" href="{{ route('home') . '/' }}">Home</a>
+                        </li>
+                    @endauth
+                    @guest
+
+                        <li class="nav-item mx-5">
+                            <a class="nav-link" href="{{ route('landing-page') }}">Home</a>
+                        </li>
+                    @endguest
+
                     <li class="nav-item mx-5">
                         <a class="nav-link" href="{{ route('listings') }}">Listings</a>
                     </li>

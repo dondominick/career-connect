@@ -8,6 +8,7 @@ use App\Http\Controllers\EmployerController;
 use App\Http\Controllers\InternshipController;
 use App\Http\Controllers\ListingController;
 use App\Http\Controllers\NotificationController;
+use App\Http\Controllers\ResumeController;
 use App\Http\Controllers\UserController;
 use App\Http\Middleware\FirstAuth;
 use App\Models\Applicant;
@@ -26,6 +27,7 @@ use Illuminate\Support\Facades\Route;
 // auth -> basic built-in authenticated middleware of laravel
 Route::middleware(['auth'])->group(function () {
 
+
     // GENERAL AUTHENTICATED USERS ROUTES
     Route::get('/home', [ListingController::class, 'recommendUsers'])->name('home');
     Route::view("/profile", 'dashboard.profile')->name('profile');
@@ -36,7 +38,7 @@ Route::middleware(['auth'])->group(function () {
     // 
     // APPLICANT RELATED ROUTES
     // 
-    Route::post('/resume', [ApplicantController::class, 'createResume']);
+    Route::post('/resume', [ResumeController::class, 'create']);
     Route::get('/resume', [ApplicantController::class, 'checkResume'])->name('resume');
 
     // POSTS
@@ -83,7 +85,7 @@ Route::middleware(['auth'])->group(function () {
         //  
         Route::view('/company-dashboard', 'company.dashboard')->name('company-dashboard');
         Route::view('company-dashboard/employ', 'company.create')->name('create-employer');
-        Route::view('/company/view-listings', 'company.view-listings')->name('company-listings');
+        Route::get('/company/view-listings', [CompanyController::class, 'viewListings'])->name('company-listings');
         Route::get('/company/view-applications', [CompanyController::class, 'viewApplications'])->name('company-applications');
 
         // GET / RETRIEVE DATA FROM THE DATABASE
@@ -117,7 +119,7 @@ Route::view('/dashboard', 'pages.dahsboard')->name('dashboard');
 Route::view('/landing-page', 'pages.landing-page')->name('landing-page');
 
 // Login / Sign-UP ROUTES
-Route::view('/login-employee', 'auth.employee-login')->name('employee-login');
+// Route::view('/login-employee', 'auth.employee-login')->name('employee-login');
 Route::view('/register-company', 'auth.employee-sign-up')->name('employee-sign-up');
 Route::view('/login', 'auth.login')->name('login');
 Route::view('/register', 'auth.sign-up')->name('sign-up');

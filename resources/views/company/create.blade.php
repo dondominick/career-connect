@@ -63,7 +63,8 @@
                         @error('birthdate')
                             <small class="text-danger">{{ $message }}</small>
                         @enderror
-                        <input type="date" class="form-control" name="birthdate" id="birthdate">
+                        <input type="date" class="form-control" name="birthdate" id="birthdate"
+                            value="{{ old('birthdate') }}">
                     </div>
                     <!--Email-->
                     <div class="mb-3">
@@ -88,7 +89,7 @@
                             <small class="text-danger">{{ $message }}</small>
                         @enderror
                         <input type="text" class="inputDesign" name="job_title" placeholder="Position"
-                            value="{{ old('position') }}">
+                            value="{{ old('job_title') }}">
                     </div>
                     <!--Salary-->
                     <div class="mb-3">

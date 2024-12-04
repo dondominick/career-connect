@@ -78,6 +78,12 @@
                         <!-- CARDS FOR SLIDE 1,2,3 -->
                         <div class="carousel-item active">
                             <div class="row">
+                                @if ($recommends->count() <= 0)
+                                    <div class="w-100 text-center my-5 text-white">
+                                        <h1 class="h1">No Listings Found</h1>
+
+                                    </div>
+                                @endif
                                 @isset($recommends)
                                     @foreach ($recommends as $listing)
                                         <div class="col-md-4">
@@ -110,6 +116,12 @@
                         <!-- LATEST JOBS CAROUSEL CARDS FOR 4,5,6 -->
                         <div class="carousel-item">
                             <div class="row">
+                                @if ($listings->count() <= 0)
+                                    <div class="w-100 text-center my-5 text-white">
+                                        <h1 class="h1">No Listings Found</h1>
+
+                                    </div>
+                                @endif
                                 @foreach ($listings as $listing)
                                     <div class="col-md-4">
                                         <div class="card">
@@ -284,6 +296,13 @@
                 </p>
 
                 <div class="row">
+
+                    @if ($notifications->count() <= 0)
+                        <div class="w-100 text-center my-5 text-white">
+                            <h1 class="h1">No Notifications Found</h1>
+
+                        </div>
+                    @endif
                     <!-- Accepted Application -->
                     @isset($notifications)
                         @foreach ($notifications as $notif)
@@ -323,7 +342,7 @@
 
 
 
-                    <div class="col-md-4 mb-4">
+                    {{-- <div class="col-md-4 mb-4">
                         <div class="card">
                             <div class="card-icon bg-success">
                                 <i class="fa fa-check"></i>
@@ -404,7 +423,7 @@
                                 <button class="btn btn-outline-dark btn-sm mt-2">View Application</button>
                             </div>
                         </div>
-                    </div>
+                    </div> --}}
                 </div>
             </div>
 

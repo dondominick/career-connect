@@ -97,10 +97,11 @@
                 <thead>
                     <tr>
                         <th scope="col">Listing ID</th>
-                        <th scope="col">Applicant ID</th>
-                        <th scope="col">Application ID</th>
+                        <th scope="col">Date Created</th>
+                        <th scope="col">Position</th>
 
-                        <th scope="col">Name</th>
+                        <th scope="col">Employer Name</th>
+                        <th>Status</th>
                         <th scope="col" class="w-25">Action</th>
 
                     </tr>
@@ -109,11 +110,12 @@
                     @isset($listings)
                         @foreach ($listings as $listing)
                             <tr>
-                                <th scope="row">1</th>
-                                <td>Mark</td>
-                                <td>Otto</td>
-                                <td>@mdo</td>
-                                <td class="w-25"></td>
+                                <th scope="row">{{ $listing->id }}</th>
+                                <td>{{ $listing->created_at }}</td>
+                                <td>{{ $listing->position }}</td>
+                                <td>{{ $listing->fname }} {{ $listing->lname }}</td>
+                                <td class="">Open</td>
+                                <td></td>
                             </tr>
                         @endforeach
                     @endisset

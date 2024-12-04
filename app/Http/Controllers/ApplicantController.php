@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Applicant;
+use App\Models\Resume;
 use Illuminate\Http\Request;
 
 
@@ -10,6 +11,7 @@ class ApplicantController extends Controller
 {
     public function createResume(Request $request)
     {
+        dd($request);
         $fields = $request->validate([
             'name' => ['required'],
             'age' => ['required'],
@@ -38,7 +40,12 @@ class ApplicantController extends Controller
 
     public function checkResume()
     {
-        $applicant =  Applicant::where('id', session('applicant')->id)->get()->first();
-        return view('dashboard.resume', ['applicant' => $applicant]);
+        $applicant =  Applicant::where('id', session('applicant')->id)
+            ->get()->first();
+
+        if ($applicant->resume == null) {
+            return view('dashboard.resume', ['resume' => new Resume()]);
+        }
+        return view('dashboard.resume', ['resume' => Resume::where('id', $applicant->resume)->get()->first()]);
     }
 }

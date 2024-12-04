@@ -187,7 +187,7 @@
     </div>
     <div class="d-flex flex-col">
         @if (session('employers'))
-            {{ $message }}
+            {{ session('employers') }}
         @endif
     </div>
 @endsection

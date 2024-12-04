@@ -98,7 +98,7 @@ class AuthController extends Controller
             'companyIndustry' => ['required'],
             "companyNum" => ['required'],
             "contactPerson" => ['required'],
-            "companyEmail" => ['required', 'unique:companies', 'email', 'unique:users']
+            "companyEmail" => ['required', 'unique:companies', 'email']
 
         ]);
         $user = $request->validate([

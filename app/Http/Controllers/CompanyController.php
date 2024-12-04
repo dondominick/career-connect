@@ -48,9 +48,8 @@ class CompanyController extends Controller
 
     public function viewListings()
     {
-        $listings = Listing::where('companyID', session('company')->id)->get();
-        $internships = Internship::where('companyID', session('company')->id)->get();
-
+        $listings = Listing::select('*', 'listings.employer_id')->where('listings.companyID', session('company')->id)->join('employers', 'listings.employer_id', '=', 'employers.id')->get();
+        $internships = Internship::select('*', 'internships.employer_id')->where('internships.companyID', session('company')->id)->join('employers', 'internships.employer_id', '=', 'employers.id')->get();
         return view('company.view-listings', ['listings' => $listings, 'internships' => $internships]);
     }
 

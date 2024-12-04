@@ -142,7 +142,12 @@
     <!-- Job Listings - Latest Job Offers -->
     <div class="w-100">
         <ul class="" id="listing">
+            @if ($listings->count() <= 0)
+                <div class="w-100 text-center my-5">
+                    <h1 class="h1">No Internships Found</h1>
 
+                </div>
+            @endif
             @foreach ($listings as $listing)
                 <li class="w-100 d-flex gap-3 mx-auto py-4">
                     <div

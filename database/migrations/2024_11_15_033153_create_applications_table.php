@@ -18,7 +18,7 @@ return new class extends Migration
             $table->integer('listing_id');
             $table->foreignId('employer_id')->references('id')->on('employers');
             $table->foreignId('companyID')->references('id')->on('companies');
-            $table->json('resume');
+            $table->integer('resume')->nullable();
             $table->string('status')->default('processing');
             $table->timestamps();
         });

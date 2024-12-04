@@ -33,7 +33,6 @@ return new class extends Migration
             $table->foreignId('employer_id')->references('id')->on('employers');
             $table->foreignId('companyID')->references('id')->on('companies');
             $table->string('status')->default('open');
-
             $table->timestamps();
         });
     }
