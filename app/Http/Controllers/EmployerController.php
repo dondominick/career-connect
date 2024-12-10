@@ -22,13 +22,13 @@ class EmployerController extends Controller
     }
     public function displayInternship($id)
     {
-        $applications = Application::where('id', $id)->where('type', "internship")->where('status', "processing")->get();
+        $applications = Application::where('id', $id)->where('type', "internship")->where('status', "processing")->join('resumes', 'resumes.applicant_id', '=', 'applications.applicant_id')->get();
 
         return view('dashboard.internship-details', ['listing' => Internship::where('id', $id)->first(), 'applications' => $applications]);
     }
     public function displayListing($id)
     {
-        $applications = Application::where('listing_id', $id)->where('type', "listings")->where('status', 'processing')->get();
+        $applications = Application::where('listing_id', $id)->where('type', "listings")->where('status', 'processing')->join('resumes', 'resumes.applicant_id', '=', 'applications.applicant_id')->get();
         return view('dashboard.details', ['listing' => Listing::where('id', $id)->get()->first(), 'applications' => $applications]);
     }
 

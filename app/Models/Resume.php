@@ -10,6 +10,7 @@ class Resume extends Model
     use HasFactory;
 
     protected $fillable = [
+        "applicant_id",
         "name",
         "age",
         'gender',
@@ -21,6 +22,7 @@ class Resume extends Model
         'skills',
         'work',
         'educational_background',
-        'references',
+        'reference',
+        'undergrad'
     ];
 }

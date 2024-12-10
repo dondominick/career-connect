@@ -25,9 +25,9 @@ class DatabaseSeeder extends Seeder
 
         User::factory()->applicant()->count(10)->create();
         Company::factory()->newCompany()->count(3)->create();
+        // Applicant::factory()->create();
 
-
-        // Second initialize job listings and internships
+        // // Second initialize job listings and internships
 
         // Listing::factory()->count(15)->state(new Sequence(
         //     ["company" => 'Schroeder-Ernser', "companyID" => "1", "employer_id" => "1"],

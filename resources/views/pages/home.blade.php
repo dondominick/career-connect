@@ -9,6 +9,12 @@
         integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="{{ asset('css/home.css') }}">
+    <style>
+        #card-container {
+            min-height: 254px;
+            height: 100%;
+        }
+    </style>
 @endsection
 @section('content')
     <section class="hero align-items-center d-flex"
@@ -79,7 +85,7 @@
                         <div class="carousel-item active">
                             <div class="row">
                                 @if ($recommends->count() <= 0)
-                                    <div class="w-100 text-center my-5 text-white">
+                                    <div class="w-100 text-center my-5 text-white" id="card-container">
                                         <h1 class="h1">No Listings Found</h1>
 
                                     </div>
@@ -166,108 +172,72 @@
                         <!-- CARDS FOR 1,2,3 TOP JOBS -->
                         <div class="carousel-item active">
                             <div class="row">
-                                <div class="col-md-4">
-                                    <div class="card">
-                                        <div class="card-header">
-                                            <span class="company-name">Company for Top Jobs</span>
-                                            <span class="job-date">date created</span>
-                                            <button class="btn btn-bookmark"><i
-                                                    class="fa-regular fa-bookmark"></i></button>
-                                        </div>
-                                        <div class="card-body">
-                                            <h4 class="card-title">Top Jobs</h4>
-                                            <p class="card-text">Visual Designers and Co.</p>
-                                            <p class="card-text">Davao City ₱30,000 - ₱45,000 per month (Design &
-                                                Architecture)</p>
-                                            <button class="btn btn-view-details">View Details</button>
+                                @if ($most->count() <= 0)
+                                    <div class="w-100 text-center my-5 text-white">
+                                        <h1 class="h1">No Listings Found</h1>
+
+                                    </div>
+                                @endif
+                                @foreach ($most as $listings)
+                                    <div class="col-md-4">
+                                        <div class="card">
+                                            <div class="card-header">
+                                                <span class="company-name">{{ $listings->company }}</span>
+                                                <span
+                                                    class="job-date">{{ date_format($listing->created_at, 'D, d M') }}</span>
+                                                <button class="btn btn-bookmark"><i
+                                                        class="fa-regular fa-bookmark"></i></button>
+                                            </div>
+                                            <div class="card-body">
+                                                <h4 class="card-title">{{ $listings->position }}</h4>
+                                                <p class="card-text">{{ $listings->company }}</p>
+                                                <p class="card-text">{{ $listings->location }}
+                                                    ₱{{ $listings->min_salary }}- ₱{{ $listings->max_salary }} per month
+                                                </p>
+                                                <button
+                                                    onclick="window.location.href = '{{ route('view-listing', $listing->id) }}'"
+                                                    class="btn btn-view-details">View Details</button>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="card">
-                                        <div class="card-header">
-                                            <span class="company-name">Company Name</span>
-                                            <span class="job-date">date created</span>
-                                            <button class="btn btn-bookmark"><i
-                                                    class="fa-regular fa-bookmark"></i></button>
-                                        </div>
-                                        <div class="card-body">
-                                            <h4 class="card-title">Top Job 2</h4>
-                                            <p class="card-text">Job Company</p>
-                                            <p class="card-text">Job Description</p>
-                                            <button class="btn btn-view-details">View Details</button>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="card">
-                                        <div class="card-header">
-                                            <span class="company-name">Company Name</span>
-                                            <span class="job-date">date created</span>
-                                            <button class="btn btn-bookmark"><i
-                                                    class="fa-regular fa-bookmark"></i></button>
-                                        </div>
-                                        <div class="card-body">
-                                            <h4 class="card-title">Job Title 3</h4>
-                                            <p class="card-text">Job Company</p>
-                                            <p class="card-text">Job Description</p>
-                                            <button class="btn btn-view-details">View Details</button>
-                                        </div>
-                                    </div>
-                                </div>
+                                @endforeach
+
+
                             </div>
                         </div>
                         <!-- SLIDES FOR 4,5,6 TOP JOBS -->
                         <div class="carousel-item">
                             <div class="row">
-                                <div class="col-md-4">
-                                    <div class="card">
-                                        <div class="card-header">
-                                            <span class="company-name">Company Name</span>
-                                            <span class="job-date">date created</span>
-                                            <button class="btn btn-bookmark"><i
-                                                    class="fa-regular fa-bookmark"></i></button>
-                                        </div>
-                                        <div class="card-body">
-                                            <h4 class="card-title">Top Job 4</h4>
-                                            <p class="card-text">Job Company</p>
-                                            <p class="card-text">Job Description</p>
-                                            <button class="btn btn-view-details">View Details</button>
+                                @if ($most->count() <= 0)
+                                    <div class="w-100 text-center my-5 text-white">
+                                        <h1 class="h1">No Listings Found</h1>
+
+                                    </div>
+                                @endif
+                                @foreach ($most as $listings)
+                                    <div class="col-md-4">
+                                        <div class="card">
+                                            <div class="card-header">
+                                                <span class="company-name">{{ $listings->company }}</span>
+                                                <span
+                                                    class="job-date">{{ date_format($listing->created_at, 'D, d M') }}</span>
+                                                <button class="btn btn-bookmark"><i
+                                                        class="fa-regular fa-bookmark"></i></button>
+                                            </div>
+                                            <div class="card-body">
+                                                <h4 class="card-title">{{ $listings->position }}</h4>
+                                                <p class="card-text">{{ $listings->company }}</p>
+                                                <p class="card-text">{{ $listings->location }}
+                                                    ₱{{ $listings->min_salary }}- ₱{{ $listings->max_salary }} per month
+                                                </p>
+                                                <button
+                                                    onclick="window.location.href = '{{ route('view-listing', $listing->id) }}'"
+                                                    class="btn btn-view-details">View Details</button>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="card">
-                                        <div class="card-header">
-                                            <span class="company-name">Company Name</span>
-                                            <span class="job-date">date created</span>
-                                            <button class="btn btn-bookmark"><i
-                                                    class="fa-regular fa-bookmark"></i></button>
-                                        </div>
-                                        <div class="card-body">
-                                            <h4 class="card-title">Job Title 5</h4>
-                                            <p class="card-text">Job Company</p>
-                                            <p class="card-text">Job Description</p>
-                                            <button class="btn btn-view-details">View Details</button>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="card">
-                                        <div class="card-header">
-                                            <span class="company-name">Company Name</span>
-                                            <span class="job-date">date created</span>
-                                            <button class="btn btn-bookmark"><i
-                                                    class="fa-regular fa-bookmark"></i></button>
-                                        </div>
-                                        <div class="card-body">
-                                            <h4 class="card-title">Job Title 6</h4>
-                                            <p class="card-text">Job Company</p>
-                                            <p class="card-text">Job Description</p>
-                                            <button class="btn btn-view-details">View Details</button>
-                                        </div>
-                                    </div>
-                                </div>
+                                @endforeach
+
                             </div>
                         </div>
                     </div>

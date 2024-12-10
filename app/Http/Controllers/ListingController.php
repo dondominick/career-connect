@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Employer;
 use App\Models\Listing;
+use App\Models\Resume;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use PhpParser\Node\Expr\FuncCall;
@@ -181,16 +182,19 @@ class ListingController extends Controller
     public function recommendUsers()
     {
 
-        if (isset(session('applicant')->resume)) {
-            $recommendation = Listing::select('*')->where('location', json_decode(session('applicant')->resume)->address)->take(3)->get();
+        if ((session('applicant')->resume != null)) {
+            $most = Listing::withCount('applications')->orderBy('applications_count', 'desc')->take(3)->get();
+            $resume = Resume::where('applicant_id', session('applicant')->id)->get()->first();
+            $recommendation = Listing::select('*')->where('location', json_decode($resume)->address)->take(3)->get();
             $listings = Listing::select('*')->join('companies', 'listings.companyID', '=', 'companies.id')->orderBy('listings.created_at')->take(3)->get();
             $notifications = NotificationController::class::retrieveNotifications();
-            return view('pages.home', ['listings' => $listings, 'recommends' => $recommendation, "notifications" => $notifications]);
+            return view('pages.home', ['listings' => $listings, 'recommends' => $recommendation, "notifications" => $notifications, "most" => $most]);
         }
+        $most = Listing::withCount('applications')->orderBy('applications_count', 'desc')->take(3)->get();
         $recommends =  Listing::withCount('applications')->orderBy('applications_count', 'desc')->take(3)->get();
         $listings = Listing::select('*')->join('companies', 'listings.companyID', '=', 'companies.id')->orderBy('listings.created_at')->take(3)->get();
         $notifications = NotificationController::class::retrieveNotifications();
-        return view('pages.home', ['listings' => $listings, 'recommends' => $recommends, "notifications" => $notifications]);
+        return view('pages.home', ['listings' => $listings, 'recommends' => $recommends, "notifications" => $notifications, "most" => $most]);
     }
 
     // 
@@ -211,14 +215,15 @@ class ListingController extends Controller
 
     private function recommendationSystemByLocation()
     {
-        $resume = json_decode(session('applicant')->resume);
+
+        $resume = json_decode(Resume::where('applicant_id', session('applicant')->id)->get()->first());
         $first = Listing::where("location", $resume->address)->select('*', DB::raw("1 as priority"));
         $second = DB::table('listings')->select('*', DB::raw('2 as priority'))->where("location", "!=", $resume->address);
         if ($first->first() && $second) {
             $listings = $first->union($second)->orderBy('priority', 'asc')->orderBy('created_at', 'asc')->get();
             return $listings;
         }
-        return Listing::all()->orderBy('created_at');
+        return Listing::select('*')->orderBy('created_at')->get();
     }
 
 

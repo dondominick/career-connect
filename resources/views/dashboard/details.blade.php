@@ -87,10 +87,11 @@
                             @foreach ($applications as $application)
                                 <tr>
                                     <td>{{ $application->applicant_id }}</td>
-                                    <td>{{ json_decode($application->resume)->name }}</td>
+                                    <td>{{ $application->name }}</td>
                                     <td>Email</td>
                                     <td>
                                         <button type="button" class="btn bg-warning rounded-5" data-bs-toggle="modal"
+                                            onclick="ResumeModal({{ $application }})"
                                             data-title="Applicant ID: {{ $application->applicant_id }}"
                                             data-content="{{ $application->resume }}" data-bs-target="#dynamicModal">
                                             <i class="fa-solid fa-file"></i>
@@ -144,92 +145,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body mw-100 container" id="modalBodyContent">
-                    <p class="h4">Personal Info</p>
-                    <p id="name" class="fw-bold fs-2 m-0">Don Dominick Enargan</p>
-                    <small id="email">smaple@email.com</small> | <small id="number">09916216576</small>
-                    <p id="address">P-6, Bantacan, New Bataan</p>
 
-                    <hr>
-                    <p class="h4">Summary</p>
-                    <p class="" id="summary">
-                        Detail-oriented Software Developer with 3+ years of experience in designing and developing scalable
-                        web
-                        applications. Proficient in JavaScript, React, Node.js, and SQL. Successfully led a team to build a
-                        customer portal that increased user engagement by 30%. Passionate about creating efficient and
-                        user-friendly software solutions. Seeking to leverage full-stack development expertise at [Company
-                        Name].
-                    </p>
-
-                    <hr>
-                    <p class="h4">Work Experience</p>
-                    <ul id="work-experience">
-                        <li>
-                            <span class="fw-bold fs-3"> Software Developer</span> <br>
-                            <span class="fst-italic"> XYZ Tech Solutions – San Francisco, CA</span>
-                            <br>
-                            <span class="fst-italic">
-                                Jan 2021 – Present
-                            </span> <br>
-                            <p>
-                                Developed and maintained 5+ full-stack web applications using React, Node.js, and MongoDB,
-                                resulting in
-                                a 25% increase in client engagement.
-                                Led a team of 3 developers to redesign a legacy system, reducing page load times by 40%.
-                                Implemented an automated testing framework, improving code quality and reducing bug reports
-                                by
-                                15%.
-                            </p>
-
-                        </li>
-                    </ul>
-
-                    <hr>
-                    <p class="h4">Education</p>
-                    <ul>
-                        <li>
-                            <span class="fw-bold fs-4"> Bachelor of Science - Computer Science</span> <br>
-                            <span class="fst-italic"> XYZ Tech Solutions – San Francisco, CA</span>
-                            <br>
-                            <span class="fst-italic">
-                                May 2023
-                            </span> <br>
-
-
-                        </li>
-                    </ul>
-                    <hr>
-                    <p class="h4">Key Skills</p>
-                    <ul>
-                        <li>Programming</li>
-                    </ul>
-                    <hr>
-                    <p class="h4">Reference</p>
-                    <ul class="list-unstyled d-flex gap-3">
-                        <li class="list-inline-item">
-                            John Doe <br>
-                            Senior Software Engineer <br>
-                            XYZ Tech Solutions <br>
-                            Phone: (555) 123-4567 <br>
-                            Email: johndoe@example.com <br>
-                            Former Manager at XYZ Tech Solutions <br>
-                        </li>
-                        <li class="list-inline-item">
-                            John Doe <br>
-                            Senior Software Engineer <br>
-                            XYZ Tech Solutions <br>
-                            Phone: (555) 123-4567 <br>
-                            Email: johndoe@example.com <br>
-                            Former Manager at XYZ Tech Solutions <br>
-                        </li>
-                        <li class="list-inline-item">
-                            John Doe <br>
-                            Senior Software Engineer <br>
-                            XYZ Tech Solutions <br>
-                            Phone: (555) 123-4567 <br>
-                            Email: johndoe@example.com <br>
-                            Former Manager at XYZ Tech Solutions <br>
-                        </li>
-                    </ul>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -262,33 +178,33 @@
     </script>
 
     <script>
-        // Get the modal element
-        const dynamicModal = document.getElementById('dynamicModal');
+        // // Get the modal element
+        // const dynamicModal = document.getElementById('dynamicModal');
 
-        // Event listener for the modal show event
-        dynamicModal.addEventListener('show.bs.modal', function(event) {
-            const button = event.relatedTarget; // Button that triggered the modal
-            const title = button.getAttribute('data-title'); // Extract info from data-* attributes
-            const content = button.getAttribute('data-content');
+        // // Event listener for the modal show event
+        // dynamicModal.addEventListener('show.bs.modal', function(event) {
+        //     const button = event.relatedTarget; // Button that triggered the modal
+        //     const title = button.getAttribute('data-title'); // Extract info from data-* attributes
+        //     const content = button.getAttribute('data-content');
 
-            // Reform data-content from json format into a more readable format
-            //  const obj = json.parse(content);
-            // Update the modal's title and body content
-            const modalTitle = dynamicModal.querySelector('.modal-title');
-            const modalBody = dynamicModal.querySelector('.modal-body');
+        //     // Reform data-content from json format into a more readable format
+        //     //  const obj = json.parse(content);
+        //     // Update the modal's title and body content
+        //     const modalTitle = dynamicModal.querySelector('.modal-title');
+        //     const modalBody = dynamicModal.querySelector('.modal-body');
 
 
-            // Optional: Update confirm button action based on content
-            const confirmButton = document.getElementById('confirmButton');
-            if (title === 'Delete Confirmation') {
-                confirmButton.style.display = 'inline-block';
-                confirmButton.textContent = 'Delete';
-                confirmButton.classList.remove('btn-primary');
-                confirmButton.classList.add('btn-danger');
-            } else {
-                confirmButton.style.display = 'none';
-            }
-        });
+        //     // Optional: Update confirm button action based on content
+        //     const confirmButton = document.getElementById('confirmButton');
+        //     if (title === 'Delete Confirmation') {
+        //         confirmButton.style.display = 'inline-block';
+        //         confirmButton.textContent = 'Delete';
+        //         confirmButton.classList.remove('btn-primary');
+        //         confirmButton.classList.add('btn-danger');
+        //     } else {
+        //         confirmButton.style.display = 'none';
+        //     }
+        // });
 
         function checkStatus(val) {
             const form = document.getElementById('application-form');
@@ -301,6 +217,77 @@
             status.val(val);
 
             viewStatus.submit()
+        }
+
+        function Reference(name, position, company, email, contact_no) {}
+
+        function ResumeModal(obj) {
+
+            const modalBody = document.getElementById('modalBodyContent');
+            const work = JSON.parse(obj.work);
+            const educational = JSON.parse(obj.educational_background);
+            const reference = new Reference();
+            if (JSON.parse(obj.reference) != null) {
+                reference = JSON.parse(obj.reference);
+            }
+
+
+            modalBody.innerHTML = `
+            <p class="h4">Personal Info</p>
+                    <p id="name" class="fw-bold fs-2 m-0">${obj.name}</p>
+                    <small id="email">${obj.email}</small> | <small id="number">${obj.contact_no}</small>
+                    <p id="address">${obj.address}</p>
+
+
+
+                    <hr>
+                    <p class="h4">Work Experience</p>
+                    <ul id="work-experience">
+                        <li>
+                            <span class="fw-bold fs-3"> ${work.position}</span> <br>
+                            <span class="fst-italic"> ${work.company}</span>
+                            <br>
+                            <span class="fst-italic">
+                            ${work.duration}
+                            </span> <br>
+                    
+                        </li>
+                    </ul>
+
+                    <hr>
+                    <p class="h4">Education</p>
+                    <ul>
+                        <li>
+                            <span class="fw-bold fs-4">${educational.title}</span> <br>
+                            <span class="fst-italic"> ${educational.school}</span>
+                            <br>
+                            <span class="fst-italic">
+                            ${educational.year}
+                            </span> <br>
+
+
+                        </li>
+                    </ul>
+                    <hr>
+                    <p class="h4">Key Skills</p>
+                    <ul>
+                        
+                    <li>${obj.skills}</li>
+                    </ul>
+                    <hr>
+                    <p class="h4">Reference</p>
+                    <ul class="list-unstyled d-flex gap-3">
+                        <li class="list-inline-item">
+                            ${reference.name} <br>
+                            ${reference.position} <br>
+                            XYZ Tech Solutions <br>
+                            Phone: (555) 123-4567 <br>
+                            Email: johndoe@example.com <br>
+                            Former Manager at XYZ Tech Solutions <br>
+                        </li>
+
+                    </ul>
+            `;
         }
     </script>
 @endsection

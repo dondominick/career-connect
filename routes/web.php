@@ -38,6 +38,7 @@ Route::middleware(['auth'])->group(function () {
     // 
     // APPLICANT RELATED ROUTES
     // 
+    Route::patch('/resume', [ResumeController::class, 'update']);
     Route::post('/resume', [ResumeController::class, 'create']);
     Route::get('/resume', [ApplicantController::class, 'checkResume'])->name('resume');
 

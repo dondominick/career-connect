@@ -16,19 +16,20 @@
     <div class="container mt-5">
         <div class="card">
             <div class="card-header text-center bg-primary text-white">
-                <h3>Resume Submission Form</h3>
+                <h3>Resume Update Form</h3>
             </div>
 
             <div class="card-body">
                 <form method="POST" action="{{ route('resume') }}" onsubmit="getAll()">
                     @csrf
+                    @method('patch')
                     {{-- Hidden Fields --}}
                     <input type="hidden" value="{{ session('applicant')->id }}" name="id">
                     <!-- Name Field -->
                     <div class="mb-3">
                         <label for="name" class="form-label">Full Name</label>
                         <input type="text" class="form-control" id="name" name="name" placeholder="John Doe"
-                            value="{{ old('name') }}">
+                            value="{{ $resume->name }}">
                         @error('name')
                             <small class="text-danger alert">
                                 {{ $message }}
@@ -40,7 +41,7 @@
                     <div class="mb-3">
                         <label for="age" class="form-label">Age</label>
                         <input type="number" class="form-control" id="age" name="age" min="18"
-                            max="100" value="{{ old('age') }}">
+                            max="100" value="{{ $resume->age }}">
                         @error('age')
                             <small class="text-danger alert">
                                 {{ $message }}
@@ -51,8 +52,8 @@
                     <!-- Gender Field -->
                     <div class="mb-3">
                         <label for="gender" class="form-label">Gender</label>
-                        <select class="form-select" id="gender" name="gender" value="{{ old('gender') }}">
-                            <option value="">Select Gender</option>
+                        <select class="form-select" id="gender" name="gender">
+                            <option selected="{{ $resume->gender }}">{{ $resume->gender }}</option>
                             <option value="Male">Male</option>
                             <option value="Female">Female</option>
                             <option value="Other">Other</option>
@@ -68,7 +69,7 @@
                     <div class="mb-3">
                         <label for="email" class="form-label">Email</label>
                         <input type="text" class="form-control" name="email" placeholder="Email Address"
-                            value="{{ old('email') }}">
+                            value="{{ $resume->email }}">
                         @error('email')
                             <small class="text-danger alert">
                                 {{ $message }}
@@ -79,7 +80,7 @@
                     <div class="mb-3">
                         <label for="number" class="form-label">Contact Number</label>
                         <input type="text" class="form-control" name="contact_no" placeholder="+6391123"
-                            value="{{ old('contact_no') }}">
+                            value="{{ $resume->contact_no }}">
                         @error('contact_no')
                             <small class="text-danger alert">
                                 {{ $message }}
@@ -91,7 +92,7 @@
                     <!-- Address Field -->
                     <div class="mb-3">
                         <label for="address" class="form-label">Address</label>
-                        <textarea class="form-control" id="address" name="address" rows="2" placeholder="123 Main St, City, Country"> {{ old('address') }}</textarea>
+                        <textarea class="form-control" id="address" name="address" rows="2" placeholder="123 Main St, City, Country"> {{ $resume->address }}</textarea>
                         @error('address')
                             <small class="text-danger alert">
                                 {{ $message }}
@@ -124,7 +125,7 @@
                     <div class="mb-3 d-none" id="undergrad">
                         <label for="" class="form-label">Bachelor's Degree</label>
                         <select class="form-select form-select-lg" name="degree" id="">
-                            <option selected></option>
+                            <option selected>{{ $resume->undergrad }}</option>
                             <option value="BE">Bachelor of Arts in English</option>
                             <option value="BPS">Bachelor of Arts in Political Science</option>
                             <option value="BGD">Bachelor of Arts in Graphic Design</option>
@@ -181,11 +182,39 @@
                     <div class="mb-3">
                         <label for="education" class="form-label">Skills</label>
 
+
                         <div class="skill-tags-container" id="skillTagsContainer">
                             @isset($resume->skills)
-                                @foreach (explode(',', $resume->skills) as $skills)
-                                    <script></script>
-                                @endforeach
+                                @php
+                                    $skills = $resume->skills;
+                                @endphp
+                                <script>
+                                    let text = "{{ $skills }}";
+
+                                    let skills = text.split(',');
+                                    if (skills.constructor != Array) {
+                                        skills = [text];
+                                        console.log('working');
+                                    }
+                                    console.log(skills);
+
+                                    function addSkill(skills) {
+                                        skills.forEach(skill => {
+                                            const skillTag = document.createElement('div');
+                                            skillTag.classList.add('skill-tag');
+                                            skillTag.classList = "my-1 fs-5"
+                                            skillTag.innerHTML = `
+                                                ${skill}
+                                                <i class="bi bi-x-circle" onclick="removeSkill('${skill}')"></i>
+                                            `;
+
+                                            // Append skill tag to container
+                                            skillTagsContainer.appendChild(skillTag);
+
+                                        });
+                                    }
+                                    addSkill(skills)
+                                </script>
                             @endisset
                         </div>
                         <textarea name="skills" id="skills" hidden cols="30" rows="10"></textarea>
@@ -219,7 +248,21 @@
                         <label for="form-label">Work Experience</label>
 
                     </div>
-                    {{ old('work') }}
+
+                    @php
+                        $work = json_decode($resume->work);
+                    @endphp
+
+                    @if ($work != null)
+                        @foreach ($work as $e)
+                            <script>
+                                const e = JSON.parse({{ $e }})
+                                updateWork(e.position, e.company, e.duration);
+                            </script>
+                        @endforeach
+                    @endif
+
+
                     {{ old('skills') }}
                     {{ old('references') }}
                     {{ old('educational_background') }}
@@ -457,6 +500,35 @@
                             this.contact_no = contact_no;
                         }
 
+                        // UPDATE RESUME
+
+                        function updateWork(position, company, duration) {
+                            const work = new Work(position, company, duration);
+
+                            work_experience.push(JSON.stringify(work));
+                            createWork(work); // PASTE THE DATA AND TURN IT INTO A MORE READABLE DATA
+                        }
+
+                        function updateEducation(name, school, year) {
+                            const education = new Education(name, school, year);
+
+
+                            if (educational_background.length > 3) {
+                                return console.log('error');
+                            }
+                            educational_background.push(JSON.stringify(education));
+                            createEducation(education);
+                        }
+
+                        function updateReference(name, position, company, email, number) {
+                            const reference = new References(name, position, company, email, number);
+
+
+
+                            references.push(JSON.stringify(reference));
+                            createReference(reference);
+
+                        }
                         // RETRIEVE DATA FROM MODALS
 
                         function retrieve_work() {
@@ -470,9 +542,6 @@
                             duration.value = "";
                             work.value = "";
 
-                            if (work_experience.length >= 1) {
-                                return console.log('error');
-                            }
                             work_experience.push(JSON.stringify(work));
                             createWork(work); // PASTE THE DATA AND TURN IT INTO A MORE READABLE DATA
                         }
@@ -489,7 +558,7 @@
                             school.value = "";
                             year.value = "";
 
-                            if (educational_background.length >= 1) {
+                            if (educational_background.length > 3) {
                                 return console.log('error');
                             }
                             educational_background.push(JSON.stringify(education));
@@ -512,9 +581,7 @@
                             position.value = "";
                             email.value = "";
                             number.value = "";
-                            if (references.length >= 1) {
-                                return console.log('error');
-                            }
+
                             references.push(JSON.stringify(reference));
                             createReference(reference);
                         }
@@ -610,12 +677,16 @@
                             const work = document.getElementById('work_experience');
                             const ref = document.getElementById('references');
                             const skill = document.getElementById('skills');
-
                             education.value = educational_background;
                             work.value = work_experience;
                             ref.value = references;
                             skill.value = skills;
 
+                            console.log(education.value);
+                            console.log(work.value);
+                            console.log(ref.value);
+                            console.log(skill.value);
+                            console.log('data passed');
                         }
                     </script>
                     <!-- Submit Button -->
@@ -643,7 +714,6 @@
         const skillTagsContainer = document.getElementById('skillTagsContainer');
 
         // Array to store skills
-        const skills = [];
 
         // Add a skill when user presses Enter or Comma
         skillInput.addEventListener('keydown', function(event) {
@@ -659,35 +729,33 @@
 
         // Function to add a skill
         function addSkill(skill) {
-            skills.push(skill);
-
-            // Create a skill tag element
             const skillTag = document.createElement('div');
             skillTag.classList.add('skill-tag');
             skillTag.classList = "my-1 fs-5"
             skillTag.innerHTML = `
-        ${skill}
-        <i class="bi bi-x-circle" onclick="removeSkill('${skill}')"></i>
-      `;
+                                                ${skill}
+                                                <i class="bi bi-x-circle" onclick="removeSkill('${skill}')"></i>
+                                            `;
 
             // Append skill tag to container
             skillTagsContainer.appendChild(skillTag);
+            skills.push(skill);
         }
 
         // Function to remove a skill
         function removeSkill(skill) {
-            const index = skills.indexOf(skill);
-            if (index > -1) {
-                skills.splice(index, 1);
-            }
-
-            // Remove the skill tag from the DOM
-            const skillTags = document.querySelectorAll('.skill-tag');
-            skillTags.forEach(tag => {
-                if (tag.textContent.trim() === skill) {
-                    tag.remove();
+            let i = 0;
+            skills.forEach(element => {
+                if (element == skill) {
+                    skills.splice(i);
                 }
+                i++;
+
             });
+            skillTagsContainer.innerHTML = "";
+            addSkill(skills);
+
+
         }
 
         function retrieveAllSkills() {

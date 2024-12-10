@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Resume;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Arr;
@@ -31,24 +32,12 @@ class ApplicantFactory extends Factory
     public function definition(): array
     {
         return [
-            'user_id' => User::factory(),
             'fname' => fake()->firstName(),
             'lname' => fake()->lastName(),
             'email' => fake()->unique()->safeEmail(),
             'birthdate' => fake()->date(),
             'gender' => "Male",
-            'resume' => json_encode([
-                "name" => fake()->name(),
-                "email" => fake()->safeEmail(),
-                "contactNum" => "09916216576",
-                "age" => "18",
-                "gender" => "Male",
-                "education" => "College Graduate",
-                "work" => "None",
-                "address" => Arr::random($this->location),
-                "references" => "123",
-                'skills' => Arr::random($this->skills),
-            ]),
+
         ];
     }
 }

@@ -46,6 +46,6 @@ class ApplicantController extends Controller
         if ($applicant->resume == null) {
             return view('dashboard.resume', ['resume' => new Resume()]);
         }
-        return view('dashboard.resume', ['resume' => Resume::where('id', $applicant->resume)->get()->first()]);
+        return view('dashboard.update-resume', ['resume' => Resume::where('applicant_id', session('applicant')->id)->get()->first()]);
     }
 }
