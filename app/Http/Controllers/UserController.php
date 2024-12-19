@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Applicant;
+use App\Models\Employer;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -32,7 +34,15 @@ class UserController extends Controller
         ]);
 
         $user = User::where('id', Auth::id())->update($fields);
+        if (session()->has('employer')) {
 
+            // dd(Auth::id());
+            $employer = Employer::where('user_id', Auth::id())->update($fields);
+
+            // dd($employer);
+        } elseif (session()->has('applicant')) {
+            $applicant = Applicant::where('user_id', Auth::id())->update($fields);
+        }
 
         return back()->with(['profile' => "Update sucessful"]);
     }

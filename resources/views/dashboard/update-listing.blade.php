@@ -3,6 +3,22 @@
      <link rel="stylesheet" href="{{ asset('css/style.css') }}">
  @endsection
  @section('content')
+
+     @if ($errors->any())
+         <div class="alert alert-danger">
+             <ul>
+                 @foreach ($errors->all() as $error)
+                     <div class="alert alert-success" role="alert">
+                         {{ $error }}
+                     </div>
+                 @endforeach
+             </ul>
+         </div>
+     @endif
+
+
+
+
      <div class="container-fluid">
          <div class="row mb-2">
              <div class="col">
@@ -37,12 +53,10 @@
                              <label class="fw-bold">Salary Range:</label>
                              <div class="d-flex justify-content-between gap-3">
                                  <input class="col inputDesign px-2 py-1" type="number" name="min_salary"
-                                     placeholder="Min Salary" min="0" step="1000"
-                                     value="{{ $listing->min_salary }}">
+                                     placeholder="Min Salary" min="0" value="{{ $listing->min_salary }}">
                                  -
                                  <input class="col inputDesign px-2 py-1" type="number" name="max_salary"
-                                     placeholder="Max Salary" min="0" step="1000"
-                                     value="{{ $listing->max_salary }}">
+                                     placeholder="Max Salary" min="0" value="{{ $listing->max_salary }}">
                              </div>
 
                          </div>
@@ -162,15 +176,17 @@
                              </div>
                              <!-- Task List -->
                              <ul class="list-group" id="taskList">
-                                 @foreach (json_decode($listing->description) as $desc)
+
+                                 @if ($listing->skills != 'null' || $listing->skills != null)
                                      <li class="list-group-item d-flex justify-content-between align-items-center">
-                                         <span class="task-text">{{ $desc }}</span>
+                                         <span class="task-text">{{ $listing->skills }}</span>
                                          <div>
                                              <button class="btn btn-danger btn-sm"
                                                  onclick="deleteTask(this)">Delete</button>
                                          </div>
                                      </li>
-                                 @endforeach
+                                 @endif
+
                              </ul>
                          </div>
 
@@ -187,15 +203,7 @@
                              </div>
                              <!-- Task List -->
                              <ul class="list-group" id="descriptionList">
-                                 @foreach (json_decode($listing->description) as $desc)
-                                     <li class="list-group-item d-flex justify-content-between align-items-center">
-                                         <span class="task-text">{{ $desc }}</span>
-                                         <div>
-                                             <button class="btn btn-danger btn-sm"
-                                                 onclick="deleteTask(this)">Delete</button>
-                                         </div>
-                                     </li>
-                                 @endforeach
+
                              </ul>
                          </div>
 

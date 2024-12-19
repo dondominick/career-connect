@@ -2,10 +2,8 @@
 @section('head')
 @endsection
 @section('content')
-    <a class="button hover:bg-slate-100 w-50 mx-auto" href="{{ route('listings') }}"><i
-            class="fa-solid fa-arrow-left mx-auto"></i>
-        Go
-        Back</a>
+    <a class="button bg-white text-dark hover:text-primary w-25 mt-5 ms-2" href="{{ route('listings') }}"><i
+            class="fa-solid fa-arrow-left mx-auto"></i> Go Back </a>
 
     <div class="row gap-2 p-3 w-100">
         <div class="col">
@@ -16,7 +14,9 @@
 
                             <tbody>
                                 <tr>
-                                    <td scope="row">Position</td>
+                                    <strong>
+                                        <td scope="row">Position</td>
+                                    </strong>
                                     <td>{{ $listing->position }}</td>
                                 </tr>
                                 <tr>
@@ -53,7 +53,14 @@
                         </table>
                     </div>
                 </div>
+                <div class="w-full">
+                    <ul>
+                        @if ($listing->skills != 'null')
+                            <li>{{ $listing->skills }}</li>
+                        @endif
 
+                    </ul>
+                </div>
                 <form method="post" action="{{ route('view-listing', $listing->id) }}" class="row" id="form"
                     hidden>
                     @csrf
@@ -140,15 +147,14 @@
             </div>
         @enderror
 
-        @isset($success)
-            <div class="toast align-items-center" role="alert" aria-live="assertive" aria-atomic="true">
-                <div class="d-flex">
-                    <div class="toast-body">
-                        {{ $message }}
-                    </div>
-                    <button type="button" class="btn-close me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
-                </div>
+        @if (session('success'))
+            <div class="alert alert-success alert-dismissible fade show position-fixed bg-success end-0 bottom-0 mx-2 col-sm-4 text-bg-success"
+                role="alert">
+                <i class="fa fa-exclamation-triangle me-1" aria-hidden="true"></i><strong>Success!</strong>
+                {{ session('success') }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
-        @endisset
+        @endif
+
     </div>
 @endsection

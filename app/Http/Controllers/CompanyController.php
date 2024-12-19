@@ -13,7 +13,13 @@ class CompanyController extends Controller
 {
     public function companyDashboard()
     {
-        return view('company.dashboard');
+        $applications = Application::where('companyID', session('company')->id)
+            ->join('resumes', 'job_applications.resume', '=', 'resumes.applicant_id')
+
+            ->get()->take(3);
+
+        $listings = Listing::where('companyID', session('company')->id)->get()->take(3);
+        return view('company.dashboard', compact('applications', 'listings'));
     }
 
     public function createEmployer(Request $request)
@@ -55,7 +61,9 @@ class CompanyController extends Controller
 
     public function viewApplications()
     {
-        $applications = Application::where('companyID', session('company')->id)->get();
+        $applications = Application::where('companyID', session('company')->id)
+            ->join('resumes', 'job_applications.resume', '=', 'resumes.id')
+            ->get();
         return view('company.view-applications', ['applications' => $applications]);
     }
     public function getCompanyInfo()

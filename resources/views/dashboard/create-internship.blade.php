@@ -3,6 +3,14 @@
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
 @endsection
 @section('content')
+    <style>
+        .buttonback:hover {
+            background-color: darkblue;
+            text-decoration-color: white;
+            transform: scale(1.05);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+    </style>
     <div class="d-flex flex-column align-items-end justify-content-end z-50 bottom-0 start-0 position-fixed w-100">
 
 
@@ -124,142 +132,140 @@
 
     </div>
 
-    <div class="row px-4 w-100">
-        <div class="col">
-            <a class="btn bg-white rounded" href="{{ route('employer-dashboard') }}">Go Back</a>
-        </div>
-    </div>
-    <div class="container-fluid p-4">
+    <button class="btn buttonback rounded-5 text-white px-3 py-2 d-flex align-items-center justify-content-start ms-3 mt-3"
+        style="background-color: blue; transition: all 0.3s;"
+        onclick="window.location.href = '{{ route('employer-dashboard') }}'">
+        <i class="fa-solid fa-arrow-left" style="color: white; font-size: 1.2rem;"></i>
+        <span class="ps-2">Go Back</span>
+    </button>
 
 
-        <div class="row w-100">
-            <div class="col-md-6 mx-auto bg-white rounded-5">
-                <div class="p-5 bgColor">
-                    <h1 class="fw-bold h2 text-center mb-5">Create Internship</h1>
-                    <!--FORM-->
-                    <form action="{{ route('create-internship') }}" method="post">
-                        @csrf
-                        <input type="text" hidden name="company" value="{{ session('employer')->company }}">
-                        <input type="text" hidden name="employer_id" value="{{ session('employer')->id }}">
-                        <input type="text" hidden name="companyID" value="{{ session('employer')->companyID }}">
-                        <input type="text" hidden name="requirements" id="requirements">
-                        <input type="text" hidden name="description" id="description">
+    <div class="row w-100">
+        <div class="col-md-6 mx-auto bg-white rounded-5">
+            <div class="p-5 bgColor">
+                <h1 class="fw-bold h2 text-center mb-5">Create Internship</h1>
+                <!--FORM-->
+                <form action="{{ route('create-internship') }}" method="post">
+                    @csrf
+                    <input type="text" hidden name="company" value="{{ session('employer')->company }}">
+                    <input type="text" hidden name="employer_id" value="{{ session('employer')->id }}">
+                    <input type="text" hidden name="companyID" value="{{ session('employer')->companyID }}">
+                    <input type="text" hidden name="requirements" id="requirements">
+                    <input type="text" hidden name="description" id="description">
 
-                        <!--Location-->
-                        <div class="col mb-3">
-                            <label class="font-bold" for="">Location</label>
+                    <!--Location-->
+                    <div class="col mb-3">
+                        <label class="font-bold" for="">Location</label>
 
-                            <input type="text" class="inputDesign" name="location" placeholder="Location"
-                                value="{{ old('location') }}">
+                        <input type="text" class="inputDesign" name="location" placeholder="Location"
+                            value="{{ old('location') }}">
+                    </div>
+
+
+                    {{-- Email --}}
+                    <div class="col mb-3">
+                        <label class="font-bold" for="">Email</label>
+
+                        <input type="text" class="inputDesign" name="email" placeholder="Email"
+                            value="{{ old('email') }}">
+                    </div>
+                    {{-- Work Arrangement --}}
+                    <div class="col mb-3">
+                        <label class="font-bold" for="">Work Arrangement</label>
+                        <select name="arrangement" id="" class="mt-1 form-select">
+                            <option selected="onsite">Onsite</option>
+                            <option value="wfh">Work from Home</option>
+                            <option value="hybrid">Hybird</option>
+                        </select>
+
+                    </div>
+                    {{-- Age Range --}}
+
+                    <div class="col mb-3">
+                        <label class="fw-bold">Preferred Age Range:</label>
+                        <div class="d-flex justify-content-between gap-3">
+                            <input type="number" name="age_min" class="inputDesign" placeholder="Min Age"
+                                min="18" max="65">
+                            -
+                            <input type="number" class="inputDesign" name="age_max" placeholder="Max Age"
+                                min="18" max="65">
+                        </div>
+                    </div>
+                    <!--Salary-->
+                    <div class="mb-3">
+                        <label class="fw-bold">Salary Range:</label>
+                        <div class="d-flex justify-content-between gap-3">
+                            <input class="col inputDesign px-2 py-1" type="number" name="salary_min"
+                                placeholder="Min Salary" min="0" step="1000" value="{{ old('salary_min') }}">
+                            -
+                            <input class="col inputDesign px-2 py-1" type="number" name="salary_max"
+                                placeholder="Max Salary" min="0" step="1000" value="{{ old('salary_max') }}">
                         </div>
 
+                    </div>
 
-                        {{-- Email --}}
-                        <div class="col mb-3">
-                            <label class="font-bold" for="">Email</label>
+                    <div class="col mb-3" id="additional_employment">
+                        <label class="font-bold" for="">Internship Duration</label>
 
-                            <input type="text" class="inputDesign" name="email" placeholder="Email"
-                                value="{{ old('email') }}">
+                        <input type="text" class="inputDesign" name="duration" placeholder="Employment Duration"
+                            value="{{ old('duration') }}">
+                    </div>
+                    <!--Min Educ Attainment Level-->
+                    <div class="mb-3">
+                        <label class="font-bold" for="">Mininum Education Level</label>
+                        <select id="" class="mt-1 form-select" name="education">
+                            <option selected="none">No Minimum</option>
+                            <option value="highschool">High School Diploma</option>
+                            <option value="undergraduate">College Undergraduate</option>
+                            <option value="bachelor">Bachelor's Degree</option>
+                            <option value="masters">Master's Degree</option>
+                            <option value="phd">Ph.D.</option>
+                        </select>
+                    </div>
+
+
+                    <div class="">
+                        <!-- Input Field -->
+                        <label for="" class="form-label fw-bold">Requirements</label>
+
+                        <div class="input-group">
+                            <input type="text" id="taskInput" class="form-control" placeholder="Add a new task"
+                                aria-label="New Task">
+                            <button class="btn btn-primary" type="button" onclick="addTask()">Add</button>
                         </div>
-                        {{-- Work Arrangement --}}
-                        <div class="col mb-3">
-                            <label class="font-bold" for="">Work Arrangement</label>
-                            <select name="arrangement" id="" class="mt-1 form-select">
-                                <option selected="onsite">Onsite</option>
-                                <option value="wfh">Work from Home</option>
-                                <option value="hybrid">Hybird</option>
-                            </select>
+                        <!-- Task List -->
+                        <ul class="list-group" id="taskList"></ul>
+                    </div>
 
+                    {{-- For Description --}}
+
+                    <div class="mt-3">
+                        <!-- Input Field -->
+                        <label for="" class="form-label fw-bold">Job Description</label>
+
+                        <div class="mb-3 input-group">
+                            <input type="text" id="descriptionInput" class="form-control"
+                                placeholder="Add a new description" aria-label="New Description">
+                            <button class="btn btn-primary" type="button" onclick="addDescription()">Add</button>
                         </div>
-                        {{-- Age Range --}}
-
-                        <div class="col mb-3">
-                            <label class="fw-bold">Preferred Age Range:</label>
-                            <div class="d-flex justify-content-between gap-3">
-                                <input type="number" name="age_min" class="inputDesign" placeholder="Min Age"
-                                    min="18" max="65">
-                                -
-                                <input type="number" class="inputDesign" name="age_max" placeholder="Max Age"
-                                    min="18" max="65">
-                            </div>
-                        </div>
-                        <!--Salary-->
-                        <div class="mb-3">
-                            <label class="fw-bold">Salary Range:</label>
-                            <div class="d-flex justify-content-between gap-3">
-                                <input class="col inputDesign px-2 py-1" type="number" name="salary_min"
-                                    placeholder="Min Salary" min="0" step="1000"
-                                    value="{{ old('salary_min') }}">
-                                -
-                                <input class="col inputDesign px-2 py-1" type="number" name="salary_max"
-                                    placeholder="Max Salary" min="0" step="1000"
-                                    value="{{ old('salary_max') }}">
-                            </div>
-
-                        </div>
-
-                        <div class="col mb-3" id="additional_employment">
-                            <label class="font-bold" for="">Internship Duration</label>
-
-                            <input type="text" class="inputDesign" name="duration" placeholder="Employment Duration"
-                                value="{{ old('duration') }}">
-                        </div>
-                        <!--Min Educ Attainment Level-->
-                        <div class="mb-3">
-                            <label class="font-bold" for="">Mininum Education Level</label>
-                            <select id="" class="mt-1 form-select" name="education">
-                                <option selected="none">No Minimum</option>
-                                <option value="highschool">High School Diploma</option>
-                                <option value="undergraduate">College Undergraduate</option>
-                                <option value="bachelor">Bachelor's Degree</option>
-                                <option value="masters">Master's Degree</option>
-                                <option value="phd">Ph.D.</option>
-                            </select>
-                        </div>
-
-
-                        <div class="">
-                            <!-- Input Field -->
-                            <label for="" class="form-label fw-bold">Requirements</label>
-
-                            <div class="input-group">
-                                <input type="text" id="taskInput" class="form-control" placeholder="Add a new task"
-                                    aria-label="New Task">
-                                <button class="btn btn-primary" type="button" onclick="addTask()">Add</button>
-                            </div>
-                            <!-- Task List -->
-                            <ul class="list-group" id="taskList"></ul>
-                        </div>
-
-                        {{-- For Description --}}
-
-                        <div class="mt-3">
-                            <!-- Input Field -->
-                            <label for="" class="form-label fw-bold">Job Description</label>
-
-                            <div class="mb-3 input-group">
-                                <input type="text" id="descriptionInput" class="form-control"
-                                    placeholder="Add a new description" aria-label="New Description">
-                                <button class="btn btn-primary" type="button" onclick="addDescription()">Add</button>
-                            </div>
-                            <!-- Task List -->
-                            <ul class="list-group" id="descriptionList"></ul>
-                        </div>
+                        <!-- Task List -->
+                        <ul class="list-group" id="descriptionList"></ul>
+                    </div>
 
 
 
 
-                        <div class="row">
-                            <!--Create BTN-->
-                            <div class="col-2"></div>
-                            <button type="submit" class="button py-2 px-4 mt-3">Create</button>
-                            <div class="col-2"></div>
-                        </div>
-                    </form>
+                    <div class="row">
+                        <!--Create BTN-->
+                        <div class="col-2"></div>
+                        <button type="submit" class="button py-2 px-4 mt-3">Create</button>
+                        <div class="col-2"></div>
+                    </div>
+                </form>
 
-                </div>
             </div>
         </div>
+    </div>
     </div>
 @endsection
 @section('scripts')

@@ -7,6 +7,16 @@
     </style>
 @endsection
 @section('content')
+    @if (session('successful'))
+        <div class="container mt-5 position-fixed bottom-0 end-0 mw-25 w-50 z-3">
+            <!-- Dismissible Alert -->
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                <strong>Success</strong> {{ session('successful') }}
+
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        </div>
+    @endif
     @isset($sucessful)
         <div class="container mt-5 position-fixed bottom-0 end-0 mw-25 w-50 z-3">
             <!-- Dismissible Alert -->

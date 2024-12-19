@@ -17,6 +17,7 @@
     </style>
 @endsection
 @section('content')
+
     <section class="hero align-items-center d-flex"
         style="background-image: url('{{ asset('public_img/background.png') }}')">
         <div class="container">
@@ -30,8 +31,6 @@
                         id="job-form">
                         <div class="input-group">
                             @csrf
-
-                            <!-- PARA MUGANA ANG SEARCH BARS BAI BUTNGAN ATA NI SYA UG FORM PARA MAKASEARCH I THINK?? -->
                             <label for="job">What?</label>
                             <input type="text" id="job" placeholder="Enter Job Title or Keywords" name="job"
                                 class="input-field">
@@ -46,8 +45,8 @@
 
                     <button
                         onclick="document.getElementById('job-form').submit().onsubmit(function () {
-                            document.getElementById('location-form').submit()
-                        });"
+                    document.getElementById('location-form').submit()
+                });"
                         class="search-button">SEARCH</button>
                 </div>
 

@@ -16,7 +16,7 @@
 
 @section('content')
     <div class=" pt-5 bg-white px-3" id="content">
-        <a class="button hover:bg-slate-100 text-black w-50 mx-auto" href="{{ route('company-dashboard') }}"><i
+        <a class="button hover:bg-slate-100 text-black w-25 mb-3 " href="{{ route('company-dashboard') }}"><i
                 class="fa-solid fa-arrow-left mx-auto"></i>
             Go
             Back</a>
@@ -47,8 +47,7 @@
             <form class="d-flex flex-row justify-content-center justify-content-sm-start g-0" method="get">
                 @csrf
                 <div class="me-3">
-                    <input type="text" class="searchbar border border-2 rounded-pill py-2 px-3"
-                        placeholder="Search Employer">
+                    <input type="text" class="searchbar border-2 rounded-pill py-2 px-3" placeholder="Search Employer">
                 </div>
                 <select class="form-select w-25" aria-labelledby="dropdownMenuButton">
                     <option selected=""> By Default</option>
@@ -81,17 +80,17 @@
                                 <td class="col-1" scope="row">{{ $employer->id }}</td>
                                 <td class="col-3">{{ $employer->fname }} {{ $employer->lname }}</td>
                                 <td class="col-2">$12</td>
-                                <td class="col-2">{{ $employer->position }}</td>
+                                <td class="col-2">{{ $employer->job_title }}</td>
                                 <td class="col-2">{{ date_format($employer->created_at, 'd/m/Y') }}</td>
                                 <td class="col-2">
-                                    <button type="button" class="btn btn-success mb-1 mb-sm-0" data-bs-toggle="modal"
+                                    {{-- <button type="button" class="btn btn-success mb-1 mb-sm-0" data-bs-toggle="modal"
                                         data-bs-target="#viewModal">
                                         View
-                                    </button>
-                                    <button type="button" class="btn btn-danger" data-bs-toggle="modal"
+                                    </button> --}}
+                                    {{-- <button type="button" class="btn btn-danger" data-bs-toggle="modal"
                                         data-bs-target="#editModal">
                                         Edit
-                                    </button>
+                                    </button> --}}
 
                                 </td>
                             </tr>

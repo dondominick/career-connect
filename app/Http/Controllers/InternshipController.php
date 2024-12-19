@@ -119,6 +119,6 @@ class InternshipController extends Controller
 
 
         // IF ALL CONDITIONS ARE FAILED TO BE MET, PROCEED TO HERE -> FOR GENERAL SEARCHING
-        return view('pages.internships', ['listings' => Internship::whereAny(['position', 'location', 'company'], 'like', $request['search'] . '%')->get()]);
+        return view('pages.internships', ['listings' => Internship::whereAny(['location', 'company'], 'like', $request['search'] . '%')->get()]);
     }
 }

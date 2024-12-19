@@ -43,7 +43,7 @@
     <nav class="navbar navbar-expand-lg navbar-light bg-white mw-100">
         <div class="container">
             <!-- Navbar Brand with Logo and Text -->
-            <a class="navbar-brand d-flex align-items-center" href="#">
+            <a class="navbar-brand d-flex align-items-center" href="{{ route('home') }}">
                 <img src="{{ asset('public_img/logo.png') }}" alt="Logo" class="me-2 logo">
                 <!-- Logo Image -->
             </a>
@@ -55,21 +55,21 @@
                 <ul class="navbar-nav mx-auto fw-bold">
                     @auth
                         <li class="nav-item mx-5">
-                            <a class="nav-link" href="{{ route('home') . '/' }}">Home</a>
+                            <a class="nav-link" style="color: #2cb2f1" href="{{ route('home') . '/' }}">Home</a>
                         </li>
                     @endauth
                     @guest
 
                         <li class="nav-item mx-5">
-                            <a class="nav-link" href="{{ route('landing-page') }}">Home</a>
+                            <a class="nav-link" style="color: #2cb2f1" href="{{ route('landing-page') }}">Home</a>
                         </li>
                     @endguest
 
                     <li class="nav-item mx-5">
-                        <a class="nav-link" href="{{ route('listings') }}">Listings</a>
+                        <a class="nav-link" style="color: #2cb2f1" href="{{ route('listings') }}">Listings</a>
                     </li>
                     <li class="nav-item mx-5">
-                        <a class="nav-link" href="{{ route('internships') }}">Internships</a>
+                        <a class="nav-link" style="color: #2cb2f1" href="{{ route('internships') }}">Internships</a>
                     </li>
                 </ul>
 
@@ -103,8 +103,8 @@
 
 
 
-    <div class="bg-secondary">
-        <footer class="py-5" style="background-color: rgb(34, 34, 34); padding:20px;">
+    <div class="footer mb-1">
+        <footer style="background-color: #5c55da; padding:20px;">
             <div class="members">
                 <h5 class="text-light"> MEMBERS </h5>
                 <ul class="nav flex-column">
@@ -114,17 +114,14 @@
                 </ul>
             </div>
 
-            <div class="d-flex justify-content-between py-4 my-4 border-top text-light mb-0">
+            <div class="d-flex justify-content-between py-4  border-top text-light mb-auto">
                 <p>© CareerConnect 2024, Inc. All rights reserved.</p>
                 <ul class="list-unstyled d-flex">
-                    <!-- X (Twitter) Icon -->
                     <li class="ms-3">
                         <a class="link-dark" href="#" target="_blank">
                             <i class="bi bi-twitter" style="font-size: 24px;color:white"></i>
                         </a>
                     </li>
-
-                    <!-- Instagram Icon -->
                     <li class="ms-3">
                         <a class="link-dark" href="#" target="_blank">
                             <i class="bi bi-instagram" style="font-size: 24px; color:white"></i>

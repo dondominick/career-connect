@@ -3,6 +3,13 @@
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
     <style>
         #details_list li {}
+
+        .buttonback:hover {
+            background-color: darkblue;
+            text-decoration-color: white;
+            transform: scale(1.05);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
     </style>
     <meta name="csrf-token" content="{{ csrf_token() }}">
 @endsection
@@ -151,187 +158,189 @@
 
     </div>
 
-    <div class="container-fluid mt-5">
-        <div class="row mb-2">
-            <div class="col">
-                <a class="btn bg-white rounded" href="{{ route('employer-dashboard') }}">Go Back</a>
-            </div>
+
+    <button class="btn buttonback rounded-5 text-white px-3 py-2 d-flex align-items-center justify-content-start ms-3 mt-3"
+        style="background-color: blue; transition: all 0.3s;"
+        onclick="window.location.href = '{{ route('employer-dashboard') }}'">
+        <i class="fa-solid fa-arrow-left" style="color: white; font-size: 1.2rem;"></i>
+        <span class="ps-2">Go Back</span>
+    </button>
+
+
+    <div class="row mb-3">
+        <div class="p-5 col-6 mx-auto bgColor">
+            <h1 class="fw-bold h2 text-center mb-5">Create Listing</h1>
+            <!--FORM-->
+            <form action="{{ route('create-listing') }}" method="post" id="create-form" onsubmit="formSubmit()">
+                @csrf
+                {{-- hiddden fields --}}
+                <input type="text" name="employer_id" hidden value="{{ session('employer')->id }}">
+                <input type="text" name="company" hidden value="{{ session('employer')->company }}">
+                <input type="text" name="companyID" hidden value="{{ session('employer')->companyID }}">
+                <input type="text" hidden name="requirements" id="requirements">
+                <input type="text" hidden name="description" id="description">
+
+
+                <!--Postion-->
+                <div class="col mb-3">
+                    <label class="font-bold" for="">Position</label>
+                    <input type="text" class="inputDesign" name="position" placeholder="Position"
+                        value="{{ old('position') }}">
+                </div>
+                <!--Salary-->
+                <div class="mb-3">
+                    <label class="fw-bold">Salary Range:</label>
+                    <div class="d-flex justify-content-between gap-3">
+                        <input class="col inputDesign px-2 py-1" type="number" name="min_salary"
+                            placeholder="Min Salary" value="{{ old('min_salary') }}">
+                        -
+                        <input class="col inputDesign px-2 py-1" type="number" name="max_salary"
+                            placeholder="Max Salary" value="{{ old('max_salary') }}">
+                    </div>
+
+                </div>
+                <!--Location-->
+                <div class="col mb-3">
+                    <label class="font-bold" for="">Location</label>
+
+                    <input type="text" class="inputDesign" name="location" placeholder="Location"
+                        value="{{ old('location') }}">
+                </div>
+                {{-- Email --}}
+                <div class="col mb-3">
+                    <label class="font-bold" for="">Email</label>
+
+                    <input type="text" class="inputDesign" name="email" placeholder="Email"
+                        value="{{ old('email') }}">
+                </div>
+                {{-- Work Arrangement --}}
+                <div class="col mb-3">
+                    <label class="font-bold" for="">Work Arrangement</label>
+                    <select name="arrangement" id="" class="mt-1 form-select">
+                        <option selected="onsite">Onsite</option>
+                        <option value="wfh">Work from Home</option>
+                        <option value="hybrid">Hybird</option>
+                    </select>
+
+                </div>
+                {{-- Age Range --}}
+
+                <div class="col mb-3">
+                    <label class="fw-bold">Preferred Age Range:</label>
+                    <div class="d-flex justify-content-between gap-3">
+                        <input type="number" name="min_age" class="inputDesign" placeholder="Min Age"
+                            value="{{ old('min_age') }}">
+                        -
+                        <input type="number" class="inputDesign" name="max_age" placeholder="Max Age"
+                            value="{{ old('max_age') }}">
+                    </div>
+                </div>
+
+                {{-- Employment Type --}}
+
+                <div class="col mb-3" id="types">
+                    <label class="font-bold" for="">Employment Type</label>
+                    <select name="type" id="type" class="mt-1 form-select" onchange="addInfo()">
+                        <option selected="full-time">Full Time</option>
+                        <option value="part-time">Part-Time</option>
+                        <option value="freelance">Freelance</option>
+                        <option value="temporary">Temporary</option>
+                        <option value="contract">Contract</option>
+                    </select>
+                </div>
+                {{-- Additional Info For Employment Type --}}
+                <div class="col mb-3 d-none" id="additional_employment">
+                    <label class="font-bold" for="">Employment Duration</label>
+
+                    <input type="text" class="inputDesign" name="duration" placeholder="Employment Duration"
+                        value="{{ old('duration') }}">
+                </div>
+                <div class="col mb-3 d-none" id="additional_employment_hours">
+                    <label class="font-bold" for="">Work Hours</label>
+
+                    <input type="text" class="inputDesign" name="hours" placeholder="Work Hours"
+                        value="{{ old('hours') }}">
+                </div>
+                <!--Min Educ Attainment Level-->
+                <div class="mb-3">
+                    <label class="font-bold" for="">Mininum Education Level</label>
+                    <select id="" class="mt-1 form-select" name="education">
+                        <option selected="none">No Minimum</option>
+                        <option value="highschool">High School Diploma</option>
+                        <option value="undergraduate">College Undergraduate</option>
+                        <option value="bachelor">Bachelor's Degree</option>
+                        <option value="masters">Master's Degree</option>
+                        <option value="phd">Ph.D.</option>
+                    </select>
+                </div>
+
+                {{-- Experience Level --}}
+                <div class="mb-3">
+                    <label class="font-bold" for="">Experience Level</label>
+                    <select id="" class="form-select" name="experience">
+                        <option selected="entry">Entry Level</option>
+                        <option value="mid">Mid Level</option>
+                        <option value="senior">Senior Level</option>
+                        <option value="director">Director Level</option>
+                        <option value="executive">Executive</option>
+                    </select>
+                </div>
+                {{-- Skills Fields --}}
+                <div class="mb-3">
+                    <label for="education" class="form-label">Skills</label>
+
+                    <div class="skill-tags-container" id="skillTagsContainer">
+                        <input hidden name="skills" value="Hello" id="skills">
+                        <select id="skillInput" class="form-control skill-input">
+                            <option selected>None</option>
+                            <option value="communication">Communication</option>
+                            <option value="programming">Programming</option>
+                            <option value="accounting">Accounting</option>
+                        </select>
+                    </div>
+                </div>
+                <!--Min Requirements-->
+
+                <div class="">
+                    <!-- Input Field -->
+                    <label for="" class="form-label fw-bold">Requirements</label>
+
+                    <div class="mb-3 input-group">
+                        <input type="text" id="taskInput" class="form-control" placeholder="Add a new task"
+                            aria-label="New Task">
+                        <button class="btn btn-primary" type="button" onclick="addTask()">Add</button>
+                    </div>
+                    <!-- Task List -->
+                    <ul class="list-group" id="taskList"></ul>
+                </div>
+
+                {{-- For Description --}}
+
+                <div class="mt-4">
+                    <!-- Input Field -->
+                    <label for="" class="form-label fw-bold">Job Description</label>
+
+                    <div class="mb-3 input-group">
+                        <input type="text" id="descriptionInput" class="form-control"
+                            placeholder="Add a new description" aria-label="New Description">
+                        <button class="btn btn-primary" type="button" onclick="addDescription()">Add</button>
+                    </div>
+                    <!-- Task List -->
+                    <ul class="list-group" id="descriptionList"></ul>
+                </div>
+
+                {{-- Submit --}}
+                <div class="row">
+                    <!--Create BTN-->
+                    <div class="col-2"></div>
+                    <button type="submit" class="col button py-2 px-4 mt-3 text-dark">Create</button>
+                    <div class="col-2"></div>
+                </div>
+            </form>
+
+            <!--  <button class="btn" onclick="retrieveAllSkills()">Get All Task</button> -->
         </div>
-
-        <div class="row">
-            <div class="p-5 col-6 mx-auto bgColor">
-                <h1 class="fw-bold h2 text-center mb-5">Create Listing</h1>
-                <!--FORM-->
-                <form action="{{ route('create-listing') }}" method="post" id="create-form" onsubmit="formSubmit()">
-                    @csrf
-                    {{-- hiddden fields --}}
-                    <input type="text" name="employer_id" hidden value="{{ session('employer')->id }}">
-                    <input type="text" name="company" hidden value="{{ session('employer')->company }}">
-                    <input type="text" name="companyID" hidden value="{{ session('employer')->companyID }}">
-                    <input type="text" hidden name="requirements" id="requirements">
-                    <input type="text" hidden name="description" id="description">
-
-
-                    <!--Postion-->
-                    <div class="col mb-3">
-                        <label class="font-bold" for="">Position</label>
-                        <input type="text" class="inputDesign" name="position" placeholder="Position"
-                            value="{{ old('position') }}">
-                    </div>
-                    <!--Salary-->
-                    <div class="mb-3">
-                        <label class="fw-bold">Salary Range:</label>
-                        <div class="d-flex justify-content-between gap-3">
-                            <input class="col inputDesign px-2 py-1" type="number" name="min_salary"
-                                placeholder="Min Salary" value="{{ old('min_salary') }}">
-                            -
-                            <input class="col inputDesign px-2 py-1" type="number" name="max_salary"
-                                placeholder="Max Salary" value="{{ old('max_salary') }}">
-                        </div>
-
-                    </div>
-                    <!--Location-->
-                    <div class="col mb-3">
-                        <label class="font-bold" for="">Location</label>
-
-                        <input type="text" class="inputDesign" name="location" placeholder="Location"
-                            value="{{ old('location') }}">
-                    </div>
-                    {{-- Email --}}
-                    <div class="col mb-3">
-                        <label class="font-bold" for="">Email</label>
-
-                        <input type="text" class="inputDesign" name="email" placeholder="Email"
-                            value="{{ old('email') }}">
-                    </div>
-                    {{-- Work Arrangement --}}
-                    <div class="col mb-3">
-                        <label class="font-bold" for="">Work Arrangement</label>
-                        <select name="arrangement" id="" class="mt-1 form-select">
-                            <option selected="onsite">Onsite</option>
-                            <option value="wfh">Work from Home</option>
-                            <option value="hybrid">Hybird</option>
-                        </select>
-
-                    </div>
-                    {{-- Age Range --}}
-
-                    <div class="col mb-3">
-                        <label class="fw-bold">Preferred Age Range:</label>
-                        <div class="d-flex justify-content-between gap-3">
-                            <input type="number" name="min_age" class="inputDesign" placeholder="Min Age"
-                                value="{{ old('min_age') }}">
-                            -
-                            <input type="number" class="inputDesign" name="max_age" placeholder="Max Age"
-                                value="{{ old('max_age') }}">
-                        </div>
-                    </div>
-
-                    {{-- Employment Type --}}
-
-                    <div class="col mb-3" id="types">
-                        <label class="font-bold" for="">Employment Type</label>
-                        <select name="type" id="type" class="mt-1 form-select" onchange="addInfo()">
-                            <option selected="full-time">Full Time</option>
-                            <option value="part-time">Part-Time</option>
-                            <option value="freelance">Freelance</option>
-                            <option value="temporary">Temporary</option>
-                            <option value="contract">Contract</option>
-                        </select>
-                    </div>
-                    {{-- Additional Info For Employment Type --}}
-                    <div class="col mb-3 d-none" id="additional_employment">
-                        <label class="font-bold" for="">Employment Duration</label>
-
-                        <input type="text" class="inputDesign" name="duration" placeholder="Employment Duration"
-                            value="{{ old('duration') }}">
-                    </div>
-                    <div class="col mb-3 d-none" id="additional_employment_hours">
-                        <label class="font-bold" for="">Work Hours</label>
-
-                        <input type="text" class="inputDesign" name="hours" placeholder="Work Hours"
-                            value="{{ old('hours') }}">
-                    </div>
-                    <!--Min Educ Attainment Level-->
-                    <div class="mb-3">
-                        <label class="font-bold" for="">Mininum Education Level</label>
-                        <select id="" class="mt-1 form-select" name="education">
-                            <option selected="none">No Minimum</option>
-                            <option value="highschool">High School Diploma</option>
-                            <option value="undergraduate">College Undergraduate</option>
-                            <option value="bachelor">Bachelor's Degree</option>
-                            <option value="masters">Master's Degree</option>
-                            <option value="phd">Ph.D.</option>
-                        </select>
-                    </div>
-
-                    {{-- Experience Level --}}
-                    <div class="mb-3">
-                        <label class="font-bold" for="">Experience Level</label>
-                        <select id="" class="form-select" name="experience">
-                            <option selected="entry">Entry Level</option>
-                            <option value="mid">Mid Level</option>
-                            <option value="senior">Senior Level</option>
-                            <option value="director">Director Level</option>
-                            <option value="executive">Executive</option>
-                        </select>
-                    </div>
-                    {{-- Skills Fields --}}
-                    <div class="mb-3">
-                        <label for="education" class="form-label">Skills</label>
-
-                        <div class="skill-tags-container" id="skillTagsContainer">
-                            <input hidden name="skills" value="Hello" id="skills">
-                            <select id="skillInput" class="form-control skill-input">
-                                <option selected>None</option>
-                                <option value="communication">Communication</option>
-                                <option value="programming">Programming</option>
-                                <option value="accounting">Accounting</option>
-                            </select>
-                        </div>
-                    </div>
-                    <!--Min Requirements-->
-
-                    <div class="">
-                        <!-- Input Field -->
-                        <label for="" class="form-label fw-bold">Requirements</label>
-
-                        <div class="mb-3 input-group">
-                            <input type="text" id="taskInput" class="form-control" placeholder="Add a new task"
-                                aria-label="New Task">
-                            <button class="btn btn-primary" type="button" onclick="addTask()">Add</button>
-                        </div>
-                        <!-- Task List -->
-                        <ul class="list-group" id="taskList"></ul>
-                    </div>
-
-                    {{-- For Description --}}
-
-                    <div class="mt-4">
-                        <!-- Input Field -->
-                        <label for="" class="form-label fw-bold">Job Description</label>
-
-                        <div class="mb-3 input-group">
-                            <input type="text" id="descriptionInput" class="form-control"
-                                placeholder="Add a new description" aria-label="New Description">
-                            <button class="btn btn-primary" type="button" onclick="addDescription()">Add</button>
-                        </div>
-                        <!-- Task List -->
-                        <ul class="list-group" id="descriptionList"></ul>
-                    </div>
-
-                    {{-- Submit --}}
-                    <div class="row">
-                        <!--Create BTN-->
-                        <div class="col-2"></div>
-                        <button type="submit" class="col button py-2 px-4 mt-3 text-dark">Create</button>
-                        <div class="col-2"></div>
-                    </div>
-                </form>
-
-                <button class="btn" onclick="retrieveAllSkills()">Get All Task</button>
-            </div>
-        </div>
+    </div>
     </div>
 @endsection
 @section('scripts')

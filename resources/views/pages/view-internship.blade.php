@@ -2,7 +2,7 @@
 @section('head')
 @endsection
 @section('content')
-    <a class="button hover:bg-slate-100 w-50 mx-auto" href="{{ route('listings') }}"><i
+    <a class="button hover:bg-slate-100 w-50 mx-auto my-5" href="{{ route('listings') }}"><i
             class="fa-solid fa-arrow-left mx-auto"></i>
         Go
         Back</a>
@@ -63,7 +63,7 @@
                     </div>
                 </div>
 
-                <form method="post" action="{{ route('view-listing', $internship->id) }}" class="row" id="form"
+                <form method="post" action="{{ route('view-internship', $internship->id) }}" class="row" id="form"
                     hidden>
 
                     @csrf
@@ -128,15 +128,13 @@
             </div>
         @enderror
 
-        @isset($success)
-            <div class="toast align-items-center" role="alert" aria-live="assertive" aria-atomic="true">
-                <div class="d-flex">
-                    <div class="toast-body">
-                        {{ $message }}
-                    </div>
-                    <button type="button" class="btn-close me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
-                </div>
+        @if (session('success'))
+            <div class="alert alert-success alert-dismissible fade show position-fixed bg-success end-0 bottom-0 mx-2 col-sm-4 text-bg-success"
+                role="alert">
+                <i class="fa fa-exclamation-triangle me-1" aria-hidden="true"></i><strong>Success!</strong>
+                {{ session('success') }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
-        @endisset
+        @endif
     </div>
 @endsection

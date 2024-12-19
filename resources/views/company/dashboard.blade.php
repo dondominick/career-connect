@@ -4,6 +4,16 @@
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 @endsection
 @section('content')
+    @if (session('employers'))
+        <div class="container mt-5 position-fixed bottom-0 end-0 mw-25 w-50 z-3">
+            <!-- Dismissible Alert -->
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                <strong>Success!</strong> {{ session('employers') }}
+
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        </div>
+    @endif
     <div class="container-fluid my-4">
         <div class="row">
             <!-- Left Column -->
@@ -89,62 +99,48 @@
                                 <span class="ms-2">{{ date('D | M d , Y') }}</span>
                             </div>
                         </div>
+                        @foreach ($applications as $application)
+                            <div class="col-md-4 mb-3 ">
+                                <div class="card text-center">
+                                    <div class="card-header">
+                                        Application
+                                    </div>
+                                    <div class="card-body">
+                                        <h5 class="card-title">{{ session('company')->companyIndustry }}</h5>
+                                        <p class="card-text">{{ $application->name }} would like to apply for the position
+                                            of Data
+                                            Analyst.
+                                        </p>
+                                        <a href="{{ route('company-applications') }}" class="btn btn-primary">Check the
+                                            application</a>
+                                    </div>
+                                    <div class="card-footer text-muted">
+                                        1 day ago
+                                    </div>
+                                </div>
 
-                        <div class="col-md-4 mb-3 ">
-                            <div class="card text-center">
-                                <div class="card-header">
-                                    Application
-                                </div>
-                                <div class="card-body">
-                                    <h5 class="card-title">Technology Department</h5>
-                                    <p class="card-text">Aaron Lanos would like to apply for the position of Data Analyst.
-                                    </p>
-                                    <a href="#" class="btn btn-primary">Check the application</a>
-                                </div>
-                                <div class="card-footer text-muted">
-                                    1 day ago
-                                </div>
                             </div>
+                        @endforeach
 
-                        </div>
-                        <div class="col-md-4 mb-3">
-                            <div class="card text-center">
-                                <div class="card-header">
-                                    Application
-                                </div>
-                                <div class="card-body">
-                                    <h5 class="card-title">Production Department</h5>
-                                    <p class="card-text">Joren Naungayan would like to apply for the position of Machine
-                                        Operator.</p>
-                                    <a href="#" class="btn btn-primary">Check the application</a>
-                                </div>
-                                <div class="card-footer text-muted">
-                                    2 days ago
-                                </div>
+
+                        @if ($applications->count() == 0)
+                            <div class="mx-auto text-center my-5">
+                                <h1>No Applications</h1>
+
                             </div>
-                        </div>
-                        <div class="col-md-4 mb-3">
-                            <div class="card text-center">
-                                <div class="card-header">
-                                    Application
-                                </div>
-                                <div class="card-body">
-                                    <h5 class="card-title">Finance Department</h5>
-                                    <p class="card-text">Sherwin Montealto would like to apply for the position of
-                                        Accountant..</p>
-                                    <a href="#" class="btn btn-primary">Check the application</a>
-                                </div>
-                                <div class="card-footer text-muted">
-                                    2 days ago
-                                </div>
-                            </div>
-                        </div>
+                        @endif
                     </div>
 
                     <!-- Button below the cards -->
-                    <div class="d-grid gap-2 col-6 mx-auto mt-3 mb-5">
-                        <button class="btn btn-primary btn-lg" type="button">View all applications</button>
-                    </div>
+
+
+                    @if ($applications->count() > 0)
+                        <div class="d-grid gap-2 col-6 mx-auto mt-3 mb-5">
+                            <button onclick="window.location.href = '{{ route('company-applications') }}'"
+                                class="btn btn-primary btn-lg" type="button">View all applications</button>
+                        </div>
+                    @endif
+
                     <div class="card m-4">
                         <div class="card-header">
                             <h3>Job Position</h3>
@@ -155,30 +151,24 @@
                                     <tr>
                                         <th scope="col">Department</th>
                                         <th scope="col">Job Position</th>
-                                        <th scope="col">Applicant's</th>
+                                        <th scope="col">Salary</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td>Technology Department</td>
-                                        <td>Data Analyst</td>
-                                        <td>Aaron Lanos</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Production Department</td>
-                                        <td>Mahine Operator</td>
-                                        <td>Joren Naungayan</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Finance Department</td>
-                                        <td>Accountant</td>
-                                        <td>Sherwin Montealto</td>
-                                    </tr>
+                                    @foreach ($listings as $listing)
+                                        <tr>
+                                            <td>{{ session('company')->companyIndustry }}</td>
+                                            <td>{{ $listing->position }}</td>
+                                            <td>{{ $listing->min_salary }} - {{ $listing->max_salary }}</td>
+                                        </tr>
+                                    @endforeach
+
                                 </tbody>
                             </table>
                         </div>
                         <div class="card-footer d-flex align-items-center justify-content-center">
-                            <button class="btn btn-primary btn-md" type="button">Manage Job Position</button>
+                            <button onclick="window.location.href = '{{ route('company-listings') }}'"
+                                class="btn btn-primary btn-md" type="button">Manage Job Position</button>
                         </div>
                     </div>
                 </div>

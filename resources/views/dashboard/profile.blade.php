@@ -44,6 +44,15 @@
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
         @endif
+        @if (session('profile'))
+            <div class="alert alert-success alert-dismissible fade show position-relative mx-2 col-sm-4" role="alert">
+                <i class="fa fa-check-circle" aria-hidden="true"></i>
+                <strong>Success!</strong>
+                {{ session('profile') }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        @endif
+
 
     </div>
 
@@ -108,152 +117,256 @@
                 <a class="button text-base  font-semibold text-black" href="{{ route('resume') }}">
                     Upload Resume
                 </a>
-                @if (session('applicant')->resume)
+                @if (session()->has('resume'))
                     <a class="button text-base  font-semibold text-black" data-bs-target="#viewResume"
                         data-bs-toggle="modal">
                         View Resume
                     </a>
                 @endif
             @endif
-
-
-
-
-
         </div>
     </div>
-    @isset(session('appplicant')->id)
 
-        @if (session('applicant')->resume)
-            @php
-                $resume = Resume::where('applicant_id', session('applicant')->id)
-                    ->get()
-                    ->first();
-            @endphp
-            <div class="modal fade" id="viewResume" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div class="modal-dialog" style="max-width: 900px !important;">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h1 class="modal-title fs-5" id="exampleModalLabel">View Resume</h1>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body mw-100 container" id="modalBodyContent">
-                            <p class="h4">Personal Info</p>
-                            <p id="name" class="fw-bold fs-2 m-0">{{ $resume->name }}</p>
-                            <small id="email">{{ $resume->email }}</small> | <small
-                                id="number">{{ $resume->contact_no }}</small>
-                            <p id="address">{{ $resume->address }}</p>
+    @if (session()->has('resume'))
+        @php
+            $resume = Resume::where('applicant_id', session('applicant')->id)
+                ->get()
+                ->first();
+        @endphp
 
-
-                            <hr>
-                            <p class="h4">Work Experience</p>
-                            <ul id="work-experience">
-                                @php
-
-                                    $work = json_decode($resume->work);
-
-                                @endphp
-                                @if ($work != null)
-                                    <li>
-                                        <span class="fw-bold fs-3"> {{ $work->position }}</span> <br>
-                                        <span class="fst-italic"> XYZ Tech Solutions – San Francisco, CA</span>
-                                        <br>
-                                        <span class="fst-italic">
-                                            Jan 2021 – Present
-                                        </span> <br>
-                                        <p>
-                                            Developed and maintained 5+ full-stack web applications using React, Node.js, and
-                                            MongoDB,
-                                            resulting in
-                                            a 25% increase in client engagement.
-                                            Led a team of 3 developers to redesign a legacy system, reducing page load times by
-                                            40%.
-                                            Implemented an automated testing framework, improving code quality and reducing bug
-                                            reports
-                                            by
-                                            15%.
-                                        </p>
-
-                                    </li>
-                                @else
-                                    <h5 class="text-secondary">No Work Experience</h5>
-                                @endif
-
-                            </ul>
-
-                            <hr>
-                            <p class="h4">Education</p>
-                            Highest Educational Attainment:
-                            <span class="text-capitalize fw-bold">{{ $resume->education }}</span>
-
-                            <hr>
-                            <ul>
-                                @php
-
-                                    $education = json_decode($resume->educational_background);
-
-                                @endphp
-                                @if ($education != null)
-                                    <li>
-                                        <span class="fw-bold fs-4"> Bachelor of Science - Computer Science</span> <br>
-                                        <span class="fst-italic"> XYZ Tech Solutions – San Francisco, CA</span>
-                                        <br>
-                                        <span class="fst-italic">
-                                            May 2023
-                                        </span> <br>
+        <div class="modal fade" id="viewResume" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" style="max-width: 900px !important;">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="exampleModalLabel">View Resume</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body mw-100 container" id="modalBodyContent">
+                        <p class="h4">Personal Info</p>
+                        <p id="name" class="fw-bold fs-2 m-0">{{ $resume->name }}</p>
+                        <small id="email">{{ $resume->email }}</small> | <small
+                            id="number">{{ $resume->contact_no }}</small>
+                        <p id="address">{{ $resume->address }}</p>
 
 
-                                    </li>
-                                @else
-                                    <h5 class="text-secondary">No Educational Background</h5>
-                                @endif
+                        <hr>
+                        <p class="h4">Work Experience</p>
+                        <ul id="work-experience">
+                            @php
 
-                            </ul>
-                            <hr>
-                            <p class="h4">Key Skills</p>
-                            <ul>
-                                @php
-                                    $skills = explode(',', $resume->skills);
-                                @endphp
-                                @if ($skills != null || $skills != '')
-                                    @foreach ($skills as $skill)
-                                        <li class="text-capitalize fs-5">{{ $skill }}</li>
-                                    @endforeach
-                                @else
-                                    <h5 class="text-secondary">No Skills</h5>
-                                @endif
+                                $work = json_decode($resume->work);
+                            @endphp
+                            @if ($work != null)
+                                <li>
+                                    <span class="fw-bold fs-3"> {{ $work->position }}</span> <br>
+                                    <span class="fst-italic"> {{ $work->company }}</span>
+                                    <br>
+                                    <span class="fst-italic">
+                                        {{ $work->duration }}
+                                    </span> <br>
+
+                                </li>
+                            @else
+                                <h5 class="text-secondary">No Work Experience</h5>
+                            @endif
+
+                        </ul>
+
+                        <hr>
+                        <p class="h4">Education</p>
+                        Highest Educational Attainment:
+                        <span class="text-capitalize fw-bold">{{ $resume->education }}</span>
+
+                        <hr>
+                        <ul>
+                            @php
+
+                                $education = json_decode($resume->educational_background);
+
+                            @endphp
+                            @if ($education != null)
+                                <li>
+                                    <span class="fw-bold fs-4">{{ $education->title }} </span> <br>
+                                    <span class="fst-italic"> {{ $education->school }}</span>
+                                    <br>
+                                    <span class="fst-italic">
+                                        {{ $education->year }}
+                                    </span> <br>
 
 
-                            </ul>
-                            <hr>
-                            <p class="h4">Reference</p>
-                            <ul class="list-unstyled d-flex gap-3">
-                                @php
-                                    $reference = json_decode($resume->reference);
-                                @endphp
-                                @if ($reference != null)
-                                    <li class="list-inline-item">
-                                        {{ $reference->name }} <br>
-                                        {{ $reference->position }} <br>
-                                        {{ $referece->company }} <br>
-                                        Phone: {{ $reference->contact_no }} <br>
-                                        Email: {{ $reference->email }} <br>
-                                    </li>
-                                @else
-                                    <h5 class="text-secondary">No Reference</h5>
-                                @endif
+                                </li>
+                            @else
+                                <h5 class="text-secondary">No Educational Background</h5>
+                            @endif
 
-                            </ul>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        </ul>
+                        <hr>
+                        <p class="h4">Key Skills</p>
+                        <ul>
+                            @php
+                                $skills = explode(',', $resume->skills);
+                            @endphp
+                            @if ($skills != null || $skills != '')
+                                @foreach ($skills as $skill)
+                                    <li class="text-capitalize fs-5">{{ $skill }}</li>
+                                @endforeach
+                            @else
+                                <h5 class="text-secondary">No Skills</h5>
+                            @endif
 
-                        </div>
+
+                        </ul>
+                        <hr>
+                        <p class="h4">Reference</p>
+                        <ul class="list-unstyled d-flex gap-3">
+                            @php
+                                $reference = json_decode($resume->reference);
+                            @endphp
+                            @if ($reference != null)
+                                <li class="list-inline-item">
+                                    {{ $reference->name }} <br>
+                                    {{ $reference->position }} <br>
+                                    {{ $referece->company }} <br>
+                                    Phone: {{ $reference->contact_no }} <br>
+                                    Email: {{ $reference->email }} <br>
+                                </li>
+                            @else
+                                <h5 class="text-secondary">No Reference</h5>
+                            @endif
+
+                        </ul>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+
                     </div>
                 </div>
             </div>
-        @endif
-    @endisset
+        </div>
+    @endif
+
+    {{-- <div class="modal fade" id="viewResume" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" style="max-width: 900px !important;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">View Resume</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body mw-100 container" id="modalBodyContent">
+                    <p class="h4">Personal Info</p>
+                    <p id="name" class="fw-bold fs-2 m-0">{{ $resume->name }}</p>
+                    <small id="email">{{ $resume->email }}</small> | <small
+                        id="number">{{ $resume->contact_no }}</small>
+                    <p id="address">{{ $resume->address }}</p>
+
+
+                    <hr>
+                    <p class="h4">Work Experience</p>
+                    <ul id="work-experience">
+                        @php
+
+                            $work = json_decode($resume->work);
+
+                        @endphp
+                        @if ($work != null)
+                            <li>
+                                <span class="fw-bold fs-3"> {{ $work->position }}</span> <br>
+                                <span class="fst-italic"> XYZ Tech Solutions – San Francisco, CA</span>
+                                <br>
+                                <span class="fst-italic">
+                                    Jan 2021 – Present
+                                </span> <br>
+                                <p>
+                                    Developed and maintained 5+ full-stack web applications using React, Node.js, and
+                                    MongoDB,
+                                    resulting in
+                                    a 25% increase in client engagement.
+                                    Led a team of 3 developers to redesign a legacy system, reducing page load times by
+                                    40%.
+                                    Implemented an automated testing framework, improving code quality and reducing bug
+                                    reports
+                                    by
+                                    15%.
+                                </p>
+
+                            </li>
+                        @else
+                            <h5 class="text-secondary">No Work Experience</h5>
+                        @endif
+
+                    </ul>
+
+                    <hr>
+                    <p class="h4">Education</p>
+                    Highest Educational Attainment:
+                    <span class="text-capitalize fw-bold">{{ $resume->education }}</span>
+
+                    <hr>
+                    <ul>
+                        @php
+
+                            $education = json_decode($resume->educational_background);
+
+                        @endphp
+                        @if ($education != null)
+                            <li>
+                                <span class="fw-bold fs-4"> Bachelor of Science - Computer Science</span> <br>
+                                <span class="fst-italic"> XYZ Tech Solutions – San Francisco, CA</span>
+                                <br>
+                                <span class="fst-italic">
+                                    May 2023
+                                </span> <br>
+
+
+                            </li>
+                        @else
+                            <h5 class="text-secondary">No Educational Background</h5>
+                        @endif
+
+                    </ul>
+                    <hr>
+                    <p class="h4">Key Skills</p>
+                    <ul>
+                        @php
+                            $skills = explode(',', $resume->skills);
+                        @endphp
+                        @if ($skills != null || $skills != '')
+                            @foreach ($skills as $skill)
+                                <li class="text-capitalize fs-5">{{ $skill }}</li>
+                            @endforeach
+                        @else
+                            <h5 class="text-secondary">No Skills</h5>
+                        @endif
+
+
+                    </ul>
+                    <hr>
+                    <p class="h4">Reference</p>
+                    <ul class="list-unstyled d-flex gap-3">
+                        @php
+                            $reference = json_decode($resume->reference);
+                        @endphp
+                        @if ($reference != null)
+                            <li class="list-inline-item">
+                                {{ $reference->name }} <br>
+                                {{ $reference->position }} <br>
+                                {{ $referece->company }} <br>
+                                Phone: {{ $reference->contact_no }} <br>
+                                Email: {{ $reference->email }} <br>
+                            </li>
+                        @else
+                            <h5 class="text-secondary">No Reference</h5>
+                        @endif
+
+                    </ul>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+
+                </div>
+            </div>
+        </div>
+    </div> --}}
 
 
     <div class="container bg-white p-3 rounded-4 mb-5">

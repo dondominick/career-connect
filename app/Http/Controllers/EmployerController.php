@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\ListingController;
 use App\Models\Application;
+use App\Models\InternshipApplication;
 use Illuminate\Support\Facades\Auth;
 use PharIo\Manifest\ApplicationName;
 
@@ -22,13 +23,13 @@ class EmployerController extends Controller
     }
     public function displayInternship($id)
     {
-        $applications = Application::where('id', $id)->where('type', "internship")->where('status', "processing")->join('resumes', 'resumes.applicant_id', '=', 'applications.applicant_id')->get();
+        $applications = InternshipApplication::where('internship_id', $id)->where('status', "processing")->join('resumes', 'resumes.applicant_id', '=', 'internships_applications.applicant_id')->get();
 
         return view('dashboard.internship-details', ['listing' => Internship::where('id', $id)->first(), 'applications' => $applications]);
     }
     public function displayListing($id)
     {
-        $applications = Application::where('listing_id', $id)->where('type', "listings")->where('status', 'processing')->join('resumes', 'resumes.applicant_id', '=', 'applications.applicant_id')->get();
+        $applications = Application::where('listing_id', $id)->where('status', 'processing')->join('resumes', 'resumes.applicant_id', '=', 'job_applications.applicant_id')->get();
         return view('dashboard.details', ['listing' => Listing::where('id', $id)->get()->first(), 'applications' => $applications]);
     }
 
@@ -44,7 +45,9 @@ class EmployerController extends Controller
 
     public function statusCheck(Request $request)
     {
-        $applications = Application::where('status', $request->status)->where('listing_id', $request['listing_id'])->where('type', $request['type'])->get();
+        $applications = Application::where('status', $request->status)->where('listing_id', $request['listing_id'])
+            ->join('resumes', 'resumes.id', '=', 'job_applications.resume')
+            ->get();
         if ($request->status == "accepted") {
             return view('dashboard.accepted-applicants', ['applications' => $applications]);
         } elseif ($request->status == "rejected") {

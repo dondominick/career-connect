@@ -11,9 +11,9 @@
     </style>
 @endsection
 @section('content')
-    <div class="w-50 m-2 rounded-4 px-5 py-2 rounded- bg-white align-items-center d-flex">
+    <div class="w-25 m-2 rounded-4 px-5 py-2 rounded- bg-transparent text-white align-items-center d-flex">
         <button class="btn button rounded-5" onclick="window.location.href='{{ route('company-dashboard') }}'">
-            <i class="fa-solid fa-arrow-left mx-auto"></i>
+            <i class="fa-solid fa-arrow-left mx-auto" style="color:white"></i>
 
         </button>
         <div class="container">
@@ -33,7 +33,6 @@
                         <th scope="col">Applicant ID</th>
 
                         <th scope="col">Name</th>
-                        <th scope="col" class="w-25">Action</th>
 
                     </tr>
                 </thead>
@@ -43,12 +42,8 @@
                             <th scope="row">{{ $application->id }}</th>
                             <td>{{ $application->listing_id }}</td>
                             <td>{{ $application->applicant_id }}</td>
-                            <td>{{ json_decode($application->resume)->name }}</td>
-                            <td class="w-25">
-                                <button class="bg-primary btn">
-                                    View Resume
-                                </button>
-                            </td>
+                            <td>{{ $application->name }}</td>
+
                         </tr>
                     @endforeach
 
@@ -56,7 +51,7 @@
 
                 </tbody>
             </table>
-            @empty($applications->id)
+            @empty($applications)
                 <div class="fluid-container bg-white py-3 text-center fs-2 text-secondary">
                     No Applications Found
                 </div>

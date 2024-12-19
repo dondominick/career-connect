@@ -27,7 +27,7 @@
             padding-left: 5px;
         }
 
-        .welcome-image {
+        w .welcome-image {
             max-width: 100%;
             height: auto;
         }

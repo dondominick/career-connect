@@ -237,6 +237,32 @@ class NotificationController extends Controller
         ]);
         return back()->with('successful', "application updated succssful");
     }
+    public function InternshipApplicationUpdate($user_id, $body, $status) // to be tested
+    {
+        $body = json_decode($body);
+
+        $employer = Employer::where('id', $body->employer_id)->get()->first();
+        $body->company = $employer->company;
+        $title = str_replace(
+            [':job_title'],
+            ["Intern"],
+            $this::$title_application
+        );
+        $summary = str_replace(
+            [':job_title', ':company_name', ':status'],
+            ["Intern", $body->company, $status],
+            $this::$summary_application
+        );
+
+        $notif = Notification::create([
+            "user_id" => $user_id,
+            "body" => json_encode($body),
+            "title" => $title,
+            "status" => $status,
+            "summary" => $summary
+        ]);
+        return back()->with('successful', "application updated succssful");
+    }
 
     // For Companies
     // new listing

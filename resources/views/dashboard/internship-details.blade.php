@@ -50,11 +50,13 @@
                 <p>{{ $applications->count() }}</p>
             </div>
             <div class="col align-items-center d-flex justify-content-end gap-2">
-                <button class="btn bg-warning ">
-                    Update
-                </button><button class="btn bg-danger">
-                    Delete
+                <button class="btn bg-primary" onclick="checkStatus('accepted')">
+                    View Accepted Applications
                 </button>
+                <button class="btn bg-danger" onclick="checkStatus('rejected')">
+                    View Rejected Applications
+                </button>
+
             </div>
         </div>
         <div class="row bg-white rounded p-2 my-2 mx-auto mw-75">
@@ -74,23 +76,33 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($applications as $applicant)
+                        @foreach ($applications as $application)
                             <tr>
-                                <td>{{ $applicant->id }}</td>
-                                <td>{{ $applicant->fname }}</td>
-                                <td>{{ $applicant->lname }}</td>
-                                <td>{{ $applicant->email }}</td>
+                            <tr>
+                                <td>{{ $application->applicant_id }}</td>
+                                <td>{{ $application->name }}</td>
+                                <td>Email</td>
                                 <td>
-                                    <button class="btn">
-
+                                    <button type="button" class="btn bg-warning rounded-5" data-bs-toggle="modal"
+                                        onclick="ResumeModal({{ $application }})"
+                                        data-title="Applicant ID: {{ $application->applicant_id }}"
+                                        data-content="{{ $application->resume }}" data-bs-target="#dynamicModal">
+                                        <i class="fa-solid fa-file"></i>
                                     </button>
                                 </td>
                                 <td>
-                                    <button class="btn"></button>
+                                    <button type="submit" class="btn bg-success rounded-5"
+                                        onclick="updateApplication({{ $application->applicant_id }}, 'accepted')">
+                                        <i class="fa-solid fa-check"></i>
+                                    </button>
                                 </td>
                                 <td>
-                                    <button class="btn"></button>
+                                    <button type="submit" class="btn bg-danger rounded-5"
+                                        onclick="updateApplication({{ $application->applicant_id }}, 'rejected')">
+                                        <i class="fa-regular fa-circle-xmark"></i>
+                                    </button>
                                 </td>
+
                             </tr>
                         @endforeach
                         </tr>
@@ -100,9 +112,27 @@
             </div>
 
 
-            @empty($applicants)
+            @empty($applications)
                 <h4>No applicants have applied to your listing</h4>
             @endempty
+        </div>
+    </div>
+
+    {{-- Modal --}}
+    <div class="modal fade" id="dynamicModal" tabindex="-1" aria-labelledby="dynamicModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="dynamicModalLabel">Applicant Resume</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body mw-100 container" id="modalBodyContent">
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -115,11 +145,11 @@
     </form>
 
     {{-- ACCEPTING APPLICANTS / REFUSING APPLICANTS --}}
-    <form action="{{ route('view-details', $listing->id) }}" method="post" hidden id="application-form">
+    <form action="{{ route('internship-details', $listing->id) }}" method="post" hidden id="application-form">
         @csrf
         @method('patch')
         <input type="text" hidden name="type" value="listings">
-        <input type="text" hidden name="{{ $listing->id }}" name="listing_id">
+        <input type="text" hidden value="{{ $listing->id }}" name="listing_id">
 
         <input type="text" hidden name="applicant_id" id="applicant-id">
         <input type="text" hidden name="status" id="status_ap">
@@ -158,5 +188,104 @@
                 confirmButton.style.display = 'none';
             }
         });
+
+        function updateApplication(id, status) {
+            const form = document.getElementById('application-form');
+            const input_status = document.querySelector('#status_ap');
+            const input_id = document.querySelector('#applicant-id');
+
+
+            input_status.value = status;
+            input_id.value = id;
+
+            console.log(input_status.value)
+
+            form.submit();
+
+        }
+
+        function checkStatus(val) {
+            const form = document.getElementById('application-form');
+            const input_status = document.querySelector('#status');
+            const input_id = document.querySelector('#applicant-id');
+
+            const viewStatus = $('#view-status');
+            const status = $('#status');
+
+            status.val(val);
+
+            viewStatus.submit()
+        }
+
+        function Reference(name, position, company, email, contact_no) {}
+
+        function ResumeModal(obj) {
+
+            const modalBody = document.getElementById('modalBodyContent');
+            const work = JSON.parse(obj.work);
+            const educational = JSON.parse(obj.educational_background);
+            const reference = new Reference();
+            if (JSON.parse(obj.reference) != null) {
+                reference = JSON.parse(obj.reference);
+            }
+
+
+            modalBody.innerHTML = `
+    <p class="h4">Personal Info</p>
+            <p id="name" class="fw-bold fs-2 m-0">${obj.name}</p>
+            <small id="email">${obj.email}</small> | <small id="number">${obj.contact_no}</small>
+            <p id="address">${obj.address}</p>
+
+
+
+            <hr>
+            <p class="h4">Work Experience</p>
+            <ul id="work-experience">
+                <li>
+                    <span class="fw-bold fs-3"> ${work.position}</span> <br>
+                    <span class="fst-italic"> ${work.company}</span>
+                    <br>
+                    <span class="fst-italic">
+                    ${work.duration}
+                    </span> <br>
+            
+                </li>
+            </ul>
+
+            <hr>
+            <p class="h4">Education</p>
+            <ul>
+                <li>
+                    <span class="fw-bold fs-4">${educational.title}</span> <br>
+                    <span class="fst-italic"> ${educational.school}</span>
+                    <br>
+                    <span class="fst-italic">
+                    ${educational.year}
+                    </span> <br>
+
+
+                </li>
+            </ul>
+            <hr>
+            <p class="h4">Key Skills</p>
+            <ul>
+                
+            <li>${obj.skills}</li>
+            </ul>
+            <hr>
+            <p class="h4">Reference</p>
+            <ul class="list-unstyled d-flex gap-3">
+                <li class="list-inline-item">
+                    ${reference.name} <br>
+                    ${reference.position} <br>
+                    XYZ Tech Solutions <br>
+                    Phone: (555) 123-4567 <br>
+                    Email: johndoe@example.com <br>
+                    Former Manager at XYZ Tech Solutions <br>
+                </li>
+
+            </ul>
+    `;
+        }
     </script>
 @endsection

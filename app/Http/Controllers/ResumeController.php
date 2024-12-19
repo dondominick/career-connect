@@ -44,9 +44,11 @@ class ResumeController extends Controller
             'resume' => $resume->id
         ]);
 
-        session(['applicant' => $applicant->get()->first]);
-        session(['applicant' => "hi"]);
-        dd(session('applicant'));
+        session()->put(
+            'resume',
+            $applicant->get()->first
+        );
+
 
         return redirect()->route('profile')->with(['profile' => "Resume uploaded successfully"]);
     }
@@ -82,7 +84,12 @@ class ResumeController extends Controller
         $fields['undergrad'] = $request->degree;
 
         // FIND THE RESUME FOR UPDATE
-        Resume::where('applicant_id', session('applicant')->id)->update($fields);
+        $applicant = Resume::where('applicant_id', session('applicant')->id);
+        $applicant->update($fields);
+        session()->put(
+            'resume',
+            $applicant->get()->first()
+        );
 
         return redirect()->route('profile')->with(['profile' => "Resume update successful"]);
     }

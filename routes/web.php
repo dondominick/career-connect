@@ -5,6 +5,7 @@ use App\Http\Controllers\ApplicationController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\EmployerController;
+use App\Http\Controllers\InternshipApplicationController;
 use App\Http\Controllers\InternshipController;
 use App\Http\Controllers\ListingController;
 use App\Http\Controllers\NotificationController;
@@ -43,7 +44,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/resume', [ApplicantController::class, 'checkResume'])->name('resume');
 
     // POSTS
-    Route::post('internships/{id}', [ApplicationController::class, 'checkResume']);
+    Route::post('internships/{id}', [InternshipApplicationController::class, 'checkResume']);
     Route::post('listings/{id}', [ApplicationController::class, 'checkResume']);
     // PATCH
 
@@ -62,17 +63,19 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/profile/employer-dashboard', [EmployerController::class, 'displayListings'])->name('employer-dashboard');
     Route::get('/profile/employer-dashboard/listing-details/{id}/listings', [ListingController::class, 'statusListing'])->name('status-listing');
     Route::get('/profile/employer-dashboard/internship-details/{id}/internships', [InternshipController::class, 'statusInternship'])->name('status-intern');
-
+    Route::get('/profile/employer-dashboard/status', function () {
+        return redirect()->route('employer-dashboard');
+    });
     // POSTS
     Route::post("/profile/employer-dashboard/create-listing", [ListingController::class, 'create']);
     Route::post('/profile/employer-dashboard/create-internship', [InternshipController::class, 'create']);
     Route::post('/profile/employer-dashboard/status', [EmployerController::class, 'statusCheck'])->name('statusCheck');
-    Route::patch('/profile/employer-dashboard/internship-details/{id}', [ApplicationController::class, 'updateApplication']);
-    Route::patch('/profile/employer-dashboard/listing-details/{id}', [ApplicationController::class, 'updateApplication']);
 
     // UPDATES
     Route::patch("/profile/employer-dashboard/update-listing/{id}", [ListingController::class, 'updateListing']);
     Route::patch("/profile/employer-dashboard/update-internship/{id}", [InternshipController::class, 'update']);
+    Route::patch('/profile/employer-dashboard/internship-details/{id}', [InternshipApplicationController::class, 'updateApplication']);
+    Route::patch('/profile/employer-dashboard/listing-details/{id}', [ApplicationController::class, 'updateApplication']);
 
     // DELETES
     Route::delete("/profile/employer-dashboard/listings", [ListingController::class, 'delete'])->name('delete-listing');
@@ -84,7 +87,7 @@ Route::middleware(['auth'])->group(function () {
         // 
         // COMPANY RELATED ROUTES   
         //  
-        Route::view('/company-dashboard', 'company.dashboard')->name('company-dashboard');
+        Route::get('/company-dashboard', [CompanyController::class, 'companyDashboard'])->name('company-dashboard');
         Route::view('company-dashboard/employ', 'company.create')->name('create-employer');
         Route::get('/company/view-listings', [CompanyController::class, 'viewListings'])->name('company-listings');
         Route::get('/company/view-applications', [CompanyController::class, 'viewApplications'])->name('company-applications');

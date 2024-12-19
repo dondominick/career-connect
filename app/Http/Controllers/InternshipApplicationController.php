@@ -2,17 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\Request;
+use App\Http\Controllers\NotificationController;
 use App\Models\Applicant;
 use App\Models\Application;
-use App\Models\Notification;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use App\Http\Controllers\NotificationController;
 use App\Models\Internship;
-use App\Models\Listing;
+use App\Models\InternshipApplication;
+use Illuminate\Support\Facades\Auth;
 
-class ApplicationController extends Controller
+class InternshipApplicationController extends Controller
 {
+
     private static $notif;
 
 
@@ -33,10 +33,9 @@ class ApplicationController extends Controller
             return back()->withErrors(['position' => "Only applicants are allowed to apply in job listings and internships"]);
         }
 
-        if (Application::where('applicant_id', $applicant->id)->where('listing_id', $request['listing_id'])->get()->first()) {
+        if (InternshipApplication::where('applicant_id', $applicant->id)->where('internship_id', $request['listing_id'])->get()->first()) {
             return back()->withErrors(['failed' => "You already applied to this job listing or internship"]);
         }
-
 
         if ($applicant->resume) {
             $fields = [
@@ -44,12 +43,12 @@ class ApplicationController extends Controller
                 "applicant_id" => $request['applicant_id'],
                 "employer_id" => $request['employer_id'],
                 "companyID" => $request['companyID'],
-                "listing_id" => $request['listing_id'],
+                "internship_id" => $request['listing_id'],
                 "type" => $request['type']
             ];
 
-            $application = Application::create($fields);
-            $data = Listing::where('listings.id', $request['listing_id'])->join('employers', 'listings.employer_id', '=', 'employers.id')->get()->first();
+            $application = InternshipApplication::create($fields);
+            $data = Internship::where('internships.id', $request['listing_id'])->join('employers', 'internships.employer_id', '=', 'employers.id')->get()->first();
 
             $this->getNotif()->newApplication(
                 ["applicant" => $application->applicant_id, "employer" => $application->employer_id],
@@ -65,7 +64,7 @@ class ApplicationController extends Controller
                     'job_type' => $data->type,
                     'salary' => $data->salary,
                     'submission_date' => $application->created_at,
-                    'listing_id' => $application->listing_id
+                    'internship_id' => $application->listing_id
                 ]
             );
 
@@ -78,21 +77,23 @@ class ApplicationController extends Controller
         ]);
     }
 
-    public function resume() {}
-
     public function updateApplication(Request $request)
     {
-        $application =  Application::where('job_applications.listing_id', $request['listing_id'])
-            ->where('job_applications.applicant_id', $request['applicant_id'])
-            ->where('job_applications.status', '=', 'processing')
-            ->join('applicants', 'job_applications.applicant_id', '=', 'applicants.id')
-            ->join('listings', 'job_applications.listing_id', '=', 'listings.id');
+
+        $application =  InternshipApplication::where('internships_applications.internship_id', $request['listing_id'])
+            ->where('applicant_id', $request['applicant_id'])
+            ->where('internships_applications.status', '=', 'processing')
+            ->join('applicants', 'internships_applications.applicant_id', '=', 'applicants.id')
+            ->join('internships', 'internships_applications.internship_id', '=', 'internships.id');;
+
 
         $applications =  $application->get()->first();
-
         $application->update([
-            "job_applications.status" => $request['status']
+            "internships_applications.status" => $request['status']
         ]);
+
+        $applications->position = "Intern";
+
         $this->getNotif()->ApplicationUpdate(
             $applications->user_id,
             $applications,

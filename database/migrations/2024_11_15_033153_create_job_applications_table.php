@@ -11,11 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('applications', function (Blueprint $table) {
+        Schema::create('job_applications', function (Blueprint $table) {
             $table->id();
-            $table->string('type');
             $table->foreignId('applicant_id')->references('id')->on('applicants');
-            $table->integer('listing_id');
+            $table->foreignId('listing_id')->references('id')->on('listings');
             $table->foreignId('employer_id')->references('id')->on('employers');
             $table->foreignId('companyID')->references('id')->on('companies');
             $table->integer('resume')->nullable();
@@ -29,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('applications');
+        Schema::dropIfExists('job_applications');
     }
 };

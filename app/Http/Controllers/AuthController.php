@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Applicant;
 use App\Models\Company;
 use App\Models\Employer;
+use App\Models\Resume;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -35,6 +36,10 @@ class AuthController extends Controller
                         ->get()
                         ->first()
                 ]);
+                $resume = Resume::where('applicant_id', session('applicant')->id)->get();
+                if ($resume->first()) {
+                    session(['resume' => $resume]);
+                }
             } elseif (Auth::user()->position == 'company') {
                 session([
                     "employer" => DB::table('employers')

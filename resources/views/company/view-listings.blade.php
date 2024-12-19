@@ -6,25 +6,21 @@
             position: relative;
             display: inline-flex;
             width: 300px;
-            background: linear-gradient(135deg, #b0c4de, #9cc0e7);
             border-radius: 25px;
             overflow: hidden;
         }
 
-        /* Background slider */
         .slider {
             position: absolute;
             top: 0;
             left: 0;
             width: 50%;
             height: 100%;
-            background-color: #ffdab9;
             border-radius: 25px;
             transition: all 0.3s ease;
             z-index: 1;
         }
 
-        /* Button styles */
         .toggle-button {
             flex: 1;
             text-align: center;
@@ -37,17 +33,14 @@
             transition: color 0.3s ease;
         }
 
-        /* Active state for button text */
         .toggle-button.active {
             color: #333;
         }
 
-        /* CSS to move the slider to the second position */
         #toggle-option-1:checked~.slider {
             left: 50%;
         }
 
-        /* Style for the active text in each option */
         #toggle-option-0:checked~.btn-group .toggle-button:first-of-type,
         #toggle-option-1:checked~.btn-group .toggle-button:last-of-type {
             color: #333;
@@ -61,49 +54,45 @@
 @endsection
 
 @section('content')
-    <div class="w-50 m-2 rounded-4 px-5 py-2 rounded- bg-white align-items-center d-flex">
+    <div class="w-25 m-2 rounded-4 px-5 py-2 rounded- bg-transparent text-white align-items-center d-flex">
         <button class="btn button rounded-5" onclick="window.location.href='{{ route('company-dashboard') }}'">
-            <i class="fa-solid fa-arrow-left mx-auto"></i>
+            <i class="fa-solid fa-arrow-left mx-auto" style="color:white"></i>
+
 
         </button>
         <div class="container">
-            <h3>
+            <h4>
                 Company Listings
-            </h3>
+            </h4>
         </div>
 
     </div>
+
     <div class="p-3 container w-100 rounded-3 text-center">
         <div class="toggle-container my-5 mx-auto">
-
-            <!-- Slider background -->
             <div class="slider"></div>
-
-            <!-- Labels as buttons -->
             <div class="btn-group w-100">
-                <button for="toggle-option-0" class="toggle-button border-0 bg-primary" onclick="activeButton(1)">
+                <button for="toggle-option-0" class="toggle-button border-0 bg-white" onclick="activeButton(1)">
                     Listings
                 </button>
-                <button for="toggle-option-1" class="toggle-button border-0 bg-secondary" onclick="activeButton(2)">
+                <button for="toggle-option-1" class="toggle-button border-0 bg-dark text-white" onclick="activeButton(2)">
                     Internships
                 </button>
             </div>
         </div>
 
     </div>
-    <div class="fluid-container">
-        <div class="container" id="listings">
-            <table class="table">
-                <thead>
+
+    <div class="container-fluid py-3">
+        <div class="container shadow-sm p-4 bg-light rounded" id="listings">
+            <table class="table table-hover table-striped">
+                <thead class="table-dark">
                     <tr>
-                        <th scope="col">Listing ID</th>
-                        <th scope="col">Date Created</th>
-                        <th scope="col">Position</th>
-
-                        <th scope="col">Employer Name</th>
-                        <th>Status</th>
-                        <th scope="col" class="w-25">Action</th>
-
+                        <th scope="col" class="text-center">Listing ID</th>
+                        <th scope="col" class="text-center">Date Created</th>
+                        <th scope="col" class="text-center">Position</th>
+                        <th scope="col" class="text-center">Employer Name</th>
+                        <th scope="col" class="text-center">Status</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -111,49 +100,55 @@
                         @foreach ($listings as $listing)
                             <tr>
                                 <th scope="row">{{ $listing->id }}</th>
-                                <td>{{ $listing->created_at }}</td>
+                                <td>{{ $listing->created_at->format('Y-m-d') }}</td>
                                 <td>{{ $listing->position }}</td>
                                 <td>{{ $listing->fname }} {{ $listing->lname }}</td>
-                                <td class="">Open</td>
-                                <td></td>
+                                <td class="text-success">Open</td>
                             </tr>
                         @endforeach
+                    @else
+                        <tr>
+                            <td colspan="6" class="text-center text-muted">No listings available.</td>
+                        </tr>
                     @endisset
-
-
-
                 </tbody>
             </table>
         </div>
-        <div class="container" id="internships" style="display: none">
-            <table class="table">
-                <thead>
+    </div>
+    </tbody>
+    </table>
+    </div>
+
+
+    <div class="container-fluid py-3" style="display: none;" id="internships">
+        <div class="container shadow-sm p-4 bg-light rounded">
+            <table class="table table-hover table-striped">
+                <thead class="table-dark">
                     <tr>
                         <th scope="col">Internships ID</th>
                         <th scope="col">Applicant ID</th>
                         <th scope="col">Application ID</th>
-
                         <th scope="col">Name</th>
-                        <th scope="col" class="w-25">Action</th>
-
                     </tr>
                 </thead>
                 <tbody>
-                    @isset($intenrships)
+                    @isset($internships)
                         @foreach ($internships as $internship)
                             <tr>
-                                <th scope="row">2</th>
-                                <td>Jacob</td>
-                                <td>Thornton</td>
-                                <td>@fat</td>
-                                <td class="w-25"></td>
+                                <th scope="row">{{ $internship->id }}</th>
+                                <td>{{ $internship->applicant_id }}</td>
+                                <td>{{ $internship->application_id }}</td>
+                                <td>{{ $internship->name }}</td>
                             </tr>
                         @endforeach
+                    @else
+                        <tr>
+                            <td colspan="5" class="text-center text-muted">No internships available.</td>
+                        </tr>
                     @endisset
                 </tbody>
             </table>
         </div>
-
     </div>
 @endsection
 @section('scripts')

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Application;
 use App\Models\Employer;
 use App\Models\Listing;
 use App\Models\Resume;
@@ -43,10 +44,12 @@ class ListingController extends Controller
     {
 
         $listing = Listing::where('id', $request['id']);
+
         $data = Employer::where('employers.id', $listing->get()->first()->employer_id)->join('companies', 'employers.companyID', '=', 'companies.id')->get()->first();
         if (!$listing->get()->first()) {
             return redirect()->route('profile')->withErrors('id', "Listing ID not found in the database");
         }
+        Application::where('listing_id', $request->id)->delete();
 
         $data['position'] = $listing->get()->first()->position;
 
@@ -68,22 +71,25 @@ class ListingController extends Controller
     {
         $fields = $request->validate([
             'position' => ['required'],
-            'salary' => ['required'],
+            'min_salary' => ['required'],
+            'max_salary' => ['required'],
             'location' => ['required'],
             'email' => ['required'],
             'education' => ['required']
         ]);
+        $fields['status'] = "open";
         $listing = Listing::where('id', $request['id'])->first();
         $listing->position = $fields['position'];
-        $listing->salary = $fields['salary'];
-        $listing->status = $request['status'];
+        $listing->min_salary = $fields['min_salary'];
+        $listing->max_salary = $fields['max_salary'];
+        $listing->status = $fields['status'];
         $listing->location = $fields['location'];
         $listing->email = $fields['email'];
         $listing->education = $fields['education'];
 
         $listing->save();
 
-        return redirect()->route('employer-dashboard');
+        return redirect()->route('employer-dashboard')->with(['successful' => "Listing Updated Successfully"]);
     }
 
     public function create(Request $request)
@@ -181,8 +187,7 @@ class ListingController extends Controller
     // FOR RECOMMENDING USERS LISTINGS BASED ON THEIR LOCATION / ADDRESS
     public function recommendUsers()
     {
-
-        if ((session('applicant')->resume != null)) {
+        if (session()->has('applicant') && (session()->has('resume'))) {
             $most = Listing::withCount('applications')->orderBy('applications_count', 'desc')->take(3)->get();
             $resume = Resume::where('applicant_id', session('applicant')->id)->get()->first();
             $recommendation = Listing::select('*')->where('location', json_decode($resume)->address)->take(3)->get();
@@ -190,6 +195,7 @@ class ListingController extends Controller
             $notifications = NotificationController::class::retrieveNotifications();
             return view('pages.home', ['listings' => $listings, 'recommends' => $recommendation, "notifications" => $notifications, "most" => $most]);
         }
+
         $most = Listing::withCount('applications')->orderBy('applications_count', 'desc')->take(3)->get();
         $recommends =  Listing::withCount('applications')->orderBy('applications_count', 'desc')->take(3)->get();
         $listings = Listing::select('*')->join('companies', 'listings.companyID', '=', 'companies.id')->orderBy('listings.created_at')->take(3)->get();

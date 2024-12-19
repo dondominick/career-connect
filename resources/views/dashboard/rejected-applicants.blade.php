@@ -44,8 +44,8 @@
                         @foreach ($applications as $application)
                             <tr>
                                 <td>{{ $application->applicant_id }}</td>
-                                <td>{{ json_decode($application->resume)->name }}</td>
-                                <td>Email</td>
+                                <td>{{ $application->name }}</td>
+                                <td>{{ $application->email }}</td>
                                 <td>
                                     <button type="button" class="btn bg-warning rounded-5" data-bs-toggle="modal"
                                         data-title="Applicant ID: {{ $application->applicant_id }}"

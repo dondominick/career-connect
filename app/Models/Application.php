@@ -9,9 +9,11 @@ class Application extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['listing_id', 'type', 'resume', 'companyID', 'applicant_id', 'employer_id'];
+    protected $fillable = ['listing_id', 'resume', 'companyID', 'applicant_id', 'employer_id'];
 
 
+
+    protected $table = "job_applications";
 
 
     public function listing()

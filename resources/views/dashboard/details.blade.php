@@ -128,7 +128,7 @@
         @csrf
         @method('patch')
         <input type="text" hidden name="type" value="listings">
-        <input type="text" hidden name="{{ $listing->id }}" name="listing_id">
+        <input type="text" hidden value="{{ $listing->id }}" name="listing_id">
 
         <input type="text" hidden name="applicant_id" id="applicant-id">
         <input type="text" hidden name="status" id="status_ap">
@@ -227,9 +227,17 @@
             const work = JSON.parse(obj.work);
             const educational = JSON.parse(obj.educational_background);
             const reference = new Reference();
+            reference.position = "";
+            reference.name = "";
+            reference.company = "";
+            reference.email = "";
+            reference.contact_no = "";
+
+
             if (JSON.parse(obj.reference) != null) {
                 reference = JSON.parse(obj.reference);
             }
+
 
 
             modalBody.innerHTML = `
